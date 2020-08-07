@@ -1,4 +1,7 @@
 # ViewBindingDelegate
+
+## Author: [Petrus Nguyễn Thái Học](https://github.com/hoc081098)
+
 - Simplify usage of Android View Binding with Kotlin Property Delegates and solve behavior of Fragment’s ViewLifecycleOwner
 - Simple one-liner ViewBinding in Fragments and Activities with Kotlin
 
