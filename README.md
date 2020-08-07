@@ -33,6 +33,7 @@ dependencies {
 import com.hoc081098.viewbindingdelegate.viewBinding
 ```
 
+## Activity (with reflection)
 ```kotlin
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
   private val viewBinding by viewBinding<ActivityMainBinding>()
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 }
 ```
 
+## Activity (without reflection): Pass `::bind` method reference
 ```kotlin
 class SecondActivity : AppCompatActivity(R.layout.activity_second) {
   private val binding by viewBinding(ActivitySecondBinding::bind)
@@ -58,6 +60,7 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 }
 ```
 
+## Fragment (with reflection)
 ```kotlin
 class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
   private val binding by viewBinding<FragmentFirstBinding>()
@@ -77,6 +80,7 @@ class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
 }
 ```
 
+## Fragment (without reflection): Pass `::bind` method reference
 ```kotlin
 class SecondFragment : Fragment(R.layout.fragment_second) {
   private val binding by viewBinding(FragmentSecondBinding::bind)
@@ -92,3 +96,23 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
   }
 }
 ```
+
+# Note
+
+## Acitivty
+  Must `setContentView` before access `ViewBinding` property. This can be done easily with `constructor`:
+  ```java
+  public AppCompatActivity(@LayoutRes int contentLayoutId) { ... }
+  ```
+  ```kotlin
+  class MainActivity : AppCompatActivity(R.layout.activity_main) { ... }
+  ```
+
+## Fragment
+  `Fragment`'s `View` must be not null before access `ViewBinding` property. This can be done easily with `constructor`:
+  ```java
+  public Fragment(@LayoutRes int contentLayoutId) { ... }
+  ```
+  ```kotlin
+  class FirstFragment : Fragment(R.layout.fragment_first) { ... }
+  ```
