@@ -97,6 +97,30 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 }
 ```
 
+## Includes <merge> tag layout: Create 2 `ViewBinding` property
+
+```kotlin
+class ThirdFragment : Fragment(R.layout.fragment_third) {
+  private val includeBinding by viewBinding<FragmentThirdIncludeBinding>()
+  private val binding by viewBinding<FragmentThirdBinding>()
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    includeBinding.textViewThirdInclude.text = "Working..."
+    binding.buttonThird.setOnClickListener {
+      Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+    }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    binding.buttonThird.setOnClickListener(null)
+  }
+}
+```
+
+
 # Note
 
 ## Acitivty
