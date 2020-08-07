@@ -1,4 +1,4 @@
-package com.hoc081098.viewbindingdelegate_example
+package com.hoc081098.example
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,8 +8,8 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.hoc081098.example.databinding.FragmentFirstBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
-import com.hoc081098.viewbindingdelegate_example.databinding.FragmentFirstBinding
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 

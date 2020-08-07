@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/firstFragment"
-        android:name="com.hoc081098.viewbindingdelegate_example.FirstFragment"
+        android:name="com.hoc081098.example.FirstFragment"
         android:label="First">
 
         <action
@@ -17,6 +17,6 @@
 
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.hoc081098.viewbindingdelegate_example.SecondFragment"
+        android:name="com.hoc081098.example.SecondFragment"
         android:label="Second" />
 </navigation>

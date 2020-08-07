@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.hoc081098.viewbindingdelegate_example"
+        applicationId "com.hoc081098.example"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

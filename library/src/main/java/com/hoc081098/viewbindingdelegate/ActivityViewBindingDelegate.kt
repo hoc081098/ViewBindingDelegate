@@ -23,10 +23,10 @@ class ActivityViewBindingDelegate<T : ViewBinding>(
     }
 
     bind = viewBindingBind ?: run {
-      val method by lazy(NONE) { viewBindingClazz!!.getMethod("bind", View::class.java) };
+      val method by lazy(NONE) { viewBindingClazz!!.getMethod("bind", View::class.java) }
 
       @Suppress("UNCHECKED_CAST")
-      { view: View -> method.invoke(null, view) as T }
+      fun(view: View): T = method.invoke(null, view) as T
     }
   }
 

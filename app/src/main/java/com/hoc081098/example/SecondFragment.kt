@@ -1,10 +1,10 @@
-package com.hoc081098.viewbindingdelegate_example
+package com.hoc081098.example
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.hoc081098.example.databinding.FragmentSecondBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
-import com.hoc081098.viewbindingdelegate_example.databinding.FragmentSecondBinding
 
 class SecondFragment : Fragment(R.layout.fragment_second) {
   private val binding by viewBinding(FragmentSecondBinding::bind)

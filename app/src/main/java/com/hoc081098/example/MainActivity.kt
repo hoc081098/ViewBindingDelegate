@@ -1,4 +1,4 @@
-package com.hoc081098.viewbindingdelegate_example
+package com.hoc081098.example
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.hoc081098.example.databinding.ActivityMainBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
-import com.hoc081098.viewbindingdelegate_example.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
   private lateinit var appBarConfiguration: AppBarConfiguration
