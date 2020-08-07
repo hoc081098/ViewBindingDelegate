@@ -72,6 +72,7 @@ class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
     super.onDestroyView()
     binding.button.setOnClickListener(null)
   }
+}
 ```
 
 ```kotlin
