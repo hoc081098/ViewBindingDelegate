@@ -97,7 +97,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 }
 ```
 
-## Includes `<merge>` tag layout: Create 2 `ViewBinding` property
+## Includes `<merge/>` tag layout: Create 2 `ViewBinding` property
 
 ```kotlin
 class ThirdFragment : Fragment(R.layout.fragment_third) {
