@@ -18,5 +18,16 @@
     <fragment
         android:id="@+id/secondFragment"
         android:name="com.hoc081098.example.SecondFragment"
-        android:label="Second" />
+        android:label="Second">
+
+        <action
+            android:id="@+id/actionSecondFragmentToThirdFragment"
+            app:destination="@id/thirdFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/thirdFragment"
+        android:name="com.hoc081098.example.ThirdFragment"
+        android:label="Third" />
+
 </navigation>
