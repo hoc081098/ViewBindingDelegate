@@ -2,6 +2,29 @@
 - Simplify usage of Android View Binding with Kotlin Property Delegates and solve behavior of Fragment’s ViewLifecycleOwner
 - Simple one-liner ViewBinding in Fragments and Activities with Kotlin
 
+[![](https://jitpack.io/v/hoc081098/ViewBindingDelegate.svg)](https://jitpack.io/#hoc081098/ViewBindingDelegate)
+
+# Getting Started
+
+## 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+```gradle
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+## 2. Add the dependency
+
+```gradle
+dependencies {
+  implementation 'com.github.hoc081098:ViewBindingDelegate:<latest_version>'
+}
+```
+
 # Usage
 
 ```kotlin
@@ -49,6 +72,7 @@ class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
     super.onDestroyView()
     binding.button.setOnClickListener(null)
   }
+}
 ```
 
 ```kotlin
