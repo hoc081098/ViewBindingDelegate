@@ -2,8 +2,8 @@ package com.hoc081098.example
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.hoc081098.example.databinding.FragmentThirdBinding
 import com.hoc081098.example.databinding.FragmentThirdIncludeBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
@@ -17,7 +17,7 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 
     includeBinding.textViewThirdInclude.text = "Working..."
     binding.buttonThird.setOnClickListener {
-      Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+      findNavController().navigate(R.id.actionThirdFragmentToFourthFragment)
     }
   }
 
