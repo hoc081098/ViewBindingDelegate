@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hoc081098.test">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="30" />
+
+    <application>
+        <activity
+            android:name="com.hoc081098.viewbindingdelegate.TestActivity"
+            android:theme="@style/AppTheme" />
+    </application>
+
+</manifest>
