@@ -69,7 +69,7 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 
 ## Fragment (with reflection)
 ```kotlin
-class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
+class FirstFragment : Fragment(R.layout.fragment_first) {
   private val binding by viewBinding<FragmentFirstBinding>()
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
