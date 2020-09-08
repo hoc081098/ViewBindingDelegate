@@ -17,6 +17,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    lintOptions {
+        disable 'ObsoleteLintCustomCheck', 'AllowBackup', 'SetTextI18n', 'HardcodedText'
+    }
+
     buildTypes {
         release {
             minifyEnabled false

@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.hoc081098.example.databinding.FragmentFourthBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
