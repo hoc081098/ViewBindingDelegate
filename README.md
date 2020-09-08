@@ -7,6 +7,7 @@
 
 ![Android Tests](https://github.com/hoc081098/ViewBindingDelegate/workflows/Android%20Tests/badge.svg)
 ![Android CI](https://github.com/hoc081098/ViewBindingDelegate/workflows/Android%20CI/badge.svg)
+![Build APK](https://github.com/hoc081098/ViewBindingDelegate/workflows/Build%20debug%20APK/badge.svg)
 [![Jitpack](https://jitpack.io/v/hoc081098/ViewBindingDelegate.svg)](https://jitpack.io/#hoc081098/ViewBindingDelegate)
 [![GitHub](https://img.shields.io/github/license/hoc081098/ViewBindingDelegate?color=4EB1BA)](https://opensource.org/licenses/MIT)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
