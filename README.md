@@ -9,6 +9,10 @@
 [![GitHub](https://img.shields.io/github/license/hoc081098/ViewBindingDelegate?color=4EB1BA)](https://opensource.org/licenses/MIT)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 
+## Blog
+
+[ViewBinding Delegate — one line](https://medium.com/@hoc081098/viewbinding-delegate-one-line-4d0cdcbf53ba)
+
 # Getting Started
 
 ## 1. Add the JitPack repository to your build file
