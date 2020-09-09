@@ -24,22 +24,15 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.hoc081098.viewbindingdelegate.test.databinding.ActivityTestBinding
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertSame
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.hoc081098.viewbindingdelegate.test.R as TestR
-
-public class TestActivity : AppCompatActivity(TestR.layout.activity_test) {
-  internal val bindingReflection: ActivityTestBinding by viewBinding()
-  internal val binding: ActivityTestBinding by viewBinding(ActivityTestBinding::bind)
-}
 
 @RunWith(AndroidJUnit4::class)
 public class ActivityViewBindingExtensionsTest {
