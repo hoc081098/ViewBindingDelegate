@@ -1,3 +1,7 @@
+## 1.0.0-alpha01 - Sep 10, 2020
+
+*   Hotfix
+
 ## 1.0.0-alpha - Sep 10, 2020
 
 *   Update to Kotlin 1.4.0, enable explicit API mode.
