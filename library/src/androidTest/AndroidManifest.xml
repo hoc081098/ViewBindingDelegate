@@ -10,6 +10,9 @@
         <activity
             android:name="com.hoc081098.viewbindingdelegate.TestActivity"
             android:theme="@style/AppTheme" />
+
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
     </application>
 
 </manifest>
