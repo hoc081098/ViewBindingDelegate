@@ -150,3 +150,18 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
   ```kotlin
   class FirstFragment : Fragment(R.layout.fragment_first) { ... }
   ```
+  
+## Proguard
+If there is any problem with `Proguard`, add below to your `app/proguard-rules.pro`:
+```
+# ViewBindingDelegate uses Reflection.
+-keepclassmembers class ** implements androidx.viewbinding.ViewBinding {
+    public static ** bind(android.view.View);
+}
+```
+
+# License
+
+    MIT License
+
+    Copyright (c) 2020 Petrus Nguyễn Thái Học
