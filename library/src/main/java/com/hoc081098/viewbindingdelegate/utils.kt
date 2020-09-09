@@ -27,6 +27,10 @@ package com.hoc081098.viewbindingdelegate
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import androidx.collection.ArrayMap
+import androidx.viewbinding.ViewBinding
+import java.lang.reflect.Method
 
 internal object MainHandler {
   private val handler = Handler(Looper.getMainLooper())
@@ -45,4 +49,18 @@ internal inline fun log(crossinline message: () -> String) {
   if (debug) {
     Log.d("ViewBinding", message())
   }
+}
+
+internal object GetBindMethod {
+  init {
+    ensureMainThread()
+  }
+
+  private val methodSignature = View::class.java
+  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
+
+  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
+    methodMap
+      .getOrPut(clazz) { clazz.getMethod("bind", methodSignature) }
+      .also { log { "methodMap.size: ${methodMap.size}" } }
 }

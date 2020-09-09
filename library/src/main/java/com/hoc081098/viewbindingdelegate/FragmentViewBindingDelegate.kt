@@ -31,7 +31,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
-import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -49,7 +48,10 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
 ) : ReadOnlyProperty<Fragment, T> {
 
   private var binding: T? = null
-  private val bind: (View) -> T
+  private val bind = viewBindingBind ?: { view: View ->
+    @Suppress("UNCHECKED_CAST")
+    GetBindMethod(viewBindingClazz!!)(null, view) as T
+  }
 
   init {
     ensureMainThread()
@@ -57,12 +59,6 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
       "Both viewBindingBind and viewBindingClazz are null. Please provide at least one."
     }
 
-    bind = viewBindingBind ?: run {
-      val method by lazy(NONE) { viewBindingClazz!!.getMethod("bind", View::class.java) }
-
-      @Suppress("UNCHECKED_CAST")
-      fun(view: View): T = method.invoke(null, view) as T
-    }
     fragment.lifecycle.addObserver(FragmentLifecycleObserver())
   }
 

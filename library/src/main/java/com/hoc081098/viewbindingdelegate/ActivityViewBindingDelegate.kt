@@ -28,7 +28,6 @@ import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -44,19 +43,15 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
 ) : ReadOnlyProperty<Activity, T> {
 
   private var binding: T? = null
-  private val bind: (View) -> T
+  private val bind = viewBindingBind ?: { view: View ->
+    @Suppress("UNCHECKED_CAST")
+    GetBindMethod(viewBindingClazz!!)(null, view) as T
+  }
 
   init {
     ensureMainThread()
     require(viewBindingBind != null || viewBindingClazz != null) {
       "Both viewBindingBind and viewBindingClazz are null. Please provide at least one."
-    }
-
-    bind = viewBindingBind ?: run {
-      val method by lazy(NONE) { viewBindingClazz!!.getMethod("bind", View::class.java) }
-
-      @Suppress("UNCHECKED_CAST")
-      fun(view: View): T = method.invoke(null, view) as T
     }
   }
 
