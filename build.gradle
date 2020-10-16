@@ -15,7 +15,7 @@ buildscript {
     }
     dependencies {
         // Android Gradle plugin
-        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "com.android.tools.build:gradle:${gradleVersion}"
         // Kotlin Gradle plugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         // Kotlinter Gradle plugin
