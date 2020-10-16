@@ -45,18 +45,56 @@ android {
     }
 }
 
+ext {
+    // Jetpack
+    // AppCompat
+    appCompatVersion = "1.2.0"
+    // Lifecycle
+    lifecycleVersion = "2.2.0"
+
+    // Debug
+    // AndroidX Test
+    testVersion = "1.3.0"
+    // AndroidX Fragment Testing
+    fragmentTestingVersion = "1.2.5"
+
+    // Testing
+    // Junit
+    junitVersion = "4.13.1"
+    // Core KTX
+    coreVersion = "1.3.0"
+    // Junit KTX
+    junitKTXVersion = "1.1.2"
+    // Test Runner
+    testRunnerVersion = "1.3.0"
+}
+
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
+    // Jetpack
+    // AppCompat
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test:core-ktx:1.3.0'
-    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.2'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
+    // Kotlin
+    // JDK 8
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
-    debugImplementation 'androidx.test:core:1.3.0'
-    debugImplementation('androidx.fragment:fragment-testing:1.2.5') {
+    // Debug
+    // AndroidX Test
+    debugImplementation "androidx.test:core:$testVersion"
+    // AndroidX Fragment Testing
+    debugImplementation("androidx.fragment:fragment-testing:$fragmentTestingVersion") {
         exclude group: 'androidx.test', module: 'monitor'
     }
+
+    // Testing
+    // Junit
+    testImplementation "junit:junit:$junitVersion"
+    // Core KTX
+    androidTestImplementation "androidx.test:core-ktx:$coreVersion"
+    // Junit KTX
+    androidTestImplementation "androidx.test.ext:junit-ktx:$junitKTXVersion"
+    // Test Runner
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
 }
