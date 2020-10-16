@@ -1,18 +1,25 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.4.0"
+    ext {
+        // Android Gradle plugin
+        gradleVersion = '4.1.0'
+        // Kotlin Gradle plugin | Kotlin JDK 8
+        kotlinVersion = "1.4.10"
+        // Kotlinter Gradle plugin
+        kotlinterVersion = "3.2.0"
+    }
     repositories {
         google()
         jcenter()
         maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.jmailen.gradle:kotlinter-gradle:3.0.2'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        // Android Gradle plugin
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        // Kotlin Gradle plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        // Kotlinter Gradle plugin
+        classpath "org.jmailen.gradle:kotlinter-gradle:$kotlinterVersion"
     }
 }
 
