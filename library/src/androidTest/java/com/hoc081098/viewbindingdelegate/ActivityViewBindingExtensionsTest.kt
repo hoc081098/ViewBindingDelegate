@@ -36,34 +36,34 @@ import com.hoc081098.viewbindingdelegate.test.R as TestR
 
 @RunWith(AndroidJUnit4::class)
 public class ActivityViewBindingExtensionsTest {
-  @get:Rule
-  public val rule: ActivityScenarioRule<TestActivity> = activityScenarioRule()
+    @get:Rule
+    public val rule: ActivityScenarioRule<TestActivity> = activityScenarioRule()
 
-  @Test
-  public fun test_viewBindingReflection() {
-    rule.scenario.onActivity { activity ->
-      val bindingReflection = activity.bindingReflection
+    @Test
+    public fun test_viewBindingReflection() {
+        rule.scenario.onActivity { activity ->
+            val bindingReflection = activity.bindingReflection
 
-      assertNotNull(bindingReflection.root)
-      assertNotNull(bindingReflection.textView)
-      assertNotNull(bindingReflection.button)
+            assertNotNull(bindingReflection.root)
+            assertNotNull(bindingReflection.textView)
+            assertNotNull(bindingReflection.button)
 
-      assertSame(activity.findViewById(TestR.id.textView), bindingReflection.textView)
-      assertSame(activity.findViewById(TestR.id.button), bindingReflection.button)
+            assertSame(activity.findViewById(TestR.id.textView), bindingReflection.textView)
+            assertSame(activity.findViewById(TestR.id.button), bindingReflection.button)
+        }
     }
-  }
 
-  @Test
-  public fun test_viewBindingWithoutReflection() {
-    rule.scenario.onActivity { activity ->
-      val binding = activity.binding
+    @Test
+    public fun test_viewBindingWithoutReflection() {
+        rule.scenario.onActivity { activity ->
+            val binding = activity.binding
 
-      assertNotNull(binding.root)
-      assertNotNull(binding.textView)
-      assertNotNull(binding.button)
+            assertNotNull(binding.root)
+            assertNotNull(binding.textView)
+            assertNotNull(binding.button)
 
-      assertSame(activity.findViewById(TestR.id.textView), binding.textView)
-      assertSame(activity.findViewById(TestR.id.button), binding.button)
+            assertSame(activity.findViewById(TestR.id.textView), binding.textView)
+            assertSame(activity.findViewById(TestR.id.button), binding.button)
+        }
     }
-  }
 }

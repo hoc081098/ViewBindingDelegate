@@ -9,20 +9,20 @@ import com.hoc081098.example.databinding.FragmentThirdIncludeBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
 
 class ThirdFragment : Fragment(R.layout.fragment_third) {
-  private val includeBinding by viewBinding<FragmentThirdIncludeBinding>()
-  private val binding by viewBinding<FragmentThirdBinding>()
+    private val includeBinding by viewBinding<FragmentThirdIncludeBinding>()
+    private val binding by viewBinding<FragmentThirdBinding>()
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    includeBinding.textViewThirdInclude.text = "Working..."
-    binding.buttonThird.setOnClickListener {
-      findNavController().navigate(R.id.actionThirdFragmentToFourthFragment)
+        includeBinding.textViewThirdInclude.text = "Working..."
+        binding.buttonThird.setOnClickListener {
+            findNavController().navigate(R.id.actionThirdFragmentToFourthFragment)
+        }
     }
-  }
 
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.buttonThird.setOnClickListener(null)
-  }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.buttonThird.setOnClickListener(null)
+    }
 }

@@ -14,35 +14,35 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 
 class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
-  private val binding by viewBinding<FragmentFirstBinding>()
+    private val binding by viewBinding<FragmentFirstBinding>()
 
-  private val start = SystemClock.uptimeMillis()
-  private val handler = Handler(Looper.getMainLooper())
+    private val start = SystemClock.uptimeMillis()
+    private val handler = Handler(Looper.getMainLooper())
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    binding.button.setOnClickListener {
-      findNavController().navigate(R.id.actionFirstFragmentToSecondFragment)
+        binding.button.setOnClickListener {
+            findNavController().navigate(R.id.actionFirstFragmentToSecondFragment)
+        }
+
+        handler.post(this)
     }
 
-    handler.post(this)
-  }
+    override fun run() {
+        binding.textView.text =
+            "${TimeUnit.MILLISECONDS.toSeconds(SystemClock.uptimeMillis() - start)} s"
+        handler.postDelayed(this, 1_000)
+    }
 
-  override fun run() {
-    binding.textView.text =
-      "${TimeUnit.MILLISECONDS.toSeconds(SystemClock.uptimeMillis() - start)} s"
-    handler.postDelayed(this, 1_000)
-  }
+    override fun onDestroyView() {
+        super.onDestroyView()
 
-  override fun onDestroyView() {
-    super.onDestroyView()
+        repeat(5_000) { println(it.toDouble().pow(2)) }
 
-    repeat(5_000) { println(it.toDouble().pow(2)) }
+        handler.removeCallbacks(this)
+        binding.button.setOnClickListener(null)
 
-    handler.removeCallbacks(this)
-    binding.button.setOnClickListener(null)
-
-    Log.d("FragmentViewBinding", "onDestroyView done")
-  }
+        Log.d("FragmentViewBinding", "onDestroyView done")
+    }
 }

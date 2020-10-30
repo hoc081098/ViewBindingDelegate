@@ -33,34 +33,34 @@ import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
 
 internal object MainHandler {
-  private val handler = Handler(Looper.getMainLooper())
+    private val handler = Handler(Looper.getMainLooper())
 
-  internal fun post(action: () -> Unit): Boolean = handler.post(action)
+    internal fun post(action: () -> Unit): Boolean = handler.post(action)
 }
 
 @PublishedApi
 internal fun ensureMainThread() = check(Looper.getMainLooper() == Looper.myLooper()) {
-  "Expected to be called on the main thread but was " + Thread.currentThread().name
+    "Expected to be called on the main thread but was " + Thread.currentThread().name
 }
 
 private const val debug = false
 
 internal inline fun log(crossinline message: () -> String) {
-  if (debug) {
-    Log.d("ViewBinding", message())
-  }
+    if (debug) {
+        Log.d("ViewBinding", message())
+    }
 }
 
 internal object GetBindMethod {
-  init {
-    ensureMainThread()
-  }
+    init {
+        ensureMainThread()
+    }
 
-  private val methodSignature = View::class.java
-  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
+    private val methodSignature = View::class.java
+    private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
 
-  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
-    methodMap
-      .getOrPut(clazz) { clazz.getMethod("bind", methodSignature) }
-      .also { log { "methodMap.size: ${methodMap.size}" } }
+    internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
+        methodMap
+            .getOrPut(clazz) { clazz.getMethod("bind", methodSignature) }
+            .also { log { "methodMap.size: ${methodMap.size}" } }
 }

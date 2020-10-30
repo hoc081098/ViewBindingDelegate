@@ -34,33 +34,33 @@ import com.hoc081098.viewbindingdelegate.test.R as TestR
 
 @RunWith(AndroidJUnit4::class)
 public class FragmentViewBindingExtensionsTest {
-  @Test
-  public fun test_viewBindingReflection() {
-    val scenario = launchFragment<TestFragment>()
-    scenario.onFragment { fragment ->
-      val bindingReflection = fragment.bindingReflection
+    @Test
+    public fun test_viewBindingReflection() {
+        val scenario = launchFragment<TestFragment>()
+        scenario.onFragment { fragment ->
+            val bindingReflection = fragment.bindingReflection
 
-      assertNotNull(bindingReflection.root)
-      assertNotNull(bindingReflection.textView)
-      assertNotNull(bindingReflection.button)
+            assertNotNull(bindingReflection.root)
+            assertNotNull(bindingReflection.textView)
+            assertNotNull(bindingReflection.button)
 
-      assertSame(fragment.requireView().findViewById(TestR.id.textView), bindingReflection.textView)
-      assertSame(fragment.requireView().findViewById(TestR.id.button), bindingReflection.button)
+            assertSame(fragment.requireView().findViewById(TestR.id.textView), bindingReflection.textView)
+            assertSame(fragment.requireView().findViewById(TestR.id.button), bindingReflection.button)
+        }
     }
-  }
 
-  @Test
-  public fun test_viewBindingWithoutReflection() {
-    val scenario = launchFragment<TestFragment>()
-    scenario.onFragment { fragment ->
-      val binding = fragment.binding
+    @Test
+    public fun test_viewBindingWithoutReflection() {
+        val scenario = launchFragment<TestFragment>()
+        scenario.onFragment { fragment ->
+            val binding = fragment.binding
 
-      assertNotNull(binding.root)
-      assertNotNull(binding.textView)
-      assertNotNull(binding.button)
+            assertNotNull(binding.root)
+            assertNotNull(binding.textView)
+            assertNotNull(binding.button)
 
-      assertSame(fragment.requireView().findViewById(TestR.id.textView), binding.textView)
-      assertSame(fragment.requireView().findViewById(TestR.id.button), binding.button)
+            assertSame(fragment.requireView().findViewById(TestR.id.textView), binding.textView)
+            assertSame(fragment.requireView().findViewById(TestR.id.button), binding.button)
+        }
     }
-  }
 }

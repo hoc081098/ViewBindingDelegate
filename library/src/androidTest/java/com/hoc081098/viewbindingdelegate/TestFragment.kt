@@ -29,6 +29,6 @@ import com.hoc081098.viewbindingdelegate.test.databinding.FragmentTestBinding
 import com.hoc081098.viewbindingdelegate.test.R as TestR
 
 public class TestFragment : Fragment(TestR.layout.fragment_test) {
-  internal val bindingReflection: FragmentTestBinding by viewBinding()
-  internal val binding: FragmentTestBinding by viewBinding(FragmentTestBinding::bind)
+    internal val bindingReflection: FragmentTestBinding by viewBinding()
+    internal val binding: FragmentTestBinding by viewBinding(FragmentTestBinding::bind)
 }

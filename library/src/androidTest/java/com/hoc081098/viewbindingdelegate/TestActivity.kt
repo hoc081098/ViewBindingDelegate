@@ -29,6 +29,6 @@ import com.hoc081098.viewbindingdelegate.test.databinding.ActivityTestBinding
 import com.hoc081098.viewbindingdelegate.test.R as TestR
 
 public class TestActivity : AppCompatActivity(TestR.layout.activity_test) {
-  internal val bindingReflection: ActivityTestBinding by viewBinding()
-  internal val binding: ActivityTestBinding by viewBinding(ActivityTestBinding::bind)
+    internal val bindingReflection: ActivityTestBinding by viewBinding()
+    internal val binding: ActivityTestBinding by viewBinding(ActivityTestBinding::bind)
 }

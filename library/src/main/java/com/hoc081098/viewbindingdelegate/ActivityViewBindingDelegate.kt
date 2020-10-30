@@ -38,46 +38,46 @@ import kotlin.reflect.KProperty
  * @param viewBindingClazz if viewBindingBind is not provided, Kotlin Reflection will be used to get `T::bind` static method.
  */
 public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
-  viewBindingBind: ((View) -> T)? = null,
-  viewBindingClazz: Class<T>? = null
+    viewBindingBind: ((View) -> T)? = null,
+    viewBindingClazz: Class<T>? = null
 ) : ReadOnlyProperty<Activity, T> {
 
-  private var binding: T? = null
-  private val bind = viewBindingBind ?: { view: View ->
-    @Suppress("UNCHECKED_CAST")
-    GetBindMethod(viewBindingClazz!!)(null, view) as T
-  }
-
-  init {
-    ensureMainThread()
-    require(viewBindingBind != null || viewBindingClazz != null) {
-      "Both viewBindingBind and viewBindingClazz are null. Please provide at least one."
+    private var binding: T? = null
+    private val bind = viewBindingBind ?: { view: View ->
+        @Suppress("UNCHECKED_CAST")
+        GetBindMethod(viewBindingClazz!!)(null, view) as T
     }
-  }
 
-  override fun getValue(thisRef: Activity, property: KProperty<*>): T {
-    ensureMainThread()
+    init {
+        ensureMainThread()
+        require(viewBindingBind != null || viewBindingClazz != null) {
+            "Both viewBindingBind and viewBindingClazz are null. Please provide at least one."
+        }
+    }
 
-    return binding
-      ?: bind(thisRef.findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
-        .also { binding = it }
-  }
+    override fun getValue(thisRef: Activity, property: KProperty<*>): T {
+        ensureMainThread()
 
-  public companion object Factory {
-    /**
-     * Create [ActivityViewBindingDelegate] from [viewBindingBind] lambda function.
-     *
-     * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from [Activity]'s contentView, eg: `T::bind` static method can be used.
-     */
-    public fun <T : ViewBinding> from(viewBindingBind: (View) -> T): ActivityViewBindingDelegate<T> =
-      ActivityViewBindingDelegate(viewBindingBind = viewBindingBind)
+        return binding
+            ?: bind(thisRef.findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
+                .also { binding = it }
+    }
 
-    /**
-     * Create [ActivityViewBindingDelegate] from [ViewBinding] class.
-     *
-     * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
-     */
-    public fun <T : ViewBinding> from(viewBindingClazz: Class<T>): ActivityViewBindingDelegate<T> =
-      ActivityViewBindingDelegate(viewBindingClazz = viewBindingClazz)
-  }
+    public companion object Factory {
+        /**
+         * Create [ActivityViewBindingDelegate] from [viewBindingBind] lambda function.
+         *
+         * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from [Activity]'s contentView, eg: `T::bind` static method can be used.
+         */
+        public fun <T : ViewBinding> from(viewBindingBind: (View) -> T): ActivityViewBindingDelegate<T> =
+            ActivityViewBindingDelegate(viewBindingBind = viewBindingBind)
+
+        /**
+         * Create [ActivityViewBindingDelegate] from [ViewBinding] class.
+         *
+         * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
+         */
+        public fun <T : ViewBinding> from(viewBindingClazz: Class<T>): ActivityViewBindingDelegate<T> =
+            ActivityViewBindingDelegate(viewBindingClazz = viewBindingClazz)
+    }
 }

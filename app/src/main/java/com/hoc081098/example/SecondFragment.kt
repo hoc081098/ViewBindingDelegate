@@ -8,17 +8,17 @@ import com.hoc081098.example.databinding.FragmentSecondBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
 
 class SecondFragment : Fragment(R.layout.fragment_second) {
-  private val binding by viewBinding(FragmentSecondBinding::bind)
+    private val binding by viewBinding(FragmentSecondBinding::bind)
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    binding.buttonToThird.setOnClickListener {
-      findNavController().navigate(R.id.actionSecondFragmentToThirdFragment)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.buttonToThird.setOnClickListener {
+            findNavController().navigate(R.id.actionSecondFragmentToThirdFragment)
+        }
     }
-  }
 
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.buttonToThird.setOnClickListener(null)
-  }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.buttonToThird.setOnClickListener(null)
+    }
 }

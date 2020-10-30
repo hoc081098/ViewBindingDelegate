@@ -37,20 +37,20 @@ import androidx.viewbinding.ViewBinding
  */
 @MainThread
 public fun <T : ViewBinding> Fragment.viewBinding(bind: (View) -> T): FragmentViewBindingDelegate<T> =
-  FragmentViewBindingDelegate.from(
-    fragment = this,
-    viewBindingBind = bind
-  )
+    FragmentViewBindingDelegate.from(
+        fragment = this,
+        viewBindingBind = bind
+    )
 
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
  */
 @MainThread
 public inline fun <reified T : ViewBinding> Fragment.viewBinding(): FragmentViewBindingDelegate<T> =
-  FragmentViewBindingDelegate.from(
-    fragment = this,
-    viewBindingClazz = T::class.java
-  )
+    FragmentViewBindingDelegate.from(
+        fragment = this,
+        viewBindingClazz = T::class.java
+    )
 
 /**
  * Create [ViewBinding] property delegate for this [Activity].
@@ -59,7 +59,7 @@ public inline fun <reified T : ViewBinding> Fragment.viewBinding(): FragmentView
 @Suppress("unused")
 @MainThread
 public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityViewBindingDelegate<T> =
-  ActivityViewBindingDelegate.from(viewBindingBind = bind)
+    ActivityViewBindingDelegate.from(viewBindingBind = bind)
 
 /**
  * Create [ViewBinding] property delegate for this [Activity].
@@ -67,4 +67,4 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 @Suppress("unused")
 @MainThread
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
-  ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
+    ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
