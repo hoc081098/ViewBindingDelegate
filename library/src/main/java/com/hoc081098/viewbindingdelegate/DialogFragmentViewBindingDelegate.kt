@@ -24,28 +24,27 @@
 
 package com.hoc081098.viewbindingdelegate
 
+import android.app.Activity
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.IdRes
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import java.security.spec.PKCS8EncodedKeySpec
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-/**
- * Used to implement [ViewBinding] property delegate for [Fragment].
- *
- * @param fragment the [Fragment] which owns this delegated property.
- * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from [Fragment]'s root view, eg: `T::bind` static method can be used.
- * @param viewBindingClazz if viewBindingBind is not provided, Kotlin Reflection will be used to get `T::bind` static method.
- */
-public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
-  private val fragment: Fragment,
+public class DialogFragmentViewBindingDelegate<T : ViewBinding> private constructor(
+  private val fragment: LifecycleDialogFragment,
+  @IdRes private val rootId: Int,
   viewBindingBind: ((View) -> T)? = null,
   viewBindingClazz: Class<T>? = null
-) : ReadOnlyProperty<Fragment, T> {
-
+) :
+  ReadOnlyProperty<DialogFragment, T> {
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
@@ -61,35 +60,24 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
     fragment.lifecycle.addObserver(FragmentLifecycleObserver())
   }
 
-  override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-    binding?.let { return it }
-
-    check(fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-      "Attempt to get view binding when fragment view is destroyed"
-    }
-
-    return bind(thisRef.requireView()).also { binding = it }
+  override fun getValue(thisRef: DialogFragment, property: KProperty<*>): T {
+    return binding
+      ?: bind(thisRef.requireDialog().findViewById(rootId)!!)
+        .also { binding = it }
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
     override fun onCreate(owner: LifecycleOwner) {
-      fragment.viewLifecycleOwnerLiveData.observe(fragment) { viewLifecycleOwner: LifecycleOwner? ->
-        viewLifecycleOwner ?: return@observe
+      fragment.onDestroyViewLiveData.observe(fragment) {
+        it ?: return@observe
+        log { "$fragment::onDestroyView" }
 
-        val viewLifecycleObserver = object : DefaultLifecycleObserver {
-          override fun onDestroy(owner: LifecycleOwner) {
-            log { "$fragment::view::onDestroy" }
-            viewLifecycleOwner.lifecycle.removeObserver(this)
-
-            MainHandler.post {
-              binding = null
-              log { "MainHandler.post { binding = null }" }
-            }
-          }
+        MainHandler.post {
+          binding = null
+          log { "MainHandler.post { binding = null }" }
         }
-
-        viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
       }
+
       log { "$fragment::onCreate" }
     }
 
@@ -103,31 +91,35 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
 
   public companion object Factory {
     /**
-     * Create [FragmentViewBindingDelegate] from [viewBindingBind] lambda function.
+     * Create [DialogFragmentViewBindingDelegate] from [viewBindingBind] lambda function.
      *
-     * @param fragment the [Fragment] which owns this delegated property.
-     * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from [Fragment]'s root view, eg: `T::bind` static method can be used.
+     * @param fragment the [DialogFragment] which owns this delegated property.
+     * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from Dialog root view in [DialogFragment], eg: `T::bind` static method can be used.
      */
     public fun <T : ViewBinding> from(
-      fragment: Fragment,
+      fragment: LifecycleDialogFragment,
+      @IdRes rootId: Int,
       viewBindingBind: (View) -> T
-    ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
+    ): DialogFragmentViewBindingDelegate<T> = DialogFragmentViewBindingDelegate(
       fragment = fragment,
-      viewBindingBind = viewBindingBind
+      viewBindingBind = viewBindingBind,
+      rootId = rootId,
     )
 
     /**
-     * Create [FragmentViewBindingDelegate] from [ViewBinding] class.
+     * Create [DialogFragmentViewBindingDelegate] from [ViewBinding] class.
      *
-     * @param fragment the [Fragment] which owns this delegated property.
+     * @param fragment the [DialogFragment] which owns this delegated property.
      * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
      */
     public fun <T : ViewBinding> from(
-      fragment: Fragment,
+      fragment: LifecycleDialogFragment,
+      @IdRes rootId: Int,
       viewBindingClazz: Class<T>
-    ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
+    ): DialogFragmentViewBindingDelegate<T> = DialogFragmentViewBindingDelegate(
       fragment = fragment,
-      viewBindingClazz = viewBindingClazz
+      viewBindingClazz = viewBindingClazz,
+      rootId = rootId,
     )
   }
 }

@@ -24,47 +24,23 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
+import android.app.Dialog
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.collection.ArrayMap
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.DefaultLifecycleObserver
+import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
-import androidx.viewbinding.ViewBinding
-import java.lang.reflect.Method
-import java.security.spec.PKCS8EncodedKeySpec
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
-internal object MainHandler {
-  private val handler = Handler(Looper.getMainLooper())
+public open class LifecycleDialogFragment : DialogFragment() {
+  private val onDestroyViewMutableLiveData = MutableLiveData<Unit>()
 
-  internal fun post(action: () -> Unit): Boolean = handler.post(action)
-}
+  internal val onDestroyViewLiveData: LiveData<Unit> get() = onDestroyViewMutableLiveData
 
-@PublishedApi
-internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.myLooper()) {
-  "Expected to be called on the main thread but was " + Thread.currentThread().name
-}
-
-private const val debug = true
-
-internal inline fun log(crossinline message: () -> String) {
-  if (debug) {
-    Log.d("ViewBinding", message())
+  override fun onDestroyView() {
+    super.onDestroyView()
+    onDestroyViewMutableLiveData.value = Unit
   }
-}
-
-internal object GetBindMethod {
-  init {
-    ensureMainThread()
-  }
-
-  private val methodSignature = View::class.java
-  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
-
-  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
-    methodMap
-      .getOrPut(clazz) { clazz.getMethod("bind", methodSignature) }
-      .also { log { "methodMap.size: ${methodMap.size}" } }
 }

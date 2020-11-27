@@ -2,6 +2,7 @@ package com.hoc081098.example
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     viewBinding.button.setOnClickListener {
       startActivity(Intent(this@MainActivity, SecondActivity::class.java))
+    }
+    viewBinding.buttonShowDialog.setOnClickListener {
+      DemoDialogFragment().show(supportFragmentManager, "DemoDialogFragment")
     }
   }
 

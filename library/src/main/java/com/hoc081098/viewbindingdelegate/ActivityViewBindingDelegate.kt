@@ -56,8 +56,6 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   override fun getValue(thisRef: Activity, property: KProperty<*>): T {
-    ensureMainThread()
-
     return binding
       ?: bind(thisRef.findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
         .also { binding = it }

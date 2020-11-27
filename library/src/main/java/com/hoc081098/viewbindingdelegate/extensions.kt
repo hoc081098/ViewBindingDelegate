@@ -26,7 +26,9 @@ package com.hoc081098.viewbindingdelegate
 
 import android.app.Activity
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
@@ -68,3 +70,14 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 @MainThread
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
+
+public fun <T : ViewBinding> LifecycleDialogFragment.dialogFragmentViewBinding(
+  @IdRes rootId: Int,
+  bind: (View) -> T
+): DialogFragmentViewBindingDelegate<T> {
+  return DialogFragmentViewBindingDelegate.from(
+    fragment = this,
+    viewBindingBind = bind,
+    rootId = rootId,
+  )
+}
