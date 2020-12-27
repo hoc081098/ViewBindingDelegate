@@ -24,23 +24,57 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
+internal class Listeners {
+  private var isDisposed = false
+  private val listeners = mutableSetOf<() -> Unit>()
+
+  fun add(listener: () -> Unit) {
+    check(!isDisposed) { "Already disposed" }
+    listeners.add(listener)
+  }
+
+  operator fun invoke() {
+    check(!isDisposed) { "Already disposed" }
+    listeners.forEach { it() }
+  }
+
+  fun dispose() {
+    check(!isDisposed) { "Already disposed" }
+    listeners.clear()
+    isDisposed = true
+  }
+}
+
 public open class LifecycleDialogFragment : DialogFragment() {
-  private val onDestroyViewMutableLiveData = MutableLiveData<Unit>()
+  private lateinit var listeners: Listeners
+  private val viewMutableLiveData = MutableLiveData<Listeners>()
 
-  internal val onDestroyViewLiveData: LiveData<Unit> get() = onDestroyViewMutableLiveData
+  internal val viewLiveData: LiveData<Listeners> get() = viewMutableLiveData
 
+  @CallSuper
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    viewMutableLiveData.value = Listeners().also { listeners = it }
+    return null
+  }
+
+  @CallSuper
   override fun onDestroyView() {
     super.onDestroyView()
-    onDestroyViewMutableLiveData.value = Unit
+
+    listeners()
+    listeners.dispose()
   }
 }

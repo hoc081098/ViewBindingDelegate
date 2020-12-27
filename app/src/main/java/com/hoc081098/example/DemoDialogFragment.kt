@@ -25,17 +25,16 @@
 package com.hoc081098.example
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.hoc081098.example.databinding.DialogFragmentDemoBinding
 import com.hoc081098.viewbindingdelegate.LifecycleDialogFragment
 import com.hoc081098.viewbindingdelegate.dialogFragmentViewBinding
 
 class DemoDialogFragment : LifecycleDialogFragment() {
   private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind)
+  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root)
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     return AlertDialog.Builder(requireContext())
@@ -48,6 +47,10 @@ class DemoDialogFragment : LifecycleDialogFragment() {
 
   override fun onResume() {
     super.onResume()
-    viewBinding.textInputLayout
+    Log.d("###", viewBinding.toString())
+    Log.d("###", viewBinding.textInputLayout.toString())
+
+    Log.d("###", viewBinding2.toString())
+    Log.d("###", viewBinding2.textInputLayout.toString())
   }
 }

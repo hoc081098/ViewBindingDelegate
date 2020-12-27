@@ -24,17 +24,12 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import android.app.Activity
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
-import java.security.spec.PKCS8EncodedKeySpec
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -68,13 +63,14 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding> private construc
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
     override fun onCreate(owner: LifecycleOwner) {
-      fragment.onDestroyViewLiveData.observe(fragment) {
-        it ?: return@observe
-        log { "$fragment::onDestroyView" }
+      fragment.viewLiveData.observe(fragment) { listeners ->
+        listeners?.add {
+          log { "$fragment::onDestroyView" }
 
-        MainHandler.post {
-          binding = null
-          log { "MainHandler.post { binding = null }" }
+          MainHandler.post {
+            binding = null
+            log { "MainHandler.post { binding = null }" }
+          }
         }
       }
 
