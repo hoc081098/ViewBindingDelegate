@@ -29,12 +29,8 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.collection.ArrayMap
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
-import java.security.spec.PKCS8EncodedKeySpec
 
 internal object MainHandler {
   private val handler = Handler(Looper.getMainLooper())
