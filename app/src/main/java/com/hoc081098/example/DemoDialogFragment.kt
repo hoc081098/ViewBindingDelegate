@@ -29,12 +29,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.hoc081098.example.databinding.DialogFragmentDemoBinding
-import com.hoc081098.viewbindingdelegate.LifecycleDialogFragment
+import com.hoc081098.viewbindingdelegate.DefaultVBDialogFragment
 import com.hoc081098.viewbindingdelegate.dialogFragmentViewBinding
 
-class DemoDialogFragment : LifecycleDialogFragment() {
+class DemoDialogFragment : DefaultVBDialogFragment() {
   private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind)
-  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root)
+  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding, DefaultVBDialogFragment>(
+    R.id.root
+  )
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     return AlertDialog.Builder(requireContext())
@@ -47,10 +49,21 @@ class DemoDialogFragment : LifecycleDialogFragment() {
 
   override fun onResume() {
     super.onResume()
+
     Log.d("###", viewBinding.toString())
     Log.d("###", viewBinding.textInputLayout.toString())
 
     Log.d("###", viewBinding2.toString())
     Log.d("###", viewBinding2.textInputLayout.toString())
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+
+    Log.d("###", "onDestroyView$viewBinding")
+    Log.d("###", "onDestroyView${viewBinding.textInputLayout}")
+
+    Log.d("###", "onDestroyView$viewBinding2")
+    Log.d("###", "onDestroyView${viewBinding2.textInputLayout}")
   }
 }

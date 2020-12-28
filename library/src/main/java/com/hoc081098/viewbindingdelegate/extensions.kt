@@ -28,6 +28,7 @@ import android.app.Activity
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
@@ -70,10 +71,10 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
 
-public fun <T : ViewBinding> LifecycleDialogFragment.dialogFragmentViewBinding(
+public fun <T : ViewBinding, DF> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int,
   bind: (View) -> T
-): DialogFragmentViewBindingDelegate<T> {
+): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingBind = bind,
@@ -81,9 +82,9 @@ public fun <T : ViewBinding> LifecycleDialogFragment.dialogFragmentViewBinding(
   )
 }
 
-public inline fun <reified T : ViewBinding> LifecycleDialogFragment.dialogFragmentViewBinding(
+public inline fun <reified T : ViewBinding, DF> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int
-): DialogFragmentViewBindingDelegate<T> {
+): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingClazz = T::class.java,

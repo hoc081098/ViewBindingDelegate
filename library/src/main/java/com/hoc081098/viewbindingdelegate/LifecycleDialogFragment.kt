@@ -33,32 +33,38 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-internal class Listeners {
-  private var isDisposed = false
-  private val listeners = mutableSetOf<() -> Unit>()
+public interface VBDialogFragment {
+  public val viewLiveData: LiveData<Listeners>
 
-  fun add(listener: () -> Unit) {
-    check(!isDisposed) { "Already disposed" }
-    listeners.add(listener)
-  }
+  public class Listeners {
+    private var isDisposed = false
+    private val listeners = mutableSetOf<() -> Unit>()
 
-  operator fun invoke() {
-    check(!isDisposed) { "Already disposed" }
-    listeners.forEach { it() }
-  }
+    public fun add(listener: () -> Unit) {
+      check(!isDisposed) { "Already disposed" }
+      listeners.add(listener)
+    }
 
-  fun dispose() {
-    check(!isDisposed) { "Already disposed" }
-    listeners.clear()
-    isDisposed = true
+    public operator fun invoke() {
+      check(!isDisposed) { "Already disposed" }
+      log { "Listeners::invoke ${listeners.size}" }
+      listeners.forEach { it() }
+    }
+
+    public fun dispose() {
+      check(!isDisposed) { "Already disposed" }
+      log { "Listeners::dispose ${listeners.size}" }
+      listeners.clear()
+      isDisposed = true
+    }
   }
 }
 
-public open class LifecycleDialogFragment : DialogFragment() {
-  private lateinit var listeners: Listeners
-  private val viewMutableLiveData = MutableLiveData<Listeners>()
+public open class DefaultVBDialogFragment : DialogFragment(), VBDialogFragment {
+  private lateinit var listeners: VBDialogFragment.Listeners
+  private val viewMutableLiveData = MutableLiveData<VBDialogFragment.Listeners>()
 
-  internal val viewLiveData: LiveData<Listeners> get() = viewMutableLiveData
+  override val viewLiveData: LiveData<VBDialogFragment.Listeners> get() = viewMutableLiveData
 
   @CallSuper
   override fun onCreateView(
@@ -66,7 +72,7 @@ public open class LifecycleDialogFragment : DialogFragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    viewMutableLiveData.value = Listeners().also { listeners = it }
+    viewMutableLiveData.value = VBDialogFragment.Listeners().also { listeners = it }
     return null
   }
 

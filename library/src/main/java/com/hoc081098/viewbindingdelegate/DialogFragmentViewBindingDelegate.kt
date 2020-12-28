@@ -33,13 +33,12 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-public class DialogFragmentViewBindingDelegate<T : ViewBinding> private constructor(
-  private val fragment: LifecycleDialogFragment,
+public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private constructor(
+  private val fragment: DF,
   @IdRes private val rootId: Int,
   viewBindingBind: ((View) -> T)? = null,
   viewBindingClazz: Class<T>? = null
-) :
-  ReadOnlyProperty<DialogFragment, T> {
+) : ReadOnlyProperty<DialogFragment, T> where DF : DialogFragment, DF : VBDialogFragment {
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
@@ -92,15 +91,16 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding> private construc
      * @param fragment the [DialogFragment] which owns this delegated property.
      * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from Dialog root view in [DialogFragment], eg: `T::bind` static method can be used.
      */
-    public fun <T : ViewBinding> from(
-      fragment: LifecycleDialogFragment,
+    public fun <T : ViewBinding, DF> from(
+      fragment: DF,
       @IdRes rootId: Int,
       viewBindingBind: (View) -> T
-    ): DialogFragmentViewBindingDelegate<T> = DialogFragmentViewBindingDelegate(
-      fragment = fragment,
-      viewBindingBind = viewBindingBind,
-      rootId = rootId,
-    )
+    ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment =
+      DialogFragmentViewBindingDelegate(
+        fragment = fragment,
+        viewBindingBind = viewBindingBind,
+        rootId = rootId,
+      )
 
     /**
      * Create [DialogFragmentViewBindingDelegate] from [ViewBinding] class.
@@ -108,14 +108,15 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding> private construc
      * @param fragment the [DialogFragment] which owns this delegated property.
      * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
      */
-    public fun <T : ViewBinding> from(
-      fragment: LifecycleDialogFragment,
+    public fun <T : ViewBinding, DF> from(
+      fragment: DF,
       @IdRes rootId: Int,
       viewBindingClazz: Class<T>
-    ): DialogFragmentViewBindingDelegate<T> = DialogFragmentViewBindingDelegate(
-      fragment = fragment,
-      viewBindingClazz = viewBindingClazz,
-      rootId = rootId,
-    )
+    ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment =
+      DialogFragmentViewBindingDelegate(
+        fragment = fragment,
+        viewBindingClazz = viewBindingClazz,
+        rootId = rootId,
+      )
   }
 }
