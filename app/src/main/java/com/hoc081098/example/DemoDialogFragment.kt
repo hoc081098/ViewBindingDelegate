@@ -28,15 +28,14 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentManager
 import com.hoc081098.example.databinding.DialogFragmentDemoBinding
 import com.hoc081098.viewbindingdelegate.DefaultVBDialogFragment
 import com.hoc081098.viewbindingdelegate.dialogFragmentViewBinding
 
 class DemoDialogFragment : DefaultVBDialogFragment() {
   private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind)
-  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding, DefaultVBDialogFragment>(
-    R.id.root
-  )
+  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root)
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     return AlertDialog.Builder(requireContext())
@@ -65,5 +64,16 @@ class DemoDialogFragment : DefaultVBDialogFragment() {
 
     Log.d("###", "onDestroyView$viewBinding2")
     Log.d("###", "onDestroyView${viewBinding2.textInputLayout}")
+  }
+
+  companion object {
+    private val tag = DemoDialogFragment::class.java.simpleName
+
+    fun show(fm: FragmentManager) {
+      (fm.findFragmentByTag(tag) as? DemoDialogFragment)?.let {
+        fm.beginTransaction().remove(it).commit()
+      }
+      DemoDialogFragment().show(fm, tag)
+    }
   }
 }

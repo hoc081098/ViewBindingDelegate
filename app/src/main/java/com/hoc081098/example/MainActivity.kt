@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
       startActivity(Intent(this@MainActivity, SecondActivity::class.java))
     }
     viewBinding.buttonShowDialog.setOnClickListener {
-      DemoDialogFragment().show(supportFragmentManager, "DemoDialogFragment")
+      DemoDialogFragment.show(supportFragmentManager)
     }
   }
 

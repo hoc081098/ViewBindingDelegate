@@ -68,7 +68,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
 
           MainHandler.post {
             binding = null
-            log { "MainHandler.post { binding = null }" }
+            log { "$fragment MainHandler.post { binding = null }" }
           }
         }
       }

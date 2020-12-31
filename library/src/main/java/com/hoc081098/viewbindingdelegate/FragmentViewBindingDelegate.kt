@@ -78,12 +78,12 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
 
         val viewLifecycleObserver = object : DefaultLifecycleObserver {
           override fun onDestroy(owner: LifecycleOwner) {
-            log { "$fragment::view::onDestroy" }
+            log { "$fragment::onDestroyView" }
             viewLifecycleOwner.lifecycle.removeObserver(this)
 
             MainHandler.post {
               binding = null
-              log { "MainHandler.post { binding = null }" }
+              log { "$fragment MainHandler.post { binding = null }" }
             }
           }
         }

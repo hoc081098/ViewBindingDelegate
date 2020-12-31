@@ -82,7 +82,7 @@ public fun <T : ViewBinding, DF> DF.dialogFragmentViewBinding(
   )
 }
 
-public inline fun <reified T : ViewBinding, DF> DF.dialogFragmentViewBinding(
+public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
@@ -91,3 +91,8 @@ public inline fun <reified T : ViewBinding, DF> DF.dialogFragmentViewBinding(
     rootId = rootId,
   )
 }
+
+public inline fun <reified T : ViewBinding> DefaultVBDialogFragment.dialogFragmentViewBinding(
+  @IdRes rootId: Int
+): DialogFragmentViewBindingDelegate<T, DefaultVBDialogFragment> =
+  dialogFragmentViewBinding<DefaultVBDialogFragment, T>(rootId)
