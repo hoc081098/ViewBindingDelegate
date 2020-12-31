@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.hoc081098.example.databinding.FragmentSecondBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
 
-class SecondFragment : Fragment(R.layout.fragment_second) {
+class NotReflectionFragment : Fragment(R.layout.fragment_second) {
   private val binding by viewBinding(FragmentSecondBinding::bind)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
