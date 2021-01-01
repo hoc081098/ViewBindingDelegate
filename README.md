@@ -130,7 +130,7 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 }
 ```
 
-## The `Dialog` of `DialogFragment`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
+## The `Dialog` of `DialogFragment`: Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
 
 ```kotlin
 class DemoDialogFragment : DefaultViewBindingDialogFragment() {
