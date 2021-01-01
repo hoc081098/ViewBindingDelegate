@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.hoc081098.viewbindingdelegate
+package com.hoc081098.viewbindingdelegate.impl
 
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -30,6 +30,10 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import com.hoc081098.viewbindingdelegate.GetBindMethod
+import com.hoc081098.viewbindingdelegate.MainHandler
+import com.hoc081098.viewbindingdelegate.ensureMainThread
+import com.hoc081098.viewbindingdelegate.log
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

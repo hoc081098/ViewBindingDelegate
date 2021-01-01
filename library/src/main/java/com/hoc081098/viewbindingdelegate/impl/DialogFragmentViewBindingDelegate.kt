@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.hoc081098.viewbindingdelegate
+package com.hoc081098.viewbindingdelegate.impl
 
 import android.view.View
 import androidx.annotation.IdRes
@@ -30,6 +30,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import com.hoc081098.viewbindingdelegate.*
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

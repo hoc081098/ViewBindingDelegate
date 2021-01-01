@@ -31,6 +31,9 @@ import androidx.annotation.MainThread
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.hoc081098.viewbindingdelegate.impl.ActivityViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
 
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
