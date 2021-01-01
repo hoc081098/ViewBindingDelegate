@@ -40,7 +40,7 @@ dependencies {
 # Usage
 
 ```kotlin
-import com.hoc081098.viewbindingdelegate.viewBinding
+import com.hoc081098.viewbindingdelegate.*
 ```
 
 ## Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
