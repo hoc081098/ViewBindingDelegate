@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     viewBinding.button.setOnClickListener {
       startActivity(Intent(this@MainActivity, SecondActivity::class.java))
     }
+    viewBinding.buttonShowDialog.setOnClickListener {
+      DemoDialogFragment.show(supportFragmentManager)
+    }
   }
 
   override fun onSupportNavigateUp(): Boolean =

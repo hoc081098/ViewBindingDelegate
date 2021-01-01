@@ -34,7 +34,7 @@ class FourthVM : ViewModel() {
   val liveData get() = _liveData as LiveData<String>
 }
 
-class FourthFragment : Fragment(R.layout.fragment_fourth) {
+class CachedViewFragment : Fragment(R.layout.fragment_fourth) {
   private val vm by viewModels<FourthVM>()
   private val binding by viewBinding<FragmentFourthBinding>()
 

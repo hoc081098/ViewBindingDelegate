@@ -13,7 +13,7 @@ import com.hoc081098.viewbindingdelegate.viewBinding
 import java.util.concurrent.TimeUnit
 import kotlin.math.pow
 
-class FirstFragment : Fragment(R.layout.fragment_first), Runnable {
+class ReflectionFragment : Fragment(R.layout.fragment_first), Runnable {
   private val binding by viewBinding<FragmentFirstBinding>()
 
   private val start = SystemClock.uptimeMillis()

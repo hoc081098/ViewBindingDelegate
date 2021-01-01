@@ -25,10 +25,16 @@
 package com.hoc081098.viewbindingdelegate
 
 import android.app.Activity
+import android.app.Dialog
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.hoc081098.viewbindingdelegate.impl.ActivityViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
 
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
@@ -68,3 +74,41 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 @MainThread
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
+
+/**
+ * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
+ *
+ * @param bind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] of this [DialogFragment],
+ *        eg: `T::bind` static method can be used.
+ */
+public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
+  @IdRes rootId: Int,
+  bind: (View) -> T
+): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
+  return DialogFragmentViewBindingDelegate.from(
+    fragment = this,
+    viewBindingBind = bind,
+    rootId = rootId,
+  )
+}
+
+/**
+ * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
+ */
+public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
+  @IdRes rootId: Int
+): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
+  return DialogFragmentViewBindingDelegate.from(
+    fragment = this,
+    viewBindingClazz = T::class.java,
+    rootId = rootId,
+  )
+}
+
+/**
+ * Create [ViewBinding] property delegate for the [Dialog] of this [DefaultViewBindingDialogFragment].
+ */
+public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dialogFragmentViewBinding(
+  @IdRes rootId: Int
+): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
+  dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)

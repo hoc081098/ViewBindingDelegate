@@ -8,7 +8,7 @@ import com.hoc081098.example.databinding.FragmentThirdBinding
 import com.hoc081098.example.databinding.FragmentThirdIncludeBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
 
-class ThirdFragment : Fragment(R.layout.fragment_third) {
+class Reflection2Fragment : Fragment(R.layout.fragment_third) {
   private val includeBinding by viewBinding<FragmentThirdIncludeBinding>()
   private val binding by viewBinding<FragmentThirdBinding>()
 

@@ -22,12 +22,14 @@
  * SOFTWARE.
  */
 
-package com.hoc081098.viewbindingdelegate
+package com.hoc081098.viewbindingdelegate.impl
 
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
+import com.hoc081098.viewbindingdelegate.GetBindMethod
+import com.hoc081098.viewbindingdelegate.ensureMainThread
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -56,8 +58,6 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   override fun getValue(thisRef: Activity, property: KProperty<*>): T {
-    ensureMainThread()
-
     return binding
       ?: bind(thisRef.findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
         .also { binding = it }
