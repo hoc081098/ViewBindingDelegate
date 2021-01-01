@@ -30,7 +30,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.*
+import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment
+import com.hoc081098.viewbindingdelegate.GetBindMethod
+import com.hoc081098.viewbindingdelegate.MainHandler
+import com.hoc081098.viewbindingdelegate.ensureMainThread
+import com.hoc081098.viewbindingdelegate.log
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -39,7 +43,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   @IdRes private val rootId: Int,
   viewBindingBind: ((View) -> T)? = null,
   viewBindingClazz: Class<T>? = null
-) : ReadOnlyProperty<DialogFragment, T> where DF : DialogFragment, DF : VBDialogFragment {
+) : ReadOnlyProperty<DialogFragment, T> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
@@ -63,8 +67,8 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
     override fun onCreate(owner: LifecycleOwner) {
-      fragment.viewLiveData.observe(fragment) { listeners ->
-        listeners?.add {
+      fragment.onDestroyViewLiveData.observe(fragment) { listeners ->
+        (listeners ?: return@observe) += {
           log { "$fragment::onDestroyView" }
 
           MainHandler.post {
@@ -96,7 +100,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
       fragment: DF,
       @IdRes rootId: Int,
       viewBindingBind: (View) -> T
-    ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment =
+    ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment =
       DialogFragmentViewBindingDelegate(
         fragment = fragment,
         viewBindingBind = viewBindingBind,
@@ -113,7 +117,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
       fragment: DF,
       @IdRes rootId: Int,
       viewBindingClazz: Class<T>
-    ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment =
+    ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment =
       DialogFragmentViewBindingDelegate(
         fragment = fragment,
         viewBindingClazz = viewBindingClazz,

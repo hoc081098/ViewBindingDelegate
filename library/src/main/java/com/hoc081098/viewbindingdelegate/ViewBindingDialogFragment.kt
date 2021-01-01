@@ -29,42 +29,74 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.annotation.MainThread
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment.OnDestroyViewListeners
+import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
+import java.util.concurrent.CopyOnWriteArraySet
 
-public interface VBDialogFragment {
-  public val viewLiveData: LiveData<Listeners>
+/**
+ * An interface allows you to use [dialogFragmentViewBinding] and [DialogFragmentViewBindingDelegate].
+ *
+ * It is recommended to extend [DefaultViewBindingDialogFragment] before implementing this interface.
+ * If not, you can copy/paste [DefaultViewBindingDialogFragment]'s implementation to make your own implementation.
+ */
+public interface ViewBindingDialogFragment {
+  /**
+   * A [LiveData] which allows you to observe [OnDestroyViewListeners].
+   *
+   * This will be set to the new [OnDestroyViewListeners] when [DialogFragment.onCreateView] called
+   * and will set to null when [DialogFragment.onDestroyView] called.
+   *
+   * The [OnDestroyViewListeners] will be invoked and disposed when when [DialogFragment.onDestroyView] called.
+   */
+  public val onDestroyViewLiveData: LiveData<OnDestroyViewListeners?>
 
-  public class Listeners {
+  /**
+   * The class containing listeners will be invoked when [DialogFragment.onDestroyView] called.
+   */
+  @MainThread
+  public class OnDestroyViewListeners {
     private var isDisposed = false
-    private val listeners = mutableSetOf<() -> Unit>()
+    private val listeners: MutableSet<() -> Unit> = CopyOnWriteArraySet()
 
-    public fun add(listener: () -> Unit) {
+    public operator fun plusAssign(listener: () -> Unit) {
       check(!isDisposed) { "Already disposed" }
-      listeners.add(listener)
+
+      listeners += listener
     }
 
     public operator fun invoke() {
       check(!isDisposed) { "Already disposed" }
       log { "Listeners::invoke ${listeners.size}" }
+
       listeners.forEach { it() }
     }
 
+    /**
+     * Disposed this listeners. Should call once.
+     */
     public fun dispose() {
       check(!isDisposed) { "Already disposed" }
       log { "Listeners::dispose ${listeners.size}" }
+
       listeners.clear()
       isDisposed = true
     }
   }
 }
 
-public open class DefaultVBDialogFragment : DialogFragment(), VBDialogFragment {
-  private lateinit var listeners: VBDialogFragment.Listeners
-  private val viewMutableLiveData = MutableLiveData<VBDialogFragment.Listeners>()
+/**
+ * Default implementation of [ViewBindingDialogFragment].
+ * Extends this class to able to use [dialogFragmentViewBinding] and [DialogFragmentViewBindingDelegate]
+ */
+public open class DefaultViewBindingDialogFragment : DialogFragment(), ViewBindingDialogFragment {
+  private lateinit var listeners: OnDestroyViewListeners
+  private val viewMutableLiveData = MutableLiveData<OnDestroyViewListeners?>()
 
-  override val viewLiveData: LiveData<VBDialogFragment.Listeners> get() = viewMutableLiveData
+  override val onDestroyViewLiveData: LiveData<OnDestroyViewListeners?> get() = viewMutableLiveData
 
   @CallSuper
   override fun onCreateView(
@@ -72,7 +104,7 @@ public open class DefaultVBDialogFragment : DialogFragment(), VBDialogFragment {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    viewMutableLiveData.value = VBDialogFragment.Listeners().also { listeners = it }
+    viewMutableLiveData.value = OnDestroyViewListeners().also { listeners = it }
     return null
   }
 
@@ -82,5 +114,6 @@ public open class DefaultVBDialogFragment : DialogFragment(), VBDialogFragment {
 
     listeners()
     listeners.dispose()
+    viewMutableLiveData.value = null
   }
 }

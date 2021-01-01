@@ -74,10 +74,10 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
 
-public fun <T : ViewBinding, DF> DF.dialogFragmentViewBinding(
+public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int,
   bind: (View) -> T
-): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment {
+): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingBind = bind,
@@ -87,7 +87,7 @@ public fun <T : ViewBinding, DF> DF.dialogFragmentViewBinding(
 
 public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int
-): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : VBDialogFragment {
+): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingClazz = T::class.java,
@@ -95,7 +95,7 @@ public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
   )
 }
 
-public inline fun <reified T : ViewBinding> DefaultVBDialogFragment.dialogFragmentViewBinding(
+public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dialogFragmentViewBinding(
   @IdRes rootId: Int
-): DialogFragmentViewBindingDelegate<T, DefaultVBDialogFragment> =
-  dialogFragmentViewBinding<DefaultVBDialogFragment, T>(rootId)
+): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
+  dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)

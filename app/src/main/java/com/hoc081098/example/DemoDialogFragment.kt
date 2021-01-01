@@ -30,10 +30,10 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.hoc081098.example.databinding.DialogFragmentDemoBinding
-import com.hoc081098.viewbindingdelegate.DefaultVBDialogFragment
+import com.hoc081098.viewbindingdelegate.DefaultViewBindingDialogFragment
 import com.hoc081098.viewbindingdelegate.dialogFragmentViewBinding
 
-class DemoDialogFragment : DefaultVBDialogFragment() {
+class DemoDialogFragment : DefaultViewBindingDialogFragment() {
   private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind)
   private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root)
 
