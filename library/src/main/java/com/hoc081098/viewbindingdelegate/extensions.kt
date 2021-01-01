@@ -25,6 +25,7 @@
 package com.hoc081098.viewbindingdelegate
 
 import android.app.Activity
+import android.app.Dialog
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
@@ -74,6 +75,12 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
 
+/**
+ * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
+ *
+ * @param bind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] of this [DialogFragment],
+ *        eg: `T::bind` static method can be used.
+ */
 public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int,
   bind: (View) -> T
@@ -85,6 +92,9 @@ public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
   )
 }
 
+/**
+ * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
+ */
 public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
@@ -95,6 +105,9 @@ public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
   )
 }
 
+/**
+ * Create [ViewBinding] property delegate for the [Dialog] of this [DefaultViewBindingDialogFragment].
+ */
 public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dialogFragmentViewBinding(
   @IdRes rootId: Int
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =

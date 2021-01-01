@@ -24,20 +24,25 @@
 
 package com.hoc081098.viewbindingdelegate.impl
 
+import android.app.Dialog
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.GetBindMethod
-import com.hoc081098.viewbindingdelegate.MainHandler
-import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment
-import com.hoc081098.viewbindingdelegate.ensureMainThread
-import com.hoc081098.viewbindingdelegate.log
+import com.hoc081098.viewbindingdelegate.*
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/**
+ * Used to implement [ViewBinding] property delegate for the [Dialog] of [DialogFragment].
+ *
+ * @param fragment the [DialogFragment].
+ * @param rootId the root id of custom view of the [Dialog].
+ * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] eg: `T::bind` static method can be used.
+ * @param viewBindingClazz if viewBindingBind is not provided, Kotlin Reflection will be used to get `T::bind` static method.
+ */
 public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private constructor(
   private val fragment: DF,
   @IdRes private val rootId: Int,
@@ -93,8 +98,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
     /**
      * Create [DialogFragmentViewBindingDelegate] from [viewBindingBind] lambda function.
      *
-     * @param fragment the [DialogFragment] which owns this delegated property.
-     * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from Dialog root view in [DialogFragment], eg: `T::bind` static method can be used.
+     * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] eg: `T::bind` static method can be used.
      */
     public fun <T : ViewBinding, DF> from(
       fragment: DF,
@@ -108,9 +112,8 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
       )
 
     /**
-     * Create [DialogFragmentViewBindingDelegate] from [ViewBinding] class.
+     * Create [DialogFragmentViewBindingDelegate] from [viewBindingClazz] class.
      *
-     * @param fragment the [DialogFragment] which owns this delegated property.
      * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
      */
     public fun <T : ViewBinding, DF> from(

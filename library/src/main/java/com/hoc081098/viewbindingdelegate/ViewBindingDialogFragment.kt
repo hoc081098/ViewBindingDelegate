@@ -76,7 +76,7 @@ public interface ViewBindingDialogFragment {
     }
 
     /**
-     * Disposed this listeners. Should call once.
+     * Dispose this listeners. Should call once.
      */
     public fun dispose() {
       check(!isDisposed) { "Already disposed" }
