@@ -43,7 +43,7 @@ dependencies {
 import com.hoc081098.viewbindingdelegate.viewBinding
 ```
 
-## Activity (with reflection)
+## Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
 ```kotlin
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
   private val viewBinding by viewBinding<ActivityMainBinding>()
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 }
 ```
 
-## Activity (without reflection): Pass `::bind` method reference
+## Activity (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/SecondActivity.kt)
 ```kotlin
 class SecondActivity : AppCompatActivity(R.layout.activity_second) {
   private val binding by viewBinding(ActivitySecondBinding::bind)
@@ -70,7 +70,7 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 }
 ```
 
-## Fragment (with reflection)
+## Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
 ```kotlin
 class FirstFragment : Fragment(R.layout.fragment_first) {
   private val binding by viewBinding<FragmentFirstBinding>()
@@ -90,7 +90,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 }
 ```
 
-## Fragment (without reflection): Pass `::bind` method reference
+## Fragment (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/NotReflectionFragment.kt)
 ```kotlin
 class SecondFragment : Fragment(R.layout.fragment_second) {
   private val binding by viewBinding(FragmentSecondBinding::bind)
@@ -107,7 +107,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 }
 ```
 
-## Includes `<merge/>` tag layout: Create 2 `ViewBinding` property
+## Includes `<merge/>` tag layout: Create 2 `ViewBinding` property. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/Reflection2Fragment.kt)
 
 ```kotlin
 class ThirdFragment : Fragment(R.layout.fragment_third) {
@@ -130,7 +130,7 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 }
 ```
 
-## The `Dialog` of `DialogFragment`
+## The `Dialog` of `DialogFragment`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
 
 ```kotlin
 class DemoDialogFragment : DefaultViewBindingDialogFragment() {
