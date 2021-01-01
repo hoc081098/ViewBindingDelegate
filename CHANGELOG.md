@@ -1,3 +1,12 @@
+## 1.0.0-alpha02 - Jan 1, 2021
+-   New features:
+    -   Add `dialogFragmentViewBinding`, `DialogFragmentViewBindingDelegate`: supports for the `Dialog` of `DialogFragment`.
+-   Updated dependencies:
+    -   Gradle to 6.7.1.
+    -   Android Gradle plugin to 4.1.1.
+    -   Android build tool to 30.0.3.
+    -   Kotlin to 1.4.21.
+
 ## 1.0.0-alpha01 - Sep 10, 2020
 
 *   Hotfix

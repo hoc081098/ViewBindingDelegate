@@ -130,6 +130,38 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 }
 ```
 
+## The `Dialog` of `DialogFragment`
+
+```kotlin
+class DemoDialogFragment : DefaultViewBindingDialogFragment() {
+  private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind)
+  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root)
+
+  override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    return AlertDialog.Builder(requireContext())
+      .setTitle("Demo dialog")
+      .setNegativeButton("Cancel") { _, _ -> }
+      .setPositiveButton("OK") { _, _ -> }
+      .setView(R.layout.dialog_fragment_demo)
+      .create()
+  }
+
+  override fun onResume() {
+    super.onResume()
+
+    viewBinding.textInputLayout
+    viewBinding2.textInputLayout
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+
+    viewBinding.textInputLayout
+    viewBinding2.textInputLayout
+  }
+}
+
+```
 
 # Note
 

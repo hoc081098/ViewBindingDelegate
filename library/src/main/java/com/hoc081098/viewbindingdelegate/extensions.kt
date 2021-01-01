@@ -81,6 +81,7 @@ public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityView
  * @param bind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] of this [DialogFragment],
  *        eg: `T::bind` static method can be used.
  */
+@MainThread
 public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int,
   bind: (View) -> T
@@ -95,6 +96,7 @@ public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
 /**
  * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
  */
+@MainThread
 public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
@@ -108,6 +110,7 @@ public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
 /**
  * Create [ViewBinding] property delegate for the [Dialog] of this [DefaultViewBindingDialogFragment].
  */
+@MainThread
 public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dialogFragmentViewBinding(
   @IdRes rootId: Int
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
