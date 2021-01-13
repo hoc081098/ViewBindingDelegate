@@ -27,7 +27,9 @@ package com.hoc081098.viewbindingdelegate
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.collection.ArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
@@ -62,5 +64,25 @@ internal object GetBindMethod {
   internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
     methodMap
       .getOrPut(clazz) { clazz.getMethod("bind", methodSignature) }
-      .also { log { "methodMap.size: ${methodMap.size}" } }
+      .also { log { "GetBindMethod::methodMap.size: ${methodMap.size}" } }
+}
+
+@PublishedApi
+internal object GetInflateMethod {
+  init {
+    ensureMainThread()
+  }
+
+  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
+  private val methodSignature = arrayOf(
+    LayoutInflater::class.java,
+    ViewGroup::class.java,
+    Boolean::class.java,
+  )
+
+  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method {
+    return methodMap
+      .getOrPut(clazz) { clazz.getMethod("inflate", *methodSignature) }
+      .also { log { "GetInflateMethod::methodMap.size: ${methodMap.size}" } }
+  }
 }
