@@ -32,17 +32,18 @@ import com.hoc081098.example.databinding.ItemRecyclerBinding
 import com.hoc081098.viewbindingdelegate.inflate
 
 class Adapter :
-  ListAdapter<String, Adapter.VH>(object : DiffUtil.ItemCallback<String>() {
-    override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-    override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-  }) {
+  ListAdapter<String, Adapter.VH>(
+    object : DiffUtil.ItemCallback<String>() {
+      override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+      override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+    }
+  ) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VH(parent inflate false)
   override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
 
   class VH(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: String) {
-
     }
   }
 }
