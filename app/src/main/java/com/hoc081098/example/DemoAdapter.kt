@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hoc081098.example.databinding.ItemRecyclerBinding
+import com.hoc081098.example.databinding.ItemRecyclerMergeBinding
 import com.hoc081098.viewbindingdelegate.inflateViewBinding
 
 class DemoAdapter :
@@ -44,8 +45,11 @@ class DemoAdapter :
   override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
 
   class VH(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+    private val includeBinding = ItemRecyclerMergeBinding.bind(binding.root)
+
     fun bind(item: String) {
-      binding.textView.text = item
+      binding.textView.text = "Title: $item"
+      includeBinding.textViewSubtitle.text = "Subtitle: $item"
     }
   }
 }
