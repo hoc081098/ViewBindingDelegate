@@ -119,27 +119,22 @@ public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dia
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
   dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)
 
-public inline infix fun <reified T : ViewBinding> ViewGroup.inflate(attachToParent: Boolean): T =
-  GetInflateMethod(T::class.java).invoke(
-    null,
-    LayoutInflater.from(context),
-    this,
-    attachToParent
-  ) as T
+public inline infix fun <reified T : ViewBinding> ViewGroup.inflateViewBinding(attachToParent: Boolean): T =
+  LayoutInflater.from(context).inflateViewBinding(this, attachToParent)
 
-public inline fun <reified T : ViewBinding> LayoutInflater.inflate(
+public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
   parent: ViewGroup? = null,
-  attachToRoot: Boolean = parent != null
+  attachToParent: Boolean = parent != null
 ): T {
   return GetInflateMethod(T::class.java).invoke(
     null,
     this,
     parent,
-    attachToRoot,
+    attachToParent,
   ) as T
 }
 
-public inline fun <reified T : ViewBinding> Context.inflate(
+public inline fun <reified T : ViewBinding> Context.inflateViewBinding(
   parent: ViewGroup? = null,
-  attachToRoot: Boolean = parent != null
-): T = LayoutInflater.from(this).inflate(parent, attachToRoot)
+  attachToParent: Boolean = parent != null
+): T = LayoutInflater.from(this).inflateViewBinding(parent, attachToParent)

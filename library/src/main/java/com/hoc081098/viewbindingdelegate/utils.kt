@@ -45,7 +45,7 @@ internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.m
   "Expected to be called on the main thread but was " + Thread.currentThread().name
 }
 
-private const val debug = false
+private const val debug = true
 
 internal inline fun log(crossinline message: () -> String) {
   if (debug) {

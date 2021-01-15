@@ -29,21 +29,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hoc081098.example.databinding.ItemRecyclerBinding
-import com.hoc081098.viewbindingdelegate.inflate
+import com.hoc081098.viewbindingdelegate.inflateViewBinding
 
-class Adapter :
-  ListAdapter<String, Adapter.VH>(
+class DemoAdapter :
+  ListAdapter<String, DemoAdapter.VH>(
     object : DiffUtil.ItemCallback<String>() {
       override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
       override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
     }
   ) {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+    VH(parent inflateViewBinding false)
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VH(parent inflate false)
   override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
 
   class VH(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: String) {
+      binding.textView.text = item
     }
   }
 }

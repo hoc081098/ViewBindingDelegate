@@ -21,6 +21,10 @@
         <activity
             android:name=".SecondActivity"
             android:label="Second Activity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
