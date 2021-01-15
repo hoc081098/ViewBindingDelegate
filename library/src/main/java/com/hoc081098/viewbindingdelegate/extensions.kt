@@ -26,7 +26,10 @@ package com.hoc081098.viewbindingdelegate
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.fragment.app.DialogFragment
@@ -115,3 +118,23 @@ public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dia
   @IdRes rootId: Int
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
   dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)
+
+public inline infix fun <reified T : ViewBinding> ViewGroup.inflateViewBinding(attachToParent: Boolean): T =
+  LayoutInflater.from(context).inflateViewBinding(this, attachToParent)
+
+public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
+  parent: ViewGroup? = null,
+  attachToParent: Boolean = parent != null
+): T {
+  return GetInflateMethod(T::class.java).invoke(
+    null,
+    this,
+    parent,
+    attachToParent,
+  ) as T
+}
+
+public inline fun <reified T : ViewBinding> Context.inflateViewBinding(
+  parent: ViewGroup? = null,
+  attachToParent: Boolean = parent != null
+): T = LayoutInflater.from(this).inflateViewBinding(parent, attachToParent)
