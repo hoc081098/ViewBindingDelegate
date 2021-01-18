@@ -74,15 +74,23 @@ internal object GetInflateMethod {
   }
 
   private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
-  private val methodSignature = arrayOf(
+  private val fullMethodSignature = arrayOf(
     LayoutInflater::class.java,
     ViewGroup::class.java,
     Boolean::class.java,
   )
+  private val methodSignature = arrayOf(
+    LayoutInflater::class.java,
+    ViewGroup::class.java,
+  )
 
   internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method {
     return methodMap
-      .getOrPut(clazz) { clazz.getMethod("inflate", *methodSignature) }
+      .getOrPut(clazz) {
+        runCatching { clazz.getMethod("inflate", *fullMethodSignature) }
+          .recover { clazz.getMethod("inflate", *methodSignature) }
+          .getOrThrow()
+      }
       .also { log { "GetInflateMethod::methodMap.size: ${methodMap.size}" } }
   }
 }

@@ -126,12 +126,24 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
   parent: ViewGroup? = null,
   attachToParent: Boolean = parent != null
 ): T {
-  return GetInflateMethod(T::class.java).invoke(
-    null,
-    this,
-    parent,
-    attachToParent,
-  ) as T
+  val method = GetInflateMethod(T::class.java)
+  return if (method.parameterTypes.size == 3) {
+    method.invoke(
+      null,
+      this,
+      parent,
+      attachToParent,
+    ) as T
+  } else {
+    check(attachToParent) { "attachToRoot is always true for ${T::class.java.simpleName}.inflate" }
+
+    method.invoke(
+      null,
+      this,
+      checkNotNull(parent) { "parent must be not null for ${T::class.java.simpleName}.inflate" },
+    ) as T
+  }
+
 }
 
 public inline fun <reified T : ViewBinding> Context.inflateViewBinding(
