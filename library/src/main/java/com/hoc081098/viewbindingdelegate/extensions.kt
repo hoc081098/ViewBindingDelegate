@@ -145,7 +145,6 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
       parentNotNull,
     ) as T
   }
-
 }
 
 public inline fun <reified T : ViewBinding> Context.inflateViewBinding(
