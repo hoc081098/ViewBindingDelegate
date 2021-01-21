@@ -33,6 +33,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     viewBinding.buttonShowDialog.setOnClickListener {
       DemoDialogFragment.show(supportFragmentManager)
     }
+    viewBinding.buttonToThird.setOnClickListener {
+      startActivity(Intent(this@MainActivity, ThirdActivity::class.java))
+    }
   }
 
   override fun onSupportNavigateUp(): Boolean =
