@@ -34,8 +34,14 @@ import com.hoc081098.viewbindingdelegate.DefaultViewBindingDialogFragment
 import com.hoc081098.viewbindingdelegate.dialogFragmentViewBinding
 
 class DemoDialogFragment : DefaultViewBindingDialogFragment() {
-  private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind)
-  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root)
+  private val viewBinding by dialogFragmentViewBinding(R.id.root, DialogFragmentDemoBinding::bind) {
+    Log.d("###", "onDestroyView$this")
+    Log.d("###", "onDestroyView$textInputLayout")
+  }
+  private val viewBinding2 by dialogFragmentViewBinding<DialogFragmentDemoBinding>(R.id.root) {
+    Log.d("###", "onDestroyView$this")
+    Log.d("###", "onDestroyView$textInputLayout")
+  }
 
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     return AlertDialog.Builder(requireContext())
@@ -54,16 +60,6 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
     Log.d("###", viewBinding2.toString())
     Log.d("###", viewBinding2.textInputLayout.toString())
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-
-    Log.d("###", "onDestroyView$viewBinding")
-    Log.d("###", "onDestroyView${viewBinding.textInputLayout}")
-
-    Log.d("###", "onDestroyView$viewBinding2")
-    Log.d("###", "onDestroyView${viewBinding2.textInputLayout}")
   }
 
   companion object {

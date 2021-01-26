@@ -24,7 +24,6 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,12 +32,6 @@ import android.view.ViewGroup
 import androidx.collection.ArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
-
-internal object MainHandler {
-  private val handler = Handler(Looper.getMainLooper())
-
-  internal fun post(action: () -> Unit): Boolean = handler.post(action)
-}
 
 @PublishedApi
 internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.myLooper()) {

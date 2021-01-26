@@ -36,7 +36,10 @@ class FourthVM : ViewModel() {
 
 class CachedViewFragment : Fragment(R.layout.fragment_fourth) {
   private val vm by viewModels<FourthVM>()
-  private val binding by viewBinding<FragmentFourthBinding>()
+  private val binding by viewBinding<FragmentFourthBinding>() {
+    button2.setOnClickListener(null)
+    Log.d(TAG, "FourthFragment::onDestroyView $root")
+  }
 
   private var cachedView: View? = null
 
@@ -58,13 +61,6 @@ class CachedViewFragment : Fragment(R.layout.fragment_fourth) {
     binding.button2.setOnClickListener {
       findNavController().navigate(R.id.actionFourthFragmentToFirstFragment)
     }
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.button2.setOnClickListener(null)
-
-    Log.d(TAG, "FourthFragment::onDestroyView ${binding.root}")
   }
 
   private companion object {

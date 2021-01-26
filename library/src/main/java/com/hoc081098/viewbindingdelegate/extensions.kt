@@ -45,20 +45,25 @@ import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
  * @param bind a lambda function that creates a [ViewBinding] instance from [Fragment]'s root view, eg: `T::bind` static method can be used.
  */
 @MainThread
-public fun <T : ViewBinding> Fragment.viewBinding(bind: (View) -> T): FragmentViewBindingDelegate<T> =
+public fun <T : ViewBinding> Fragment.viewBinding(
+  bind: (View) -> T,
+  onDestroyView: (T.() -> Unit)? = null
+): FragmentViewBindingDelegate<T> =
   FragmentViewBindingDelegate.from(
     fragment = this,
-    viewBindingBind = bind
+    viewBindingBind = bind,
+    onDestroyView = onDestroyView
   )
 
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
  */
 @MainThread
-public inline fun <reified T : ViewBinding> Fragment.viewBinding(): FragmentViewBindingDelegate<T> =
+public inline fun <reified T : ViewBinding> Fragment.viewBinding(noinline onDestroyView: (T.() -> Unit)? = null): FragmentViewBindingDelegate<T> =
   FragmentViewBindingDelegate.from(
     fragment = this,
-    viewBindingClazz = T::class.java
+    viewBindingClazz = T::class.java,
+    onDestroyView = onDestroyView
   )
 
 /**
@@ -87,12 +92,14 @@ public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityView
 @MainThread
 public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int,
-  bind: (View) -> T
+  bind: (View) -> T,
+  onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingBind = bind,
     rootId = rootId,
+    onDestroyView = onDestroyView
   )
 }
 
@@ -101,12 +108,14 @@ public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
  */
 @MainThread
 public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
-  @IdRes rootId: Int
+  @IdRes rootId: Int,
+  noinline onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingClazz = T::class.java,
     rootId = rootId,
+    onDestroyView = onDestroyView
   )
 }
 
@@ -115,7 +124,8 @@ public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
  */
 @MainThread
 public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dialogFragmentViewBinding(
-  @IdRes rootId: Int
+  @IdRes rootId: Int,
+  noinline onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
   dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)
 
