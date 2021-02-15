@@ -145,14 +145,13 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
       attachToParent,
     ) as T
   } else {
-    val parentNotNull =
-      requireNotNull(parent) { "parent must be not null for ${T::class.java.simpleName}.inflate" }
+    requireNotNull(parent) { "parent must be not null for ${T::class.java.simpleName}.inflate" }
     require(attachToParent) { "attachToParent is always true for ${T::class.java.simpleName}.inflate" }
 
     method.invoke(
       null,
       this,
-      parentNotNull,
+      parent,
     ) as T
   }
 }
