@@ -76,12 +76,10 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    private var onDestroyViewActual: (T.() -> Unit)? = null
-
     val observer = fun(listeners: ViewBindingDialogFragment.OnDestroyViewListeners?) {
       listeners ?: return
 
-      onDestroyViewActual = onDestroyView
+      var onDestroyViewActual = onDestroyView
       listeners += {
         onDestroyViewActual?.invoke(binding!!)
         onDestroyViewActual = null
@@ -103,7 +101,6 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
 
       binding = null
       onDestroyView = null
-      onDestroyViewActual = null
 
       log { "$fragment::onDestroy" }
     }

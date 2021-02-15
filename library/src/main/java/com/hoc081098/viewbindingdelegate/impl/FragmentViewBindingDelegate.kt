@@ -82,10 +82,10 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    private var onDestroyViewActual: (T.() -> Unit)? = null
-
     val observer = fun(viewLifecycleOwner: LifecycleOwner?) {
       viewLifecycleOwner ?: return
+
+      var onDestroyViewActual = onDestroyView
 
       val viewLifecycleObserver = object : DefaultLifecycleObserver {
         override fun onDestroy(owner: LifecycleOwner) {
@@ -98,8 +98,6 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
           log { "$fragment::onDestroyView" }
         }
       }
-
-      onDestroyViewActual = onDestroyView
       viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
     }
 
@@ -115,7 +113,6 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
 
       binding = null
       onDestroyView = null
-      onDestroyViewActual = null
 
       log { "$fragment::onDestroy" }
     }
