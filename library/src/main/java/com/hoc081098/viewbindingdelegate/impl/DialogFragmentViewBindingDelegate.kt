@@ -54,7 +54,6 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   private var onDestroyView: (T.() -> Unit)?
 ) : ReadOnlyProperty<DialogFragment, T> where DF : DialogFragment, DF : ViewBindingDialogFragment {
 
-  private var onDestroyViewActual: (T.() -> Unit)? = null
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
@@ -77,6 +76,8 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
+    private var onDestroyViewActual: (T.() -> Unit)? = null
+
     val observer = fun(listeners: ViewBindingDialogFragment.OnDestroyViewListeners?) {
       listeners ?: return
 

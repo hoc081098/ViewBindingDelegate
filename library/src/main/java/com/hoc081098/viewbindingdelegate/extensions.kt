@@ -39,6 +39,10 @@ import com.hoc081098.viewbindingdelegate.impl.ActivityViewBindingDelegate
 import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
 import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
 
+//
+// Fragment
+//
+
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
  *
@@ -48,23 +52,27 @@ import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
 public fun <T : ViewBinding> Fragment.viewBinding(
   bind: (View) -> T,
   onDestroyView: (T.() -> Unit)? = null
-): FragmentViewBindingDelegate<T> =
-  FragmentViewBindingDelegate.from(
-    fragment = this,
-    viewBindingBind = bind,
-    onDestroyView = onDestroyView
-  )
+): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate.from(
+  fragment = this,
+  viewBindingBind = bind,
+  onDestroyView = onDestroyView
+)
 
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
  */
 @MainThread
-public inline fun <reified T : ViewBinding> Fragment.viewBinding(noinline onDestroyView: (T.() -> Unit)? = null): FragmentViewBindingDelegate<T> =
-  FragmentViewBindingDelegate.from(
-    fragment = this,
-    viewBindingClazz = T::class.java,
-    onDestroyView = onDestroyView
-  )
+public inline fun <reified T : ViewBinding> Fragment.viewBinding(
+  noinline onDestroyView: (T.() -> Unit)? = null
+): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate.from(
+  fragment = this,
+  viewBindingClazz = T::class.java,
+  onDestroyView = onDestroyView
+)
+
+//
+// Activity
+//
 
 /**
  * Create [ViewBinding] property delegate for this [Activity].
@@ -82,6 +90,10 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 @MainThread
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
+
+//
+// DialogFragment
+//
 
 /**
  * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
@@ -127,7 +139,11 @@ public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dia
   @IdRes rootId: Int,
   noinline onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
-  dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)
+  dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId, onDestroyView)
+
+//
+// ViewGroup
+//
 
 public inline infix fun <reified T : ViewBinding> ViewGroup.inflateViewBinding(attachToParent: Boolean): T =
   LayoutInflater.from(context).inflateViewBinding(this, attachToParent)

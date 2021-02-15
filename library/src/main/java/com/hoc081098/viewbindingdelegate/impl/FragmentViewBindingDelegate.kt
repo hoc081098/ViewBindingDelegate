@@ -50,7 +50,6 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   private var onDestroyView: (T.() -> Unit)?
 ) : ReadOnlyProperty<Fragment, T> {
 
-  private var onDestroyViewActual: (T.() -> Unit)? = null
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
@@ -83,6 +82,8 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
+    private var onDestroyViewActual: (T.() -> Unit)? = null
+
     val observer = fun(viewLifecycleOwner: LifecycleOwner?) {
       viewLifecycleOwner ?: return
 
