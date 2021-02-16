@@ -67,7 +67,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
 
   override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
     binding?.let {
-      if (it.root == thisRef.view) {
+      if (it.root === thisRef.view) {
         return it
       } else {
         binding = null
