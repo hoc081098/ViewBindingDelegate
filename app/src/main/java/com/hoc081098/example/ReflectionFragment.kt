@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,9 +13,7 @@ import java.util.concurrent.TimeUnit
 
 class ReflectionFragment : Fragment(R.layout.fragment_first), Runnable {
   private val binding by viewBinding<FragmentFirstBinding>() {
-    handler.removeCallbacks(this@ReflectionFragment)
     button.setOnClickListener(null)
-    Log.d("FragmentViewBinding", "onDestroyView done")
   }
 
   private val start = SystemClock.uptimeMillis()
@@ -36,5 +33,10 @@ class ReflectionFragment : Fragment(R.layout.fragment_first), Runnable {
     binding.textView.text =
       "${TimeUnit.MILLISECONDS.toSeconds(SystemClock.uptimeMillis() - start)} s"
     handler.postDelayed(this, 1_000)
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    handler.removeCallbacks(this)
   }
 }

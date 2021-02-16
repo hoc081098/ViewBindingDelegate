@@ -1,3 +1,21 @@
+## 1.0.0-alpha03 - Feb 16, 2021
+-   **Breaking change**
+    -   Now, cannot access ViewBinding delegate property in `onDestroyView` (this causes many problems).
+        Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
+        ```kotlin
+        private val binding by viewBinding<FragmentFirstBinding>() { /*this: FragmentFirstBinding*/
+          button.setOnClickListener(null)
+          recyclerView.adapter = null
+        }
+        ```
+-   New feature: add inflating extensions
+    -   `ViewGroup.inflateViewBinding(attachToParent: Boolean)`.
+    -   `LayoutInflater.inflateViewBinding(parent: ViewGroup? = null, attachToParent: Boolean = parent != null)`.
+    -   `Context.inflateViewBinding(parent: ViewGroup? = null, attachToParent: Boolean = parent != null)`.
+-   Updated dependencies:
+    -   Gradle to 6.8.2.
+    -   Android Gradle plugin to 4.1.2.
+
 ## 1.0.0-alpha02 - Jan 1, 2021
 -   New features:
     -   Add `dialogFragmentViewBinding`, `DialogFragmentViewBindingDelegate`: supports for the `Dialog` of `DialogFragment`.
