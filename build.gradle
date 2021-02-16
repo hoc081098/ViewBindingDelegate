@@ -5,6 +5,9 @@ buildscript {
         google()
         mavenCentral()
         maven { url = "https://plugins.gradle.org/m2/" }
+
+        // TODO(rm-jcenter): https://youtrack.jetbrains.com/issue/IDEA-261387#focus=Comments-27-4675742.0-0
+        jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
@@ -20,6 +23,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
+        // TODO(rm-jcenter): https://youtrack.jetbrains.com/issue/IDEA-261387#focus=Comments-27-4675742.0-0
+        jcenter()
     }
 
     apply from: rootProject.file('ktlint.gradle')

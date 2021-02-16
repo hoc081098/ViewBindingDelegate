@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
+    @Suppress("DEPRECATION")
     FragmentManager.enableDebugLogging(true)
 
     val navHostFragment =
