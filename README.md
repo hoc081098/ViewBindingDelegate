@@ -176,6 +176,25 @@ If there is any problem with `Proguard`, add below to your `app/proguard-rules.p
 }
 ```
 
+## Throws `IllegalStateException`: "Attempt to get view binding when fragment view is destroyed" when accessing delegate property in `onDestroyView`
+
+Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding delegate property in `onDestroyView` (this causes many problems). Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
+
+```diff
+- private val binding by viewBinding<FragmentFirstBinding>()
+
++ private val binding by viewBinding<FragmentFirstBinding> { /*this: FragmentFirstBinding*/
++   button.setOnClickListener(null)
++   recyclerView.adapter = null
++ }
+ 
+  override fun onDestroyView() {
+    super.onDestroyView()
+-   binding.button.setOnClickListener(null)
+-   binding.recyclerView.adapter = null
+  }
+```
+
 # License
 
     MIT License
