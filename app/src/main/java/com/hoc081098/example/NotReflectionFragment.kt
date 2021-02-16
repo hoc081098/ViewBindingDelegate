@@ -12,7 +12,9 @@ import com.hoc081098.viewbindingdelegate.inflateViewBinding
 import com.hoc081098.viewbindingdelegate.viewBinding
 
 class NotReflectionFragment : Fragment(R.layout.fragment_second) {
-  private val binding by viewBinding(FragmentSecondBinding::bind)
+  private val binding by viewBinding(FragmentSecondBinding::bind) {
+    buttonToThird.setOnClickListener(null)
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -22,10 +24,5 @@ class NotReflectionFragment : Fragment(R.layout.fragment_second) {
 
     LayoutInflater.from(requireContext())
       .inflateViewBinding<ItemRecyclerMergeBinding>(requireView().rootView as ViewGroup)
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.buttonToThird.setOnClickListener(null)
   }
 }

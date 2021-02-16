@@ -32,7 +32,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.GetBindMethod
-import com.hoc081098.viewbindingdelegate.MainHandler
 import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment
 import com.hoc081098.viewbindingdelegate.ensureMainThread
 import com.hoc081098.viewbindingdelegate.log
@@ -51,8 +50,10 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   private val fragment: DF,
   @IdRes private val rootId: Int,
   viewBindingBind: ((View) -> T)? = null,
-  viewBindingClazz: Class<T>? = null
+  viewBindingClazz: Class<T>? = null,
+  private var onDestroyView: (T.() -> Unit)?
 ) : ReadOnlyProperty<DialogFragment, T> where DF : DialogFragment, DF : ViewBindingDialogFragment {
+
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
@@ -75,24 +76,31 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    override fun onCreate(owner: LifecycleOwner) {
-      fragment.onDestroyViewLiveData.observe(fragment) { listeners ->
-        (listeners ?: return@observe) += {
-          log { "$fragment::onDestroyView" }
+    val observer = fun(listeners: ViewBindingDialogFragment.OnDestroyViewListeners?) {
+      listeners ?: return
 
-          MainHandler.post {
-            binding = null
-            log { "$fragment MainHandler.post { binding = null }" }
-          }
-        }
+      var onDestroyViewActual = onDestroyView
+      listeners += {
+        onDestroyViewActual?.invoke(binding!!)
+        onDestroyViewActual = null
+        binding = null
+
+        log { "$fragment::onDestroyView" }
       }
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+      fragment.onDestroyViewLiveData.observeForever(observer)
 
       log { "$fragment::onCreate" }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
       fragment.lifecycle.removeObserver(this)
+      fragment.onDestroyViewLiveData.removeObserver(observer)
+
       binding = null
+      onDestroyView = null
 
       log { "$fragment::onDestroy" }
     }
@@ -107,12 +115,14 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
     public fun <T : ViewBinding, DF> from(
       fragment: DF,
       @IdRes rootId: Int,
-      viewBindingBind: (View) -> T
+      viewBindingBind: (View) -> T,
+      onDestroyView: (T.() -> Unit)?
     ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment =
       DialogFragmentViewBindingDelegate(
         fragment = fragment,
         viewBindingBind = viewBindingBind,
         rootId = rootId,
+        onDestroyView = onDestroyView
       )
 
     /**
@@ -123,12 +133,14 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
     public fun <T : ViewBinding, DF> from(
       fragment: DF,
       @IdRes rootId: Int,
-      viewBindingClazz: Class<T>
+      viewBindingClazz: Class<T>,
+      onDestroyView: (T.() -> Unit)?
     ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment =
       DialogFragmentViewBindingDelegate(
         fragment = fragment,
         viewBindingClazz = viewBindingClazz,
         rootId = rootId,
+        onDestroyView = onDestroyView
       )
   }
 }

@@ -22,6 +22,10 @@
             android:name=".SecondActivity"
             android:label="Second Activity" />
 
+        <activity
+            android:name=".ThirdActivity"
+            android:label="Third Activity" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

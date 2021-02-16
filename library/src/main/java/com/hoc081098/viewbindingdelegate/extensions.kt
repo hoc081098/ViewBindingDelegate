@@ -39,27 +39,40 @@ import com.hoc081098.viewbindingdelegate.impl.ActivityViewBindingDelegate
 import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
 import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
 
+//
+// Fragment
+//
+
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
  *
  * @param bind a lambda function that creates a [ViewBinding] instance from [Fragment]'s root view, eg: `T::bind` static method can be used.
  */
 @MainThread
-public fun <T : ViewBinding> Fragment.viewBinding(bind: (View) -> T): FragmentViewBindingDelegate<T> =
-  FragmentViewBindingDelegate.from(
-    fragment = this,
-    viewBindingBind = bind
-  )
+public fun <T : ViewBinding> Fragment.viewBinding(
+  bind: (View) -> T,
+  onDestroyView: (T.() -> Unit)? = null
+): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate.from(
+  fragment = this,
+  viewBindingBind = bind,
+  onDestroyView = onDestroyView
+)
 
 /**
  * Create [ViewBinding] property delegate for this [Fragment].
  */
 @MainThread
-public inline fun <reified T : ViewBinding> Fragment.viewBinding(): FragmentViewBindingDelegate<T> =
-  FragmentViewBindingDelegate.from(
-    fragment = this,
-    viewBindingClazz = T::class.java
-  )
+public inline fun <reified T : ViewBinding> Fragment.viewBinding(
+  noinline onDestroyView: (T.() -> Unit)? = null
+): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate.from(
+  fragment = this,
+  viewBindingClazz = T::class.java,
+  onDestroyView = onDestroyView
+)
+
+//
+// Activity
+//
 
 /**
  * Create [ViewBinding] property delegate for this [Activity].
@@ -78,6 +91,10 @@ public fun <T : ViewBinding> Activity.viewBinding(bind: (View) -> T): ActivityVi
 public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityViewBindingDelegate<T> =
   ActivityViewBindingDelegate.from(viewBindingClazz = T::class.java)
 
+//
+// DialogFragment
+//
+
 /**
  * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
  *
@@ -87,12 +104,14 @@ public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityView
 @MainThread
 public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
   @IdRes rootId: Int,
-  bind: (View) -> T
+  bind: (View) -> T,
+  onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingBind = bind,
     rootId = rootId,
+    onDestroyView = onDestroyView
   )
 }
 
@@ -101,12 +120,14 @@ public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
  */
 @MainThread
 public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
-  @IdRes rootId: Int
+  @IdRes rootId: Int,
+  noinline onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DF> where DF : DialogFragment, DF : ViewBindingDialogFragment {
   return DialogFragmentViewBindingDelegate.from(
     fragment = this,
     viewBindingClazz = T::class.java,
     rootId = rootId,
+    onDestroyView = onDestroyView
   )
 }
 
@@ -115,9 +136,14 @@ public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(
  */
 @MainThread
 public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dialogFragmentViewBinding(
-  @IdRes rootId: Int
+  @IdRes rootId: Int,
+  noinline onDestroyView: (T.() -> Unit)? = null
 ): DialogFragmentViewBindingDelegate<T, DefaultViewBindingDialogFragment> =
-  dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId)
+  dialogFragmentViewBinding<DefaultViewBindingDialogFragment, T>(rootId, onDestroyView)
+
+//
+// ViewGroup
+//
 
 public inline infix fun <reified T : ViewBinding> ViewGroup.inflateViewBinding(attachToParent: Boolean): T =
   LayoutInflater.from(context).inflateViewBinding(this, attachToParent)
@@ -135,14 +161,13 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
       attachToParent,
     ) as T
   } else {
-    val parentNotNull =
-      requireNotNull(parent) { "parent must be not null for ${T::class.java.simpleName}.inflate" }
+    requireNotNull(parent) { "parent must be not null for ${T::class.java.simpleName}.inflate" }
     require(attachToParent) { "attachToParent is always true for ${T::class.java.simpleName}.inflate" }
 
     method.invoke(
       null,
       this,
-      parentNotNull,
+      parent,
     ) as T
   }
 }

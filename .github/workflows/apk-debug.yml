@@ -21,7 +21,7 @@ jobs:
         run: chmod +x gradlew
       
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --warning-mode all --stacktrace
         
       - name: Upload APK
         uses: actions/upload-artifact@v2

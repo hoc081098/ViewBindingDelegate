@@ -31,7 +31,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.GetBindMethod
-import com.hoc081098.viewbindingdelegate.MainHandler
 import com.hoc081098.viewbindingdelegate.ensureMainThread
 import com.hoc081098.viewbindingdelegate.log
 import kotlin.properties.ReadOnlyProperty
@@ -47,7 +46,8 @@ import kotlin.reflect.KProperty
 public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   private val fragment: Fragment,
   viewBindingBind: ((View) -> T)? = null,
-  viewBindingClazz: Class<T>? = null
+  viewBindingClazz: Class<T>? = null,
+  private var onDestroyView: (T.() -> Unit)?
 ) : ReadOnlyProperty<Fragment, T> {
 
   private var binding: T? = null
@@ -66,7 +66,13 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-    binding?.let { return it }
+    binding?.let {
+      if (it.root == thisRef.view) {
+        return it
+      } else {
+        binding = null
+      }
+    }
 
     check(fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
       "Attempt to get view binding when fragment view is destroyed"
@@ -76,30 +82,37 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    override fun onCreate(owner: LifecycleOwner) {
-      fragment.viewLifecycleOwnerLiveData.observe(fragment) { viewLifecycleOwner: LifecycleOwner? ->
-        viewLifecycleOwner ?: return@observe
+    val observer = fun(viewLifecycleOwner: LifecycleOwner?) {
+      viewLifecycleOwner ?: return
 
-        val viewLifecycleObserver = object : DefaultLifecycleObserver {
-          override fun onDestroy(owner: LifecycleOwner) {
-            log { "$fragment::onDestroyView" }
-            viewLifecycleOwner.lifecycle.removeObserver(this)
+      var onDestroyViewActual = onDestroyView
 
-            MainHandler.post {
-              binding = null
-              log { "$fragment MainHandler.post { binding = null }" }
-            }
-          }
+      val viewLifecycleObserver = object : DefaultLifecycleObserver {
+        override fun onDestroy(owner: LifecycleOwner) {
+          viewLifecycleOwner.lifecycle.removeObserver(this)
+
+          onDestroyViewActual?.invoke(binding!!)
+          onDestroyViewActual = null
+          binding = null
+
+          log { "$fragment::onDestroyView" }
         }
-
-        viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
       }
+      viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+      fragment.viewLifecycleOwnerLiveData.observeForever(observer)
+
       log { "$fragment::onCreate" }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
+      fragment.viewLifecycleOwnerLiveData.removeObserver(observer)
       fragment.lifecycle.removeObserver(this)
+
       binding = null
+      onDestroyView = null
 
       log { "$fragment::onDestroy" }
     }
@@ -114,10 +127,12 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
      */
     public fun <T : ViewBinding> from(
       fragment: Fragment,
-      viewBindingBind: (View) -> T
+      viewBindingBind: (View) -> T,
+      onDestroyView: (T.() -> Unit)?
     ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
       fragment = fragment,
-      viewBindingBind = viewBindingBind
+      viewBindingBind = viewBindingBind,
+      onDestroyView = onDestroyView
     )
 
     /**
@@ -128,10 +143,12 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
      */
     public fun <T : ViewBinding> from(
       fragment: Fragment,
-      viewBindingClazz: Class<T>
+      viewBindingClazz: Class<T>,
+      onDestroyView: (T.() -> Unit)?
     ): FragmentViewBindingDelegate<T> = FragmentViewBindingDelegate(
       fragment = fragment,
-      viewBindingClazz = viewBindingClazz
+      viewBindingClazz = viewBindingClazz,
+      onDestroyView = onDestroyView
     )
   }
 }

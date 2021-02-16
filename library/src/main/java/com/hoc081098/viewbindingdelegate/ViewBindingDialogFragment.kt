@@ -94,9 +94,9 @@ public interface ViewBindingDialogFragment {
  */
 public open class DefaultViewBindingDialogFragment : DialogFragment(), ViewBindingDialogFragment {
   private lateinit var listeners: OnDestroyViewListeners
-  private val viewMutableLiveData = MutableLiveData<OnDestroyViewListeners?>()
+  private val _onDestroyViewLiveData = MutableLiveData<OnDestroyViewListeners?>()
 
-  override val onDestroyViewLiveData: LiveData<OnDestroyViewListeners?> get() = viewMutableLiveData
+  final override val onDestroyViewLiveData: LiveData<OnDestroyViewListeners?> get() = _onDestroyViewLiveData
 
   @CallSuper
   override fun onCreateView(
@@ -104,7 +104,7 @@ public open class DefaultViewBindingDialogFragment : DialogFragment(), ViewBindi
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    viewMutableLiveData.value = OnDestroyViewListeners().also { listeners = it }
+    _onDestroyViewLiveData.value = OnDestroyViewListeners().also { listeners = it }
     return null
   }
 
@@ -114,6 +114,6 @@ public open class DefaultViewBindingDialogFragment : DialogFragment(), ViewBindi
 
     listeners()
     listeners.dispose()
-    viewMutableLiveData.value = null
+    _onDestroyViewLiveData.value = null
   }
 }

@@ -3,6 +3,7 @@ package com.hoc081098.example
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,6 +19,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
+    @Suppress("DEPRECATION")
+    FragmentManager.enableDebugLogging(true)
+
     val navHostFragment =
       supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     val navController = navHostFragment.navController
@@ -32,6 +36,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
     viewBinding.buttonShowDialog.setOnClickListener {
       DemoDialogFragment.show(supportFragmentManager)
+    }
+    viewBinding.buttonToThird.setOnClickListener {
+      startActivity(Intent(this@MainActivity, ThirdActivity::class.java))
     }
   }
 
