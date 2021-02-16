@@ -73,7 +73,9 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 ## Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
 ```kotlin
 class FirstFragment : Fragment(R.layout.fragment_first) {
-  private val binding by viewBinding<FragmentFirstBinding>()
+  private val binding by viewBinding<FragmentFirstBinding> {
+    button.setOnClickListener(null)
+  }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -81,11 +83,6 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
     binding.button.setOnClickListener {
       findNavController().navigate(R.id.actionFirstFragmentToSecondFragment)
     }
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.button.setOnClickListener(null)
   }
 }
 ```
@@ -99,11 +96,6 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
     super.onViewCreated(view, savedInstanceState)
     binding.root
   }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.root
-  }
 }
 ```
 
@@ -112,7 +104,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 ```kotlin
 class ThirdFragment : Fragment(R.layout.fragment_third) {
   private val includeBinding by viewBinding<FragmentThirdIncludeBinding>()
-  private val binding by viewBinding<FragmentThirdBinding>()
+  private val binding by viewBinding<FragmentThirdBinding> { buttonThird.setOnClickListener(null) }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -121,11 +113,6 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
     binding.buttonThird.setOnClickListener {
       Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
     }
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    binding.buttonThird.setOnClickListener(null)
   }
 }
 ```
@@ -148,13 +135,6 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
   override fun onResume() {
     super.onResume()
-
-    viewBinding.textInputLayout
-    viewBinding2.textInputLayout
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
 
     viewBinding.textInputLayout
     viewBinding2.textInputLayout
