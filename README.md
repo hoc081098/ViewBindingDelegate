@@ -14,7 +14,7 @@
 
 ## Medium article
 
-Read [ViewBinding Delegate — one line](https://medium.com/@hoc081098/viewbinding-delegate-one-line-4d0cdcbf53ba) to get details about implementation.
+Read [ViewBinding Delegate — one line](https://hoc081098.medium.com/viewbinding-delegate-one-line-4d0cdcbf53ba) to get details about implementation.
 
 # Getting Started
 
