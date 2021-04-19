@@ -46,8 +46,7 @@ import com.hoc081098.viewbindingdelegate.*
 ## Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
 
 <details>
-
-    <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 ```kotlin
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 <details>
 
-    <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 ```kotlin
 class SecondActivity : AppCompatActivity(R.layout.activity_second) {
@@ -85,12 +84,12 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 </details>
 
 ## Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
-```kotlin
 
 <details>
 
-    <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
+```kotlin
 class FirstFragment : Fragment(R.layout.fragment_first) {
   private val binding by viewBinding<FragmentFirstBinding> {
     button.setOnClickListener(null)
@@ -112,7 +111,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
 <details>
 
-    <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 ```kotlin
 class SecondFragment : Fragment(R.layout.fragment_second) {
@@ -131,7 +130,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 
 <details>
 
-    <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 
 ```kotlin
@@ -156,7 +155,7 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 
 <details>
 
-    <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 ```kotlin
 class DemoDialogFragment : DefaultViewBindingDialogFragment() {
@@ -179,7 +178,6 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
     viewBinding2.textInputLayout
   }
 }
-
 ```
 
 </details>
@@ -240,4 +238,4 @@ Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding deleg
 
     MIT License
 
-    Copyright (c) 2020 Petrus Nguyễn Thái Học
+    Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
