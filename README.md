@@ -184,7 +184,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
 # Note
 
-## Acitivty
+## 1. Acitivty
   Must `setContentView` before access `ViewBinding` property. This can be done easily with `constructor`:
   ```java
   public AppCompatActivity(@LayoutRes int contentLayoutId) { ... }
@@ -193,7 +193,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
   class MainActivity : AppCompatActivity(R.layout.activity_main) { ... }
   ```
 
-## Fragment
+## 2. Fragment
   `Fragment`'s `View` must be not null before access `ViewBinding` property. This can be done easily with `constructor`:
   ```java
   public Fragment(@LayoutRes int contentLayoutId) { ... }
@@ -202,7 +202,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
   class FirstFragment : Fragment(R.layout.fragment_first) { ... }
   ```
   
-## Proguard
+## 3. Proguard
 If there is any problem with `Proguard`, add below to your `app/proguard-rules.pro`:
 ```
 # ViewBindingDelegate uses Reflection.
@@ -215,7 +215,7 @@ If there is any problem with `Proguard`, add below to your `app/proguard-rules.p
 }
 ```
 
-## Throws `IllegalStateException`: "Attempt to get view binding when fragment view is destroyed" when accessing delegate property in `onDestroyView`
+## 4. Throws `IllegalStateException`: "Attempt to get view binding when fragment view is destroyed" when accessing delegate property in `onDestroyView`
 
 Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding delegate property in `onDestroyView` (this causes many problems). Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
 
