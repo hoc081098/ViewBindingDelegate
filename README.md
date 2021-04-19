@@ -43,7 +43,7 @@ dependencies {
 import com.hoc081098.viewbindingdelegate.*
 ```
 
-## Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
+## 1. Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
 
 <details>
   <summary>Click to expand</summary>
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 </details>
 
-## Activity (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/SecondActivity.kt)
+## 2. Activity (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/SecondActivity.kt)
 
 <details>
 
@@ -83,7 +83,7 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 
 </details>
 
-## Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
+## 3. Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
 
 <details>
 
@@ -107,7 +107,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
 </details>
 
-## Fragment (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/NotReflectionFragment.kt)
+## 4. Fragment (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/NotReflectionFragment.kt)
 
 <details>
 
@@ -126,7 +126,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 
 </details>
 
-## Includes `<merge/>` tag layout: Create 2 `ViewBinding` property. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/Reflection2Fragment.kt)
+## 5. Includes `<merge/>` tag layout: Create 2 `ViewBinding` property. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/Reflection2Fragment.kt)
 
 <details>
 
@@ -151,7 +151,7 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 
 </details>
 
-## The `Dialog` of `DialogFragment`: Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
+## 6. The `Dialog` of `DialogFragment`: Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
 
 <details>
 
