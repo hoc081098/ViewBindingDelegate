@@ -145,9 +145,20 @@ public inline fun <reified T : ViewBinding> DefaultViewBindingDialogFragment.dia
 // ViewGroup
 //
 
+/**
+ * Inflating a [ViewBinding] of given type [T], This [ViewGroup] is used as a parent.
+ *
+ * **IMPORTANT!** For inflating views with `merge` at the root, you need to pass `attachToParent` is `true`.
+ */
 public inline infix fun <reified T : ViewBinding> ViewGroup.inflateViewBinding(attachToParent: Boolean): T =
   LayoutInflater.from(context).inflateViewBinding(this, attachToParent)
 
+/**
+ * Inflating a [ViewBinding] of given type [T], using the specified [LayoutInflater].
+ *
+ * **IMPORTANT!** For inflating views with `merge` at the root, you need to pass [attachToParent] as `true`
+ * and [parent] must not be `null`.
+ */
 public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
   parent: ViewGroup? = null,
   attachToParent: Boolean = parent != null
@@ -161,7 +172,7 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
       attachToParent,
     ) as T
   } else {
-    requireNotNull(parent) { "parent must be not null for ${T::class.java.simpleName}.inflate" }
+    requireNotNull(parent) { "parent must not be null for ${T::class.java.simpleName}.inflate" }
     require(attachToParent) { "attachToParent is always true for ${T::class.java.simpleName}.inflate" }
 
     method.invoke(
@@ -172,6 +183,12 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
   }
 }
 
+/**
+ * Inflating a [ViewBinding] of given type [T], using the [LayoutInflater] obtained from this [Context].
+ *
+ * **IMPORTANT!** For inflating views with `merge` at the root, you need to pass [attachToParent] as `true`
+ * and [parent] must not be `null`.
+ */
 public inline fun <reified T : ViewBinding> Context.inflateViewBinding(
   parent: ViewGroup? = null,
   attachToParent: Boolean = parent != null
