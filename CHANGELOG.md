@@ -1,3 +1,7 @@
+## 1.0.0-beta02 - Apr 20, 2021
+
+-   Downgrade Gradle to 6.8.3 (JitPack.io cannot build with Gradle 7.0)
+
 ## 1.0.0-beta01 - Apr 19, 2021
 
 -   Update docs.
