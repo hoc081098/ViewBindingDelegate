@@ -1,3 +1,12 @@
+## 1.0.0-beta01 - Apr 19, 2021
+
+-   Update docs.
+
+-   Updated dependencies:
+    -   Kotlin to 1.4.32.
+    -   Gradle to 7.0.
+    -   AGP to 4.1.3.
+
 ## 1.0.0-alpha03 - Feb 16, 2021
 -   **Breaking change**: Now, cannot access ViewBinding delegate property in `onDestroyView` (this causes many problems).
     Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
