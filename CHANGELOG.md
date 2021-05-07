@@ -1,3 +1,11 @@
+## 1.0.0 - TODO
+
+-   This is our first stable release.
+
+-   Updated dependencies:
+    -   Kotlin to 1.5.0.
+    -   AGP to 4.2.
+
 ## 1.0.0-beta02 - Apr 20, 2021
 
 -   Downgrade Gradle to 6.8.3 (JitPack.io cannot build with Gradle 7.0)
