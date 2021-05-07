@@ -184,7 +184,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
 # Note
 
-## 1. Acitivty
+## 1. Activity
   Must `setContentView` before access `ViewBinding` property. This can be done easily with `constructor`:
   ```java
   public AppCompatActivity(@LayoutRes int contentLayoutId) { ... }
