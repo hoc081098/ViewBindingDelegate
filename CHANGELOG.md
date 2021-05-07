@@ -1,4 +1,4 @@
-## 1.0.0 - TODO
+## 1.0.0 - May 7, 2021
 
 -   This is our first stable release.
 
