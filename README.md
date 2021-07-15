@@ -5,6 +5,8 @@
 - Simplify usage of Android View Binding with Kotlin Property Delegates and solve behavior of Fragment’s ViewLifecycleOwner
 - Simple one-liner ViewBinding in Fragments and Activities with Kotlin
 
+![Month](https://jitpack.io/v/hoc081098/ViewBindingDelegate/month.svg)
+![Week](https://jitpack.io/v/hoc081098/ViewBindingDelegate/week.svg)
 ![Android Tests](https://github.com/hoc081098/ViewBindingDelegate/workflows/Android%20Tests/badge.svg)
 ![Android CI](https://github.com/hoc081098/ViewBindingDelegate/workflows/Android%20CI/badge.svg)
 ![Build APK](https://github.com/hoc081098/ViewBindingDelegate/workflows/Build%20debug%20APK/badge.svg)
