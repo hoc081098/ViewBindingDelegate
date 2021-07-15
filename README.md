@@ -22,6 +22,18 @@ Read [ViewBinding Delegate — one line](https://hoc081098.medium.com/viewbindin
 
 ## 1. Add the JitPack repository to your build file
 Add it in your root build.gradle at the end of repositories:
+
+- Kotlin
+```kotlin
+allprojects {
+  repositories {
+    ...
+    maven(url = "https://jitpack.io")
+  }
+}
+```
+
+- Groovy
 ```gradle
 allprojects {
   repositories {
@@ -33,6 +45,14 @@ allprojects {
 
 ## 2. Add the dependency
 
+- Kotlin
+```kotlin
+dependencies {
+  implementation("com.github.hoc081098:ViewBindingDelegate:<latest_version>")
+}
+```
+
+- Groovy
 ```gradle
 dependencies {
   implementation 'com.github.hoc081098:ViewBindingDelegate:<latest_version>'
@@ -45,7 +65,7 @@ dependencies {
 import com.hoc081098.viewbindingdelegate.*
 ```
 
-## 1. Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
+### 1. Activity (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/MainActivity.kt)
 
 <details>
   <summary>Click to expand</summary>
@@ -66,7 +86,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 </details>
 
-## 2. Activity (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/SecondActivity.kt)
+### 2. Activity (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/SecondActivity.kt)
 
 <details>
 
@@ -85,7 +105,7 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 
 </details>
 
-## 3. Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
+### 3. Fragment (with reflection). [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/ReflectionFragment.kt)
 
 <details>
 
@@ -109,7 +129,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
 
 </details>
 
-## 4. Fragment (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/NotReflectionFragment.kt)
+### 4. Fragment (without reflection): Pass `::bind` method reference. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/NotReflectionFragment.kt)
 
 <details>
 
@@ -128,7 +148,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 
 </details>
 
-## 5. Includes `<merge/>` tag layout: Create 2 `ViewBinding` property. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/Reflection2Fragment.kt)
+### 5. Includes `<merge/>` tag layout: Create 2 `ViewBinding` property. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/Reflection2Fragment.kt)
 
 <details>
 
@@ -153,8 +173,10 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 
 </details>
 
-## 6. The `Dialog` of `DialogFragment`: Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
+### 6. The `Dialog` of `DialogFragment`[See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
 
+Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`. 
+  
 <details>
 
   <summary>Click to expand</summary>
@@ -186,7 +208,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
 # Note
 
-## 1. Activity
+### 1. Activity
   Must `setContentView` before access `ViewBinding` property. This can be done easily with `constructor`:
   ```java
   public AppCompatActivity(@LayoutRes int contentLayoutId) { ... }
@@ -195,7 +217,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
   class MainActivity : AppCompatActivity(R.layout.activity_main) { ... }
   ```
 
-## 2. Fragment
+### 2. Fragment
   `Fragment`'s `View` must be not null before access `ViewBinding` property. This can be done easily with `constructor`:
   ```java
   public Fragment(@LayoutRes int contentLayoutId) { ... }
@@ -204,7 +226,7 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
   class FirstFragment : Fragment(R.layout.fragment_first) { ... }
   ```
   
-## 3. Proguard
+### 3. Proguard
 If there is any problem with `Proguard`, add below to your `app/proguard-rules.pro`:
 ```
 # ViewBindingDelegate uses Reflection.
@@ -217,7 +239,7 @@ If there is any problem with `Proguard`, add below to your `app/proguard-rules.p
 }
 ```
 
-## 4. Throws `IllegalStateException`: "Attempt to get view binding when fragment view is destroyed" when accessing delegate property in `onDestroyView`
+### 4. Throws `IllegalStateException`: "Attempt to get view binding when fragment view is destroyed" when accessing delegate property in `onDestroyView`
 
 Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding delegate property in `onDestroyView` (this causes many problems). Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
 
