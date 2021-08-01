@@ -1,3 +1,10 @@
+## 1.1.0 - Aug 1, 2021
+
+-   Updated dependencies:
+    -   Kotlin to 1.5.21
+    -   AGP to 7.0.0
+    -   Gradle to 7.1.1
+
 ## 1.0.0 - May 7, 2021
 
 -   This is our first stable release.
