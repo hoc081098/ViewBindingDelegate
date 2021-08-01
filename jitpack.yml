@@ -1,0 +1,4 @@
+before_install:
+  - chmod +x gradlew
+install:
+  - ./gradlew :library:clean :library:build :library:publishToMavenLocal -x :library:test
