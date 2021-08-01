@@ -11,8 +11,8 @@ android {
         applicationId "com.hoc081098.example"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 2
-        versionName "1.0.0-beta01"
+        versionCode 3
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,7 +36,7 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 }
 
