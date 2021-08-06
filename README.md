@@ -258,6 +258,10 @@ Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding deleg
   }
 ```
 
+### 5. Min SDK version
+
+Since version `1.2.0`, `minSdkVersion` has been changed to `14`.
+
 # License
 
     MIT License

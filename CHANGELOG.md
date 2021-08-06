@@ -1,3 +1,7 @@
+## 1.2.0 - Aug 6, 2021
+
+-   Change `minSdkVersion` to `14`.
+
 ## 1.1.0 - Aug 1, 2021
 
 -   Updated dependencies:

@@ -3,7 +3,7 @@
     package="com.hoc081098.test">
 
     <uses-sdk
-        android:minSdkVersion="21"
+        android:minSdkVersion="14"
         android:targetSdkVersion="30" />
 
     <application>
