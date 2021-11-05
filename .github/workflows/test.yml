@@ -17,6 +17,15 @@ jobs:
         with:
           java-version: '11'
           distribution: 'zulu'
+      - name: Cache gradle, wrapper and buildSrc
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.job }}-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Test with Gradle
