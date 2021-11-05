@@ -79,5 +79,5 @@ jobs:
             ${{ runner.os }}-${{ github.job }}-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: API check
+      - name: Build health
         run: ./gradlew buildHealth
