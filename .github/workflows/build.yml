@@ -1,5 +1,4 @@
-name: Android CI
-
+name: Android build CI
 on:
   push:
     branches: [ master ]
@@ -7,17 +6,18 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  apk:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK
+
+      - name: Setup JDK
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'zulu'
+
       - name: Cache gradle, wrapper and buildSrc
         uses: actions/cache@v2
         with:
@@ -27,5 +27,15 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.job }}-
-      - name: Build with Gradle
-        run: ./gradlew build
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build debug APK
+        run: ./gradlew build --warning-mode all --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
