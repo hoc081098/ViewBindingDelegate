@@ -63,6 +63,7 @@ dependencies {
     androidTestImplementation('androidx.fragment:fragment-testing:1.4.0') {
         exclude group: 'androidx.test', module: 'monitor'
     }
+    androidTestImplementation 'androidx.appcompat:appcompat:1.4.0'
 }
 
 project.afterEvaluate {
