@@ -59,7 +59,9 @@ dependencies {
 }
 ```
 
-### 3. [Enable ViewBinding](https://developer.android.com/topic/libraries/view-binding#setup)
+### 3. Enable ViewBinding
+
+https://developer.android.com/topic/libraries/view-binding#setup
 
 # Usage
 
