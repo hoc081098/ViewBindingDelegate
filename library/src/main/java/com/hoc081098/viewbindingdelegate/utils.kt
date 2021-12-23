@@ -70,11 +70,11 @@ internal object GetInflateMethod {
   private val threeParamsMethodSignature = arrayOf(
     LayoutInflater::class.java,
     ViewGroup::class.java,
-    Boolean::class.java,
+    Boolean::class.java
   )
   private val twoParamsMethodSignature = arrayOf(
     LayoutInflater::class.java,
-    ViewGroup::class.java,
+    ViewGroup::class.java
   )
 
   internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method {
