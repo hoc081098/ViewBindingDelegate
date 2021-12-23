@@ -2,8 +2,10 @@ name: Android build CI
 on:
   push:
     branches: [ master ]
+    paths-ignore: [ '**.md', '**.MD' ]
   pull_request:
     branches: [ master ]
+    paths-ignore: [ '**.md', '**.MD' ]
 
 jobs:
   build:
@@ -34,8 +36,14 @@ jobs:
       - name: Build
         run: ./gradlew build --warning-mode all --stacktrace
 
-      - name: Upload APK
+      - name: Upload Debug APK
         uses: actions/upload-artifact@v2
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/apk/debug/app-release.apk

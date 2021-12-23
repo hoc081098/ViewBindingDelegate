@@ -3,8 +3,10 @@ name: Android Tests
 on:
   push:
     branches: [ master ]
+    paths-ignore: [ '**.md', '**.MD' ]
   pull_request:
     branches: [ master ]
+    paths-ignore: [ '**.md', '**.MD' ]
 
 jobs:
   test:
