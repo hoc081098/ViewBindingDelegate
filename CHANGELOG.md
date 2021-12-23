@@ -2,12 +2,12 @@
 
 -   Change `targetSdkVersion` and `compileSdkVersion` to 31.
 
--   Updated dependencies:
+-   Updated dependencies
     -   Kotlin to 1.6.10
     -   AGP to 7.0.4
     -   Gradle to 7.3.3
 
--   Others:
+-   Others
     -   Update Github workflows.
     -   Tracking API compatibility.
 
