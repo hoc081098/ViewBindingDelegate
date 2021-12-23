@@ -169,7 +169,7 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
       null,
       this,
       parent,
-      attachToParent,
+      attachToParent
     ) as T
   } else {
     requireNotNull(parent) { "parent must not be null for ${T::class.java.simpleName}.inflate" }
@@ -178,7 +178,7 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
     method.invoke(
       null,
       this,
-      parent,
+      parent
     ) as T
   }
 }
