@@ -81,5 +81,6 @@ jobs:
             ${{ runner.os }}-${{ github.job }}-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build health
-        run: ./gradlew buildHealth
+#        TODO: check buildHealth again
+#      - name: Build health
+#        run: ./gradlew buildHealth
