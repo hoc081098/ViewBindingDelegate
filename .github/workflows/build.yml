@@ -51,5 +51,5 @@ jobs:
       - name: Upload Release mapping file
         uses: actions/upload-artifact@v2
         with:
-          name: app-release
+          name: mapping-release
           path: app/build/outputs/mapping/release/mapping.txt
