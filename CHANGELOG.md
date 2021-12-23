@@ -1,3 +1,16 @@
+## 1.3.0 - Dec 24, 2021
+
+-   Change `targetSdkVersion` and `compileSdkVersion` to 31.
+
+-   Updated dependencies:
+    -   Kotlin to 1.6.10
+    -   AGP to 7.0.4
+    -   Gradle to 7.3.3
+
+-   Others:
+    -   Update Github workflows.
+    -   Tracking API compatibility.
+
 ## 1.2.0 - Aug 6, 2021
 
 -   Change `minSdkVersion` to `14`.
