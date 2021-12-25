@@ -59,8 +59,19 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
 
   override fun getValue(thisRef: Activity, property: KProperty<*>): T {
     return binding
-      ?: bind(thisRef.findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
-        .also { binding = it }
+      ?: bind(
+        checkNotNull(thisRef.findViewById<ViewGroup>(android.R.id.content)?.getChildAt(0)) {
+          """Activity's content view must be not null before access `ViewBinding` property. This can be done easily with constructor:
+            |
+            |public androidx.appcompat.app.AppCompatActivity(@LayoutRes int contentLayoutId) { ... }
+            |
+            |eg.
+            |
+            |class MainActivity : AppCompatActivity(R.layout.activity_main) { ... }
+            |
+            |""".trimMargin()
+        }
+      ).also { binding = it }
   }
 
   public companion object Factory {
