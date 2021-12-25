@@ -75,10 +75,31 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
     }
 
     check(fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-      "Attempt to get view binding when fragment view is destroyed"
+      """Attempt to get view binding when fragment view is destroyed.
+        |
+        |Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding delegate property in onDestroyView(). Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
+        |
+        |private val binding by viewBinding<FragmentFirstBinding> { /*this: FragmentFirstBinding*/
+        |  button.setOnClickListener(null)
+        |  recyclerView.adapter = null
+        |}
+      """.trimMargin()
     }
 
-    return bind(thisRef.requireView()).also { binding = it }
+    return bind(
+      checkNotNull(thisRef.view) {
+        """Fragment $thisRef did not return a View from onCreateView() or this was called before onCreateView().
+          |Fragment's view must be not null before access `ViewBinding` property. This can be done easily with constructor:
+          |
+          |public androidx.fragment.app.Fragment(@LayoutRes int contentLayoutId) { ... }
+          |
+          |eg.
+          |
+          |class FirstFragment : Fragment(R.layout.fragment_first) { ... }
+          |
+          |""".trimMargin()
+      }
+    ).also { binding = it }
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
