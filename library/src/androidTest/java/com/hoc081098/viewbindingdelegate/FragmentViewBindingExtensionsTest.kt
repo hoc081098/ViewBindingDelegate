@@ -36,46 +36,53 @@ import com.hoc081098.viewbindingdelegate.test.R as TestR
 @RunWith(AndroidJUnit4::class)
 public class FragmentViewBindingExtensionsTest {
   @Test
-  public fun test_viewBindingReflection_viewsAreNotNull() {
-    val scenario = launchFragment<TestFragment>()
-    scenario.onFragment { fragment ->
-      val bindingReflection = fragment.bindingReflection
+  public fun test_viewBindingReflection_viewsAreNotNull(): Unit =
+    launchFragment<TestFragment>().use { scenario ->
+      scenario.onFragment { fragment ->
+        val bindingReflection = fragment.bindingReflection
 
-      assertNotNull(bindingReflection.root)
-      assertNotNull(bindingReflection.textView)
-      assertNotNull(bindingReflection.button)
+        assertNotNull(bindingReflection.root)
+        assertNotNull(bindingReflection.textView)
+        assertNotNull(bindingReflection.button)
 
-      assertSame(fragment.requireView().findViewById(TestR.id.textView), bindingReflection.textView)
-      assertSame(fragment.requireView().findViewById(TestR.id.button), bindingReflection.button)
+        assertSame(
+          fragment.requireView().findViewById(TestR.id.textView),
+          bindingReflection.textView
+        )
+        assertSame(fragment.requireView().findViewById(TestR.id.button), bindingReflection.button)
+      }
     }
-  }
 
   @Test(expected = IllegalStateException::class)
-  public fun test_viewBindingReflection_throwsWhenDestroyed() {
-    val scenario = launchFragment<TestFragment>()
-    scenario.moveToState(Lifecycle.State.DESTROYED)
-    scenario.onFragment { it.bindingReflection }
-  }
+  public fun test_viewBindingReflection_throwsWhenDestroyed(): Unit =
+    launchFragment<TestFragment>().use { scenario ->
+      scenario.onFragment {
+        scenario.moveToState(Lifecycle.State.DESTROYED)
+        it.bindingReflection
+      }
+    }
 
   @Test
-  public fun test_viewBindingWithoutReflection_viewsAreNotNull() {
-    val scenario = launchFragment<TestFragment>()
-    scenario.onFragment { fragment ->
-      val binding = fragment.binding
+  public fun test_viewBindingWithoutReflection_viewsAreNotNull(): Unit =
+    launchFragment<TestFragment>().use { scenario ->
+      scenario.onFragment { fragment ->
+        val binding = fragment.binding
 
-      assertNotNull(binding.root)
-      assertNotNull(binding.textView)
-      assertNotNull(binding.button)
+        assertNotNull(binding.root)
+        assertNotNull(binding.textView)
+        assertNotNull(binding.button)
 
-      assertSame(fragment.requireView().findViewById(TestR.id.textView), binding.textView)
-      assertSame(fragment.requireView().findViewById(TestR.id.button), binding.button)
+        assertSame(fragment.requireView().findViewById(TestR.id.textView), binding.textView)
+        assertSame(fragment.requireView().findViewById(TestR.id.button), binding.button)
+      }
     }
-  }
 
   @Test(expected = IllegalStateException::class)
-  public fun test_viewBindingWithoutReflection_throwsWhenDestroyed() {
-    val scenario = launchFragment<TestFragment>()
-    scenario.moveToState(Lifecycle.State.DESTROYED)
-    scenario.onFragment { it.binding }
-  }
+  public fun test_viewBindingWithoutReflection_throwsWhenDestroyed(): Unit =
+    launchFragment<TestFragment>().use { scenario ->
+      scenario.onFragment {
+        scenario.moveToState(Lifecycle.State.DESTROYED)
+        it.binding
+      }
+    }
 }
