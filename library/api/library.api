@@ -41,6 +41,8 @@ public final class com/hoc081098/viewbindingdelegate/ViewBindingDialogFragment$O
 
 public final class com/hoc081098/viewbindingdelegate/impl/ActivityViewBindingDelegate : kotlin/properties/ReadOnlyProperty {
 	public static final field Factory Lcom/hoc081098/viewbindingdelegate/impl/ActivityViewBindingDelegate$Factory;
+	public static final fun from (Ljava/lang/Class;)Lcom/hoc081098/viewbindingdelegate/impl/ActivityViewBindingDelegate;
+	public static final fun from (Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/ActivityViewBindingDelegate;
 	public fun getValue (Landroid/app/Activity;Lkotlin/reflect/KProperty;)Landroidx/viewbinding/ViewBinding;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
@@ -52,6 +54,8 @@ public final class com/hoc081098/viewbindingdelegate/impl/ActivityViewBindingDel
 
 public final class com/hoc081098/viewbindingdelegate/impl/DialogFragmentViewBindingDelegate : kotlin/properties/ReadOnlyProperty {
 	public static final field Factory Lcom/hoc081098/viewbindingdelegate/impl/DialogFragmentViewBindingDelegate$Factory;
+	public static final fun from (Landroidx/fragment/app/DialogFragment;ILjava/lang/Class;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/DialogFragmentViewBindingDelegate;
+	public static final fun from (Landroidx/fragment/app/DialogFragment;ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/DialogFragmentViewBindingDelegate;
 	public fun getValue (Landroidx/fragment/app/DialogFragment;Lkotlin/reflect/KProperty;)Landroidx/viewbinding/ViewBinding;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
@@ -63,6 +67,8 @@ public final class com/hoc081098/viewbindingdelegate/impl/DialogFragmentViewBind
 
 public final class com/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate : kotlin/properties/ReadOnlyProperty {
 	public static final field Factory Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate$Factory;
+	public static final fun from (Landroidx/fragment/app/Fragment;Ljava/lang/Class;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
+	public static final fun from (Landroidx/fragment/app/Fragment;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
 	public fun getValue (Landroidx/fragment/app/Fragment;Lkotlin/reflect/KProperty;)Landroidx/viewbinding/ViewBinding;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 }
