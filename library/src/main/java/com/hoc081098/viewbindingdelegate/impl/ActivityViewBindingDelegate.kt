@@ -69,6 +69,7 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
             |
             |class MainActivity : AppCompatActivity(R.layout.activity_main) { ... }
             |
+            |In more detail: https://github.com/hoc081098/ViewBindingDelegate#note
             |""".trimMargin()
         }
       ).also { binding = it }

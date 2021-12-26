@@ -83,7 +83,8 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
         |  button.setOnClickListener(null)
         |  recyclerView.adapter = null
         |}
-      """.trimMargin()
+        |In more detail: https://github.com/hoc081098/ViewBindingDelegate#note
+        |""".trimMargin()
     }
 
     return bind(
@@ -97,6 +98,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
           |
           |class FirstFragment : Fragment(R.layout.fragment_first) { ... }
           |
+          |In more detail: https://github.com/hoc081098/ViewBindingDelegate#note
           |""".trimMargin()
       }
     ).also { binding = it }
