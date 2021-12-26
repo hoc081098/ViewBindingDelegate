@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.GetBindMethod
 import com.hoc081098.viewbindingdelegate.ensureMainThread
@@ -105,8 +106,8 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    val observer = fun(viewLifecycleOwner: LifecycleOwner?) {
-      viewLifecycleOwner ?: return
+    val observer = Observer<LifecycleOwner?> { viewLifecycleOwner: LifecycleOwner? ->
+      viewLifecycleOwner ?: return@Observer
 
       var onDestroyViewActual = onDestroyView
 
@@ -148,6 +149,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
      * @param fragment the [Fragment] which owns this delegated property.
      * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from [Fragment]'s root view, eg: `T::bind` static method can be used.
      */
+    @JvmStatic
     public fun <T : ViewBinding> from(
       fragment: Fragment,
       viewBindingBind: (View) -> T,
@@ -164,6 +166,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
      * @param fragment the [Fragment] which owns this delegated property.
      * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
      */
+    @JvmStatic
     public fun <T : ViewBinding> from(
       fragment: Fragment,
       viewBindingClazz: Class<T>,

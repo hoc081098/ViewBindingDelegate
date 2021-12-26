@@ -81,6 +81,7 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
      *
      * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from [Activity]'s contentView, eg: `T::bind` static method can be used.
      */
+    @JvmStatic
     public fun <T : ViewBinding> from(viewBindingBind: (View) -> T): ActivityViewBindingDelegate<T> =
       ActivityViewBindingDelegate(viewBindingBind = viewBindingBind)
 
@@ -89,6 +90,7 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
      *
      * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
      */
+    @JvmStatic
     public fun <T : ViewBinding> from(viewBindingClazz: Class<T>): ActivityViewBindingDelegate<T> =
       ActivityViewBindingDelegate(viewBindingClazz = viewBindingClazz)
   }

@@ -30,9 +30,11 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.GetBindMethod
 import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment
+import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment.OnDestroyViewListeners
 import com.hoc081098.viewbindingdelegate.ensureMainThread
 import com.hoc081098.viewbindingdelegate.log
 import kotlin.properties.ReadOnlyProperty
@@ -76,8 +78,8 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {
-    val observer = fun(listeners: ViewBindingDialogFragment.OnDestroyViewListeners?) {
-      listeners ?: return
+    val observer = Observer<OnDestroyViewListeners?> { listeners: OnDestroyViewListeners? ->
+      listeners ?: return@Observer
 
       var onDestroyViewActual = onDestroyView
       listeners += {
@@ -112,6 +114,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
      *
      * @param viewBindingBind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] eg: `T::bind` static method can be used.
      */
+    @JvmStatic
     public fun <T : ViewBinding, DF> from(
       fragment: DF,
       @IdRes rootId: Int,
@@ -130,6 +133,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
      *
      * @param viewBindingClazz Kotlin Reflection will be used to get `T::bind` static method from this class.
      */
+    @JvmStatic
     public fun <T : ViewBinding, DF> from(
       fragment: DF,
       @IdRes rootId: Int,
