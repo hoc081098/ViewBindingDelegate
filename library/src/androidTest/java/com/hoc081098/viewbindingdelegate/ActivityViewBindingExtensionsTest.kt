@@ -40,7 +40,7 @@ public class ActivityViewBindingExtensionsTest {
   public val rule: ActivityScenarioRule<TestActivity> = activityScenarioRule()
 
   @Test
-  public fun test_viewBindingReflection() {
+  public fun test_viewBindingReflection_viewsAreNotNull() {
     rule.scenario.onActivity { activity ->
       val bindingReflection = activity.bindingReflection
 
@@ -54,7 +54,7 @@ public class ActivityViewBindingExtensionsTest {
   }
 
   @Test
-  public fun test_viewBindingWithoutReflection() {
+  public fun test_viewBindingWithoutReflection_viewsAreNotNull() {
     rule.scenario.onActivity { activity ->
       val binding = activity.binding
 

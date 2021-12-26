@@ -73,8 +73,13 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
 
   override fun getValue(thisRef: DialogFragment, property: KProperty<*>): T {
     return binding
-      ?: bind(thisRef.requireDialog().findViewById(rootId)!!)
-        .also { binding = it }
+      ?: thisRef.requireDialog().let { dialog ->
+        bind(
+          checkNotNull(dialog.findViewById(rootId)) {
+            "ID $rootId does not reference a View inside this Dialog $dialog"
+          }
+        ).also { binding = it }
+      }
   }
 
   private inner class FragmentLifecycleObserver : DefaultLifecycleObserver {

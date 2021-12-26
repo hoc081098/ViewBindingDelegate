@@ -93,7 +93,7 @@ public interface ViewBindingDialogFragment {
  * Extends this class to able to use [dialogFragmentViewBinding] and [DialogFragmentViewBindingDelegate]
  */
 public open class DefaultViewBindingDialogFragment : DialogFragment(), ViewBindingDialogFragment {
-  private lateinit var listeners: OnDestroyViewListeners
+  private var listeners: OnDestroyViewListeners? = null
   private val _onDestroyViewLiveData = MutableLiveData<OnDestroyViewListeners?>()
 
   final override val onDestroyViewLiveData: LiveData<OnDestroyViewListeners?> get() = _onDestroyViewLiveData
@@ -112,8 +112,11 @@ public open class DefaultViewBindingDialogFragment : DialogFragment(), ViewBindi
   override fun onDestroyView() {
     super.onDestroyView()
 
-    listeners()
-    listeners.dispose()
+    listeners?.run {
+      invoke()
+      dispose()
+    }
+    listeners = null
     _onDestroyViewLiveData.value = null
   }
 }

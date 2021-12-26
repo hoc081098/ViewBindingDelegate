@@ -61,7 +61,7 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
     return binding
       ?: bind(
         checkNotNull(thisRef.findViewById<ViewGroup>(android.R.id.content)?.getChildAt(0)) {
-          """Activity's content view must be not null before access `ViewBinding` property. This can be done easily with constructor:
+          """Content view of Activity $thisRef must be not null before access ViewBinding property. This can be done easily with constructor:
             |
             |public androidx.appcompat.app.AppCompatActivity(@LayoutRes int contentLayoutId) { ... }
             |
