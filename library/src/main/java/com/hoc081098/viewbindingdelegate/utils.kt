@@ -60,7 +60,6 @@ internal object GetBindMethod {
       .also { log { "GetBindMethod::methodMap.size: ${methodMap.size}" } }
 }
 
-@PublishedApi
 internal object GetInflateMethod {
   init {
     ensureMainThread()
@@ -87,3 +86,6 @@ internal object GetInflateMethod {
       .also { log { "GetInflateMethod::methodMap.size: ${methodMap.size}" } }
   }
 }
+
+@PublishedApi
+internal fun <T : ViewBinding> getInflateMethod(clazz: Class<T>): Method = GetInflateMethod(clazz)

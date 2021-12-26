@@ -163,7 +163,7 @@ public inline fun <reified T : ViewBinding> LayoutInflater.inflateViewBinding(
   parent: ViewGroup? = null,
   attachToParent: Boolean = parent != null
 ): T {
-  val method = GetInflateMethod(T::class.java)
+  val method = getInflateMethod(T::class.java)
   return if (method.parameterTypes.size == 3) {
     method.invoke(
       null,

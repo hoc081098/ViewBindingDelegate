@@ -20,12 +20,9 @@ public final class com/hoc081098/viewbindingdelegate/ExtensionsKt {
 	public static synthetic fun viewBinding$default (Landroidx/fragment/app/Fragment;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
 }
 
-public final class com/hoc081098/viewbindingdelegate/GetInflateMethod {
-	public static final field INSTANCE Lcom/hoc081098/viewbindingdelegate/GetInflateMethod;
-}
-
 public final class com/hoc081098/viewbindingdelegate/UtilsKt {
 	public static final fun ensureMainThread ()V
+	public static final fun getInflateMethod (Ljava/lang/Class;)Ljava/lang/reflect/Method;
 }
 
 public abstract interface class com/hoc081098/viewbindingdelegate/ViewBindingDialogFragment {
