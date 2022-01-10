@@ -88,7 +88,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
 
       var onDestroyViewActual = onDestroyView
       listeners += {
-        onDestroyViewActual?.invoke(binding!!)
+        binding?.let { onDestroyViewActual?.invoke(it) }
         onDestroyViewActual = null
         binding = null
 

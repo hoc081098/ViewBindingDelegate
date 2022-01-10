@@ -115,7 +115,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
         override fun onDestroy(owner: LifecycleOwner) {
           viewLifecycleOwner.lifecycle.removeObserver(this)
 
-          onDestroyViewActual?.invoke(binding!!)
+          binding?.let { onDestroyViewActual?.invoke(it) }
           onDestroyViewActual = null
           binding = null
 
