@@ -1,3 +1,11 @@
+## 1.3.1 - Jan 12, 2022
+
+-   Update `DefaultViewBindingDialogFragment`'s implementation.
+-   Remove `@PublishedApi` on `GetInflateMethod`.
+-   The message of thrown exceptions is more friendly.
+-   Fix a `NullPointerException` when `binding` is `null` and `onDestroyView` is not `null`.
+-   Refactor implementations: replace `anonymous functions` by `SAM conversions`.
+
 ## 1.3.0 - Dec 24, 2021
 
 -   Change `targetSdkVersion` and `compileSdkVersion` to 31.
