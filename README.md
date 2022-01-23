@@ -220,8 +220,7 @@ Can be used in `RecyclerView.Adapter # onCreateViewHolder` to easily create a `R
 import com.hoc081098.viewbindingdelegate.inflateViewBinding
 
 class DemoAdapter : ListAdapter<String, DemoAdapter.VH>(...) {
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-    VH(parent inflateViewBinding false)
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VH(parent inflateViewBinding false)
 
   override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
 
