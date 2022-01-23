@@ -209,9 +209,9 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
 </details>
 
-### 7. `inflateViewBinding` extension methods on `ViewGroup`/`LayoutInflater`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoAdapter.kt)
+### 7. `inflateViewBinding` extension methods on `ViewGroup`/`LayoutInflater`/`Context`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoAdapter.kt)
   
-  
+Can be used in `RecyclerView.Adapter # onCreateViewHolder` to easily create a `RecyclerView.ViewHolder` with a `ViewBinding`.
   
 <details>
     <summary>Click to expand</summary>
