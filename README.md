@@ -209,6 +209,39 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
 </details>
 
+### 7. Inflating extension methods on `ViewGroup`.
+  
+<details>
+    <summary>Click to expand</summary>
+
+```kotlin
+import com.hoc081098.viewbindingdelegate.inflateViewBinding
+
+class DemoAdapter :
+  ListAdapter<String, DemoAdapter.VH>(
+    object : DiffUtil.ItemCallback<String>() {
+      override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+      override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+    }
+  ) {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+    VH(parent inflateViewBinding false)
+
+  override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
+
+  class VH(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+    private val includeBinding = ItemRecyclerMergeBinding.bind(binding.root)
+
+    fun bind(item: String) {
+      binding.textView.text = "Title: $item"
+      includeBinding.textViewSubtitle.text = "Subtitle: $item"
+    }
+  }
+}
+```    
+    
+</details> 
+  
 # Note
 
 ### 1. Activity
