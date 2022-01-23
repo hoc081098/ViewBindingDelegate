@@ -209,7 +209,9 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 
 </details>
 
-### 7. Inflating extension methods on `ViewGroup`.
+### 7. Inflating extension methods on `ViewGroup`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoAdapter.kt)
+  
+  
   
 <details>
     <summary>Click to expand</summary>
