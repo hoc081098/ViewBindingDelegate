@@ -35,6 +35,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment.OnDestroyViewListeners
 import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.internal.log
 import java.util.concurrent.CopyOnWriteArraySet
 
 /**

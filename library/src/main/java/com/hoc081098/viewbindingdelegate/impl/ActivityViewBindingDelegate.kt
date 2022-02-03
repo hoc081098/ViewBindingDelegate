@@ -28,8 +28,8 @@ import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.GetBindMethod
-import com.hoc081098.viewbindingdelegate.ensureMainThread
+import com.hoc081098.viewbindingdelegate.internal.GetBindMethod
+import com.hoc081098.viewbindingdelegate.internal.ensureMainThread
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

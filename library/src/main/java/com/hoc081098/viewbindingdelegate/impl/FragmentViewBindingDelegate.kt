@@ -31,9 +31,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.GetBindMethod
-import com.hoc081098.viewbindingdelegate.ensureMainThread
-import com.hoc081098.viewbindingdelegate.log
+import com.hoc081098.viewbindingdelegate.internal.GetBindMethod
+import com.hoc081098.viewbindingdelegate.internal.ensureMainThread
+import com.hoc081098.viewbindingdelegate.internal.log
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

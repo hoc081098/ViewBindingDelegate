@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,17 @@
  * SOFTWARE.
  */
 
-package com.hoc081098.viewbindingdelegate
+@file:Suppress("NOTHING_TO_INLINE")
+
+package com.hoc081098.viewbindingdelegate.internal
 
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.collection.ArrayMap
+import androidx.annotation.AnyThread
+import androidx.annotation.MainThread
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
 
@@ -38,7 +41,7 @@ internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.m
   "Expected to be called on the main thread but was " + Thread.currentThread().name
 }
 
-private const val debug = false
+private const val debug = true
 
 internal inline fun log(crossinline message: () -> String) {
   if (debug) {
@@ -46,46 +49,27 @@ internal inline fun log(crossinline message: () -> String) {
   }
 }
 
-internal object GetBindMethod {
-  init {
-    ensureMainThread()
-  }
-
-  private val methodSignature = View::class.java
-  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
-
-  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
-    methodMap
-      .getOrPut(clazz) { clazz.getMethod("bind", methodSignature) }
-      .also { log { "GetBindMethod::methodMap.size: ${methodMap.size}" } }
-}
-
-internal object GetInflateMethod {
-  init {
-    ensureMainThread()
-  }
-
-  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
-  private val threeParamsMethodSignature = arrayOf(
-    LayoutInflater::class.java,
-    ViewGroup::class.java,
-    Boolean::class.java
-  )
-  private val twoParamsMethodSignature = arrayOf(
-    LayoutInflater::class.java,
-    ViewGroup::class.java
-  )
-
-  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method {
-    return methodMap
-      .getOrPut(clazz) {
-        runCatching { clazz.getMethod("inflate", *threeParamsMethodSignature) }
-          .recover { clazz.getMethod("inflate", *twoParamsMethodSignature) }
-          .getOrThrow()
-      }
-      .also { log { "GetInflateMethod::methodMap.size: ${methodMap.size}" } }
-  }
-}
-
+@MainThread
 @PublishedApi
 internal fun <T : ViewBinding> getInflateMethod(clazz: Class<T>): Method = GetInflateMethod(clazz)
+
+@AnyThread
+internal inline fun <T : ViewBinding> Class<T>.findInflateMethod(): Method =
+  runCatching {
+    getMethod(
+      "inflate",
+      LayoutInflater::class.java,
+      ViewGroup::class.java,
+      Boolean::class.java
+    )
+  }.recover {
+    getMethod(
+      "inflate",
+      LayoutInflater::class.java,
+      ViewGroup::class.java
+    )
+  }.getOrThrow()
+
+@AnyThread
+internal inline fun <T : ViewBinding> Class<T>.findBindMethod(): Method =
+  getMethod("bind", View::class.java)
