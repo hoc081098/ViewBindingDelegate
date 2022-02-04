@@ -26,38 +26,30 @@
 
 package com.hoc081098.viewbindingdelegate.internal
 
-import android.os.Looper
-import android.util.Log
-import androidx.annotation.MainThread
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.AnyThread
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
-import kotlin.system.measureTimeMillis
 
-@PublishedApi
-internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.myLooper()) {
-  "Expected to be called on the main thread but was " + Thread.currentThread().name
-}
+@AnyThread
+internal inline fun <T : ViewBinding> Class<T>.findInflateMethod(): Method =
+  runCatching {
+    getMethod(
+      "inflate",
+      LayoutInflater::class.java,
+      ViewGroup::class.java,
+      Boolean::class.java
+    )
+  }.recover {
+    getMethod(
+      "inflate",
+      LayoutInflater::class.java,
+      ViewGroup::class.java
+    )
+  }.getOrThrow()
 
-// TODO(release): set `DEBUG` to `false` when publishing.
-private const val DEBUG = true
-
-internal inline fun log(crossinline message: () -> String) {
-  if (DEBUG) {
-    Log.d("ViewBinding", message())
-  }
-}
-
-internal inline fun <T> measureTimeMillis(tag: String, crossinline block: () -> T): T =
-  if (DEBUG) {
-    val t: T
-    val time = measureTimeMillis { t = block() }
-    log { "$tag taken time=$time ms ~ ${time / 1_000.0} s" }
-    t
-  } else {
-    block()
-  }
-
-@MainThread
-@PublishedApi
-internal fun <T : ViewBinding> getInflateMethod(clazz: Class<T>): Method =
-  CacheContainer.provideInflateMethodCache().getOrPut(clazz)
+@AnyThread
+internal inline fun <T : ViewBinding> Class<T>.findBindMethod(): Method =
+  getMethod("bind", View::class.java)

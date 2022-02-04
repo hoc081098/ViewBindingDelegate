@@ -64,14 +64,14 @@ public interface ViewBindingDialogFragment {
     private val listeners: MutableSet<() -> Unit> = CopyOnWriteArraySet()
 
     public operator fun plusAssign(listener: () -> Unit) {
-      check(!isDisposed) { "Already disposed" }
+      checkDisposed()
 
       listeners += listener
     }
 
     public operator fun invoke() {
-      check(!isDisposed) { "Already disposed" }
-      log { "Listeners::invoke ${listeners.size}" }
+      checkDisposed()
+      log { "[OnDestroyViewListeners] $this::invoke ${listeners.size}" }
 
       listeners.forEach { it() }
     }
@@ -80,11 +80,15 @@ public interface ViewBindingDialogFragment {
      * Dispose this listeners. Should call once.
      */
     public fun dispose() {
-      check(!isDisposed) { "Already disposed" }
-      log { "Listeners::dispose ${listeners.size}" }
+      checkDisposed()
+      log { "[OnDestroyViewListeners] $this::dispose ${listeners.size}" }
 
       listeners.clear()
       isDisposed = true
+    }
+
+    private fun checkDisposed() {
+      check(!isDisposed) { "$this has already been disposed" }
     }
   }
 }

@@ -25,45 +25,55 @@
 package com.hoc081098.viewbindingdelegate.internal
 
 import androidx.annotation.MainThread
-import androidx.collection.ArrayMap
+import androidx.collection.LruCache
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
+import kotlin.LazyThreadSafetyMode.NONE
 
-internal object GetBindMethod {
-  init {
-    ensureMainThread()
-  }
+@MainThread
+internal interface MethodCache {
+  fun <T : ViewBinding> getOrPut(clazz: Class<T>): Method
 
-  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
-
-  @MainThread
-  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method =
-    methodMap
-      .getOrPut(clazz) { clazz.findBindMethod() }
-      .also { log { "GetBindMethod::invoke methodMap.size: ${methodMap.size}" } }
-
-  @MainThread
-  internal fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>) = methodMap
-    .putAll(pairs)
-    .also { log { "GetInflateMethod::putAll methodMap.size: ${methodMap.size}" } }
+  fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>)
 }
 
-internal object GetInflateMethod {
+@MainThread
+private abstract class AbstractMethodCache(maxSize: UInt) : MethodCache {
+  private val cache = LruCache<Class<out ViewBinding>, Method>(maxSize.toInt())
+
   init {
     ensureMainThread()
   }
 
-  private val methodMap = ArrayMap<Class<out ViewBinding>, Method>()
+  override fun <T : ViewBinding> getOrPut(clazz: Class<T>) =
+    cache[clazz] ?: clazz.findMethod().also { cache.put(clazz, it) }
 
-  @MainThread
-  internal operator fun <T : ViewBinding> invoke(clazz: Class<T>): Method {
-    return methodMap
-      .getOrPut(clazz) { clazz.findInflateMethod() }
-      .also { log { "GetInflateMethod::invoke methodMap.size: ${methodMap.size}" } }
+  override fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>) =
+    pairs.forEach { (k, v) -> cache.put(k, v) }
+
+  abstract fun <T : ViewBinding> Class<T>.findMethod(): Method
+}
+
+private class BindMethodCache(maxSize: UInt) : AbstractMethodCache(maxSize) {
+  override fun <T : ViewBinding> Class<T>.findMethod() =
+    measureTimeMillis("[findBindMethod]") { findBindMethod() }
+}
+
+private class InflateMethodCache(maxSize: UInt) : AbstractMethodCache(maxSize) {
+  override fun <T : ViewBinding> Class<T>.findMethod() =
+    measureTimeMillis("[findInflateMethod]") { findInflateMethod() }
+}
+
+@MainThread
+internal object CacheContainer {
+  init {
+    ensureMainThread()
+    log { "[CacheContainer] created" }
   }
 
-  @MainThread
-  internal fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>) = methodMap
-    .putAll(pairs)
-    .also { log { "GetInflateMethod::putAll methodMap.size: ${methodMap.size}" } }
+  private val bindMethodCache by lazy(NONE) { BindMethodCache(32u) }
+  private val inflateMethodCache by lazy(NONE) { InflateMethodCache(16u) }
+
+  internal fun provideBindMethodCache(): MethodCache = bindMethodCache
+  internal fun provideInflateMethodCache(): MethodCache = inflateMethodCache
 }

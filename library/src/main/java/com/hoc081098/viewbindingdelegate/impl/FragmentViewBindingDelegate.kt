@@ -31,7 +31,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.internal.GetBindMethod
+import com.hoc081098.viewbindingdelegate.internal.CacheContainer
 import com.hoc081098.viewbindingdelegate.internal.ensureMainThread
 import com.hoc081098.viewbindingdelegate.internal.log
 import kotlin.properties.ReadOnlyProperty
@@ -54,7 +54,9 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
-    GetBindMethod(viewBindingClazz!!)(null, view) as T
+    CacheContainer
+      .provideBindMethodCache()
+      .getOrPut(viewBindingClazz!!)(null, view) as T
   }
 
   init {
@@ -119,7 +121,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
           onDestroyViewActual = null
           binding = null
 
-          log { "$fragment::onDestroyView" }
+          log { "[FragmentViewBindingDelegate] onDestroyView::$fragment" }
         }
       }
       viewLifecycleOwner.lifecycle.addObserver(viewLifecycleObserver)
@@ -128,7 +130,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
     override fun onCreate(owner: LifecycleOwner) {
       fragment.viewLifecycleOwnerLiveData.observeForever(observer)
 
-      log { "$fragment::onCreate" }
+      log { "[FragmentViewBindingDelegate] onCreate::$fragment" }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -138,7 +140,7 @@ public class FragmentViewBindingDelegate<T : ViewBinding> private constructor(
       binding = null
       onDestroyView = null
 
-      log { "$fragment::onDestroy" }
+      log { "[FragmentViewBindingDelegate] onDestroy::$fragment" }
     }
   }
 
