@@ -54,7 +54,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.customview:customview:1.1.0'
 
-    final lifecycle_version = '2.4.0'
+    final lifecycle_version = '2.4.1'
     implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
