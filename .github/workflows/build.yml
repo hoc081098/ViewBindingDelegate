@@ -37,19 +37,19 @@ jobs:
         run: ./gradlew build --warning-mode all --stacktrace
 
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload Release APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app-release
           path: app/build/outputs/apk/release/app-release.apk
 
       - name: Upload Release mapping file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mapping-release
           path: app/build/outputs/mapping/release/mapping.txt
