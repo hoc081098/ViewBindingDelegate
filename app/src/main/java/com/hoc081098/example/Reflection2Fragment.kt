@@ -10,7 +10,7 @@ import com.hoc081098.viewbindingdelegate.viewBinding
 
 class Reflection2Fragment : Fragment(R.layout.fragment_third) {
   private val includeBinding by viewBinding<FragmentThirdIncludeBinding>()
-  private val binding by viewBinding<FragmentThirdBinding>() {
+  private val binding by viewBinding<FragmentThirdBinding> {
     buttonThird.setOnClickListener(null)
   }
 
