@@ -24,12 +24,10 @@
 
 package com.hoc081098.viewbindingdelegate.internal
 
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
+import android.content.Context
 import androidx.annotation.MainThread
+import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
-import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadFactory
@@ -38,9 +36,11 @@ import java.util.concurrent.TimeUnit
 import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.reflect.KClass
 
-@MainThread
 internal object PreloadMethods {
   private val ioExecutor by lazy(NONE) {
+    ensureMainThread()
+    log { "[PreloadMethods] ioExecutor created" }
+
     ThreadPoolExecutor(
       0,
       1,
@@ -55,36 +55,8 @@ internal object PreloadMethods {
     )
   }
 
-  init {
-    ensureMainThread()
-    log { "[PreloadMethods] created" }
-  }
-
-  private fun createAsync(looper: Looper): Handler {
-    if (Build.VERSION.SDK_INT >= 28) {
-      return Handler.createAsync(looper)
-    }
-    if (Build.VERSION.SDK_INT >= 16) {
-      try {
-        return Handler::class.java.getDeclaredConstructor(
-          Looper::class.java,
-          Handler.Callback::class.java,
-          Boolean::class.javaPrimitiveType
-        ).newInstance(looper, null, true)
-      } catch (ignored: IllegalAccessException) {
-      } catch (ignored: InstantiationException) {
-      } catch (ignored: NoSuchMethodException) {
-      } catch (e: InvocationTargetException) {
-        return Handler(looper)
-      }
-    }
-    return Handler(looper)
-  }
-
-  @Suppress("NOTHING_TO_INLINE")
-  private inline fun mainHandler() = createAsync(Looper.getMainLooper())
-
-  internal inline fun preload(
+  @MainThread
+  internal inline fun Context.preload(
     tag: String,
     classes: Array<out KClass<out ViewBinding>>,
     crossinline func: Class<out ViewBinding>.() -> Method,
@@ -92,6 +64,7 @@ internal object PreloadMethods {
   ) {
     if (classes.isEmpty()) return
 
+    val mainExecutor = ContextCompat.getMainExecutor(applicationContext)
     ioExecutor.execute {
       log { "$tag start... classes=${classes.map { it.simpleName }}" }
 
@@ -102,7 +75,7 @@ internal object PreloadMethods {
         }
       }
 
-      mainHandler().post {
+      mainExecutor.execute {
         onSuccess(methods)
         log { "$tag done" }
       }

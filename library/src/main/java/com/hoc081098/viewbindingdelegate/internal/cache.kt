@@ -25,7 +25,7 @@
 package com.hoc081098.viewbindingdelegate.internal
 
 import androidx.annotation.MainThread
-import androidx.collection.LruCache
+import androidx.collection.SimpleArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
 import kotlin.LazyThreadSafetyMode.NONE
@@ -38,8 +38,8 @@ internal interface MethodCache {
 }
 
 @MainThread
-private abstract class AbstractMethodCache(maxSize: UInt) : MethodCache {
-  private val cache = LruCache<Class<out ViewBinding>, Method>(maxSize.toInt())
+private abstract class AbstractMethodCache : MethodCache {
+  private val cache = SimpleArrayMap<Class<out ViewBinding>, Method>()
 
   init {
     ensureMainThread()
@@ -54,26 +54,33 @@ private abstract class AbstractMethodCache(maxSize: UInt) : MethodCache {
   abstract fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
-private class BindMethodCache(maxSize: UInt) : AbstractMethodCache(maxSize) {
+private class BindMethodCache : AbstractMethodCache() {
   override fun <T : ViewBinding> Class<T>.findMethod() =
     measureTimeMillis("[findBindMethod]") { findBindMethod() }
 }
 
-private class InflateMethodCache(maxSize: UInt) : AbstractMethodCache(maxSize) {
+private class InflateMethodCache : AbstractMethodCache() {
   override fun <T : ViewBinding> Class<T>.findMethod() =
     measureTimeMillis("[findInflateMethod]") { findInflateMethod() }
 }
 
-@MainThread
 internal object CacheContainer {
-  init {
+  private val bindMethodCache by lazy(NONE) {
     ensureMainThread()
-    log { "[CacheContainer] created" }
+    log { "[CacheContainer] bindMethodCache created" }
+
+    BindMethodCache()
+  }
+  private val inflateMethodCache by lazy(NONE) {
+    ensureMainThread()
+    log { "[CacheContainer] inflateMethodCache created" }
+
+    InflateMethodCache()
   }
 
-  private val bindMethodCache by lazy(NONE) { BindMethodCache(32u) }
-  private val inflateMethodCache by lazy(NONE) { InflateMethodCache(16u) }
-
+  @MainThread
   internal fun provideBindMethodCache(): MethodCache = bindMethodCache
+
+  @MainThread
   internal fun provideInflateMethodCache(): MethodCache = inflateMethodCache
 }

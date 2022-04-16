@@ -24,6 +24,7 @@
 
 package com.hoc081098.viewbindingdelegate
 
+import android.content.Context
 import androidx.annotation.MainThread
 import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.internal.CacheContainer
@@ -33,19 +34,23 @@ import com.hoc081098.viewbindingdelegate.internal.findInflateMethod
 import kotlin.reflect.KClass
 
 @MainThread
-public fun preloadBindMethods(vararg classes: KClass<out ViewBinding>): Unit =
-  PreloadMethods.preload(
-    tag = "[preloadBindMethods]",
-    classes = classes,
-    func = { findBindMethod() },
-    onSuccess = { CacheContainer.provideBindMethodCache().putAll(it) }
-  )
+public fun Context.preloadBindMethods(vararg classes: KClass<out ViewBinding>): Unit =
+  PreloadMethods.run {
+    preload(
+      tag = "[preloadBindMethods]",
+      classes = classes,
+      func = { findBindMethod() },
+      onSuccess = { CacheContainer.provideBindMethodCache().putAll(it) }
+    )
+  }
 
 @MainThread
-public fun preloadInflateMethods(vararg classes: KClass<out ViewBinding>): Unit =
-  PreloadMethods.preload(
-    tag = "[preloadInflateMethods]",
-    classes = classes,
-    func = { findInflateMethod() },
-    onSuccess = { CacheContainer.provideInflateMethodCache().putAll(it) }
-  )
+public fun Context.preloadInflateMethods(vararg classes: KClass<out ViewBinding>): Unit =
+  PreloadMethods.run {
+    preload(
+      tag = "[preloadInflateMethods]",
+      classes = classes,
+      func = { findInflateMethod() },
+      onSuccess = { CacheContainer.provideInflateMethodCache().putAll(it) }
+    )
+  }
