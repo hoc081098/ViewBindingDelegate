@@ -12,7 +12,7 @@ import com.hoc081098.viewbindingdelegate.viewBinding
 import java.util.concurrent.TimeUnit
 
 class ReflectionFragment : Fragment(R.layout.fragment_first), Runnable {
-  private val binding by viewBinding<FragmentFirstBinding>() {
+  private val binding by viewBinding<FragmentFirstBinding> {
     button.setOnClickListener(null)
   }
 
