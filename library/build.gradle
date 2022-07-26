@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    api 'androidx.fragment:fragment-ktx:1.4.1'
+    api 'androidx.fragment:fragment-ktx:1.5.0'
 
     final lifecycle_version = '2.4.1'
     api "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycle_version"
