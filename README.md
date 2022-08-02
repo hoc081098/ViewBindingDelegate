@@ -21,6 +21,12 @@
 <img src="logo.png" height="300"/>
 </p>
 
+## Buy me a coffee
+Liked some of my work? Buy me a coffee (or more likely a beer)
+
+[!["Buy Me A Coffee"](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/hoc081098)
+
+
 ## Medium article
 
 Read [ViewBinding Delegate — one line](https://hoc081098.medium.com/viewbinding-delegate-one-line-4d0cdcbf53ba) to get details about implementation.
