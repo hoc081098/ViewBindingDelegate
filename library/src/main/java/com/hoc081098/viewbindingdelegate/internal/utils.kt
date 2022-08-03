@@ -28,9 +28,6 @@ package com.hoc081098.viewbindingdelegate.internal
 
 import android.os.Looper
 import android.util.Log
-import androidx.annotation.MainThread
-import androidx.viewbinding.ViewBinding
-import java.lang.reflect.Method
 import kotlin.system.measureTimeMillis
 
 @PublishedApi
@@ -56,8 +53,3 @@ internal inline fun <T> measureTimeMillis(tag: String, crossinline block: () -> 
   } else {
     block()
   }
-
-@MainThread
-@PublishedApi
-internal fun <T : ViewBinding> getInflateMethod(clazz: Class<T>): Method =
-  CacheContainer.provideInflateMethodCache().getOrPut(clazz)

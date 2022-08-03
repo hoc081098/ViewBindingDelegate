@@ -75,8 +75,11 @@ public final class com/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDel
 	public final fun from (Landroidx/fragment/app/Fragment;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
 }
 
+public final class com/hoc081098/viewbindingdelegate/internal/CacheKt {
+	public static final fun getInflateMethod (Ljava/lang/Class;)Ljava/lang/reflect/Method;
+}
+
 public final class com/hoc081098/viewbindingdelegate/internal/UtilsKt {
 	public static final fun ensureMainThread ()V
-	public static final fun getInflateMethod (Ljava/lang/Class;)Ljava/lang/reflect/Method;
 }
 

@@ -85,3 +85,7 @@ internal object CacheContainer {
   @MainThread
   internal fun provideInflateMethodCache(): MethodCache = inflateMethodCache
 }
+
+@PublishedApi
+internal fun <T : ViewBinding> getInflateMethod(clazz: Class<T>): Method =
+  CacheContainer.provideInflateMethodCache().getOrPut(clazz)
