@@ -24,7 +24,6 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import android.content.Context
 import androidx.annotation.MainThread
 import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.internal.CacheContainer
@@ -32,7 +31,7 @@ import com.hoc081098.viewbindingdelegate.internal.PreloadMethods
 import kotlin.reflect.KClass
 
 @MainThread
-public fun Context.preloadBindMethods(vararg classes: KClass<out ViewBinding>): Unit =
+public fun preloadBindMethods(vararg classes: KClass<out ViewBinding>): Unit =
   PreloadMethods.run {
     preload(
       tag = "[preloadBindMethods]",
@@ -42,7 +41,7 @@ public fun Context.preloadBindMethods(vararg classes: KClass<out ViewBinding>): 
   }
 
 @MainThread
-public fun Context.preloadInflateMethods(vararg classes: KClass<out ViewBinding>): Unit =
+public fun preloadInflateMethods(vararg classes: KClass<out ViewBinding>): Unit =
   PreloadMethods.run {
     preload(
       tag = "[preloadInflateMethods]",

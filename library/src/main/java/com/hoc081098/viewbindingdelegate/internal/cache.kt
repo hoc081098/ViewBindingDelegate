@@ -25,39 +25,24 @@
 package com.hoc081098.viewbindingdelegate.internal
 
 import androidx.annotation.AnyThread
-import androidx.annotation.MainThread
-import androidx.collection.SimpleArrayMap
+import androidx.collection.ArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
-import kotlin.LazyThreadSafetyMode.NONE
+import java.util.*
 
+@AnyThread
 internal sealed interface MethodCache {
-  @MainThread
   fun <T : ViewBinding> getOrPut(clazz: Class<T>): Method
-
-  operator fun <T : ViewBinding> get(clazz: Class<T>): Method?
-
-  @MainThread
-  fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>)
-
-  @AnyThread
-  fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
 private abstract class AbstractMethodCache : MethodCache {
-  private val cache = SimpleArrayMap<Class<out ViewBinding>, Method>()
-
-  init {
-    ensureMainThread()
-  }
-
-  override fun <T : ViewBinding> get(clazz: Class<T>): Method? = cache[clazz]
+  private val cache: MutableMap<Class<out ViewBinding>, Method> =
+    Collections.synchronizedMap(ArrayMap())
 
   override fun <T : ViewBinding> getOrPut(clazz: Class<T>) =
-    cache[clazz] ?: clazz.findMethod().also { cache.put(clazz, it) }
+    cache.getOrPut(clazz) { clazz.findMethod() }
 
-  override fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>) =
-    pairs.forEach { (k, v) -> cache.put(k, v) }
+  abstract fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
 private class BindMethodCache : AbstractMethodCache() {
@@ -71,23 +56,13 @@ private class InflateMethodCache : AbstractMethodCache() {
 }
 
 internal object CacheContainer {
-  private val bindMethodCache by lazy(NONE) {
-    ensureMainThread()
-    log { "[CacheContainer] bindMethodCache created" }
+  private val bindMethodCache by lazy { BindMethodCache() }
+  private val inflateMethodCache by lazy { InflateMethodCache() }
 
-    BindMethodCache()
-  }
-  private val inflateMethodCache by lazy(NONE) {
-    ensureMainThread()
-    log { "[CacheContainer] inflateMethodCache created" }
-
-    InflateMethodCache()
-  }
-
-  @MainThread
+  @AnyThread
   internal fun provideBindMethodCache(): MethodCache = bindMethodCache
 
-  @MainThread
+  @AnyThread
   internal fun provideInflateMethodCache(): MethodCache = inflateMethodCache
 }
 
