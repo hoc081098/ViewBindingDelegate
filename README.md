@@ -298,4 +298,4 @@ Since version `1.2.0`, `minSdkVersion` has been changed to `14`.
 
     MIT License
 
-    Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+    Copyright (c) 2020-2022 Petrus Nguyễn Thái Học

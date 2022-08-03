@@ -22,34 +22,34 @@
  * SOFTWARE.
  */
 
-package com.hoc081098.example
+@file:Suppress("NOTHING_TO_INLINE")
 
+package com.hoc081098.viewbindingdelegate.internal
+
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.hoc081098.example.databinding.ItemRecyclerBinding
-import com.hoc081098.example.databinding.ItemRecyclerMergeBinding
-import com.hoc081098.viewbindingdelegate.inflateViewBinding
+import androidx.annotation.AnyThread
+import androidx.viewbinding.ViewBinding
+import java.lang.reflect.Method
 
-class DemoAdapter :
-  ListAdapter<String, DemoAdapter.VH>(
-    object : DiffUtil.ItemCallback<String>() {
-      override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-      override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-    }
-  ) {
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-    VH(parent inflateViewBinding false)
+@AnyThread
+internal inline fun <T : ViewBinding> Class<T>.findInflateMethod(): Method =
+  runCatching {
+    getMethod(
+      "inflate",
+      LayoutInflater::class.java,
+      ViewGroup::class.java,
+      Boolean::class.java
+    )
+  }.recover {
+    getMethod(
+      "inflate",
+      LayoutInflater::class.java,
+      ViewGroup::class.java
+    )
+  }.getOrThrow()
 
-  override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
-
-  class VH(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
-    private val includeBinding = ItemRecyclerMergeBinding.bind(binding.root)
-
-    fun bind(item: String) {
-      binding.textView.text = "Title: $item"
-      includeBinding.textViewSubtitle.text = "Subtitle: $item"
-    }
-  }
-}
+@AnyThread
+internal inline fun <T : ViewBinding> Class<T>.findBindMethod(): Method =
+  getMethod("bind", View::class.java)

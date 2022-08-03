@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@
 package com.hoc081098.viewbindingdelegate
 
 import androidx.fragment.app.Fragment
-import com.hoc081098.viewbindingdelegate.test.databinding.FragmentTestBinding
 import com.hoc081098.viewbindingdelegate.test.R as TestR
+import com.hoc081098.viewbindingdelegate.test.databinding.FragmentTestBinding
 
 public class TestFragment : Fragment(TestR.layout.fragment_test) {
   internal val bindingReflection: FragmentTestBinding by viewBinding()

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment.OnDestroyViewListeners
 import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.internal.log
 import java.util.concurrent.CopyOnWriteArraySet
 
 /**
@@ -63,14 +64,14 @@ public interface ViewBindingDialogFragment {
     private val listeners: MutableSet<() -> Unit> = CopyOnWriteArraySet()
 
     public operator fun plusAssign(listener: () -> Unit) {
-      check(!isDisposed) { "Already disposed" }
+      checkDisposed()
 
       listeners += listener
     }
 
     public operator fun invoke() {
-      check(!isDisposed) { "Already disposed" }
-      log { "Listeners::invoke ${listeners.size}" }
+      checkDisposed()
+      log { "[OnDestroyViewListeners] $this::invoke ${listeners.size}" }
 
       listeners.forEach { it() }
     }
@@ -79,11 +80,15 @@ public interface ViewBindingDialogFragment {
      * Dispose this listeners. Should call once.
      */
     public fun dispose() {
-      check(!isDisposed) { "Already disposed" }
-      log { "Listeners::dispose ${listeners.size}" }
+      checkDisposed()
+      log { "[OnDestroyViewListeners] $this::dispose ${listeners.size}" }
 
       listeners.clear()
       isDisposed = true
+    }
+
+    private fun checkDisposed() {
+      check(!isDisposed) { "$this has already been disposed" }
     }
   }
 }

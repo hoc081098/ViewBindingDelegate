@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ import androidx.viewbinding.ViewBinding
 import com.hoc081098.viewbindingdelegate.impl.ActivityViewBindingDelegate
 import com.hoc081098.viewbindingdelegate.impl.DialogFragmentViewBindingDelegate
 import com.hoc081098.viewbindingdelegate.impl.FragmentViewBindingDelegate
+import com.hoc081098.viewbindingdelegate.internal.getInflateMethod
 
 //
 // Fragment
@@ -98,6 +99,7 @@ public inline fun <reified T : ViewBinding> Activity.viewBinding(): ActivityView
 /**
  * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
  *
+ * @param rootId id of the root layout of the dialog's view.
  * @param bind a lambda function that creates a [ViewBinding] instance from root view of the [Dialog] of this [DialogFragment],
  *        eg: `T::bind` static method can be used.
  */
@@ -117,6 +119,7 @@ public fun <DF, T : ViewBinding> DF.dialogFragmentViewBinding(
 
 /**
  * Create [ViewBinding] property delegate for the [Dialog] of this [DialogFragment].
+ * @param rootId id of the root layout of the dialog's view.
  */
 @MainThread
 public inline fun <DF, reified T : ViewBinding> DF.dialogFragmentViewBinding(

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@ import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.GetBindMethod
-import com.hoc081098.viewbindingdelegate.ensureMainThread
+import com.hoc081098.viewbindingdelegate.internal.CacheContainer
+import com.hoc081098.viewbindingdelegate.internal.ensureMainThread
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -47,7 +47,9 @@ public class ActivityViewBindingDelegate<T : ViewBinding> private constructor(
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
-    GetBindMethod(viewBindingClazz!!)(null, view) as T
+    CacheContainer
+      .provideBindMethodCache()
+      .getOrPut(viewBindingClazz!!)(null, view) as T
   }
 
   init {

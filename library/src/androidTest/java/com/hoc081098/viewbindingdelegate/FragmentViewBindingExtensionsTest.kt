@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +27,11 @@ package com.hoc081098.viewbindingdelegate
 import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.hoc081098.viewbindingdelegate.test.R as TestR
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertSame
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.hoc081098.viewbindingdelegate.test.R as TestR
 
 @RunWith(AndroidJUnit4::class)
 public class FragmentViewBindingExtensionsTest {

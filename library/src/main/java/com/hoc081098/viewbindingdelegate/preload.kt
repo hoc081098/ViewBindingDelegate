@@ -24,11 +24,35 @@
 
 package com.hoc081098.viewbindingdelegate
 
-import androidx.appcompat.app.AppCompatActivity
-import com.hoc081098.viewbindingdelegate.test.R as TestR
-import com.hoc081098.viewbindingdelegate.test.databinding.ActivityTestBinding
+import android.content.Context
+import androidx.annotation.MainThread
+import androidx.viewbinding.ViewBinding
+import com.hoc081098.viewbindingdelegate.internal.CacheContainer
+import com.hoc081098.viewbindingdelegate.internal.PreloadMethods
+import kotlin.reflect.KClass
 
-public class TestActivity : AppCompatActivity(TestR.layout.activity_test) {
-  internal val bindingReflection: ActivityTestBinding by viewBinding()
-  internal val binding: ActivityTestBinding by viewBinding(ActivityTestBinding::bind)
-}
+@MainThread
+public fun Context.preloadBindMethods(vararg classes: KClass<out ViewBinding>): Unit =
+  PreloadMethods.run {
+    val bindMethodCache = CacheContainer.provideBindMethodCache()
+
+    preload(
+      tag = "[preloadBindMethods]",
+      classes = classes,
+      func = { bindMethodCache.run { findMethod() } },
+      onSuccess = { bindMethodCache.putAll(it) }
+    )
+  }
+
+@MainThread
+public fun Context.preloadInflateMethods(vararg classes: KClass<out ViewBinding>): Unit =
+  PreloadMethods.run {
+    val inflateMethodCache = CacheContainer.provideInflateMethodCache()
+
+    preload(
+      tag = "[preloadInflateMethods]",
+      classes = classes,
+      func = { inflateMethodCache.run { findMethod() } },
+      onSuccess = { inflateMethodCache.putAll(it) }
+    )
+  }

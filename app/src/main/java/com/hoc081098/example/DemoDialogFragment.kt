@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ package com.hoc081098.example
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.hoc081098.example.databinding.DialogFragmentDemoBinding
@@ -52,9 +53,16 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
       .create()
   }
 
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    access()
+  }
+
   override fun onResume() {
     super.onResume()
+    access()
+  }
 
+  private fun access() {
     Log.d("###", viewBinding.toString())
     Log.d("###", viewBinding.textInputLayout.toString())
 

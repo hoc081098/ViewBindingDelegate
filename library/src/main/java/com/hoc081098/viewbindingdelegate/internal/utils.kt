@@ -22,13 +22,34 @@
  * SOFTWARE.
  */
 
-package com.hoc081098.viewbindingdelegate
+@file:Suppress("NOTHING_TO_INLINE")
 
-import androidx.appcompat.app.AppCompatActivity
-import com.hoc081098.viewbindingdelegate.test.R as TestR
-import com.hoc081098.viewbindingdelegate.test.databinding.ActivityTestBinding
+package com.hoc081098.viewbindingdelegate.internal
 
-public class TestActivity : AppCompatActivity(TestR.layout.activity_test) {
-  internal val bindingReflection: ActivityTestBinding by viewBinding()
-  internal val binding: ActivityTestBinding by viewBinding(ActivityTestBinding::bind)
+import android.os.Looper
+import android.util.Log
+import kotlin.system.measureTimeMillis
+
+@PublishedApi
+internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.myLooper()) {
+  "Expected to be called on the main thread but was " + Thread.currentThread().name
 }
+
+// TODO(release): set `DEBUG` to `false` when publishing.
+private const val DEBUG = true
+
+internal inline fun log(crossinline message: () -> String) {
+  if (DEBUG) {
+    Log.d("ViewBinding", message())
+  }
+}
+
+internal inline fun <T> measureTimeMillis(tag: String, crossinline block: () -> T): T =
+  if (DEBUG) {
+    val t: T
+    val time = measureTimeMillis { t = block() }
+    log { "$tag taken time=$time ms ~ ${time / 1_000.0} s" }
+    t
+  } else {
+    block()
+  }

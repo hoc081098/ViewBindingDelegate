@@ -24,32 +24,25 @@
 
 package com.hoc081098.example
 
-import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import android.app.Application
+import com.hoc081098.example.databinding.FragmentFourthBinding
+import com.hoc081098.example.databinding.FragmentThirdBinding
+import com.hoc081098.example.databinding.FragmentThirdIncludeBinding
 import com.hoc081098.example.databinding.ItemRecyclerBinding
-import com.hoc081098.example.databinding.ItemRecyclerMergeBinding
-import com.hoc081098.viewbindingdelegate.inflateViewBinding
+import com.hoc081098.viewbindingdelegate.preloadBindMethods
+import com.hoc081098.viewbindingdelegate.preloadInflateMethods
 
-class DemoAdapter :
-  ListAdapter<String, DemoAdapter.VH>(
-    object : DiffUtil.ItemCallback<String>() {
-      override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-      override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-    }
-  ) {
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-    VH(parent inflateViewBinding false)
+class MyApp : Application() {
+  override fun onCreate() {
+    super.onCreate()
 
-  override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
-
-  class VH(private val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
-    private val includeBinding = ItemRecyclerMergeBinding.bind(binding.root)
-
-    fun bind(item: String) {
-      binding.textView.text = "Title: $item"
-      includeBinding.textViewSubtitle.text = "Subtitle: $item"
-    }
+    preloadBindMethods(
+      FragmentThirdBinding::class,
+      FragmentThirdIncludeBinding::class,
+      FragmentFourthBinding::class
+    )
+    preloadInflateMethods(
+      ItemRecyclerBinding::class
+    )
   }
 }

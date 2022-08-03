@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
+ * Copyright (c) 2020-2022 Petrus Nguyễn Thái Học
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,11 +32,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
-import com.hoc081098.viewbindingdelegate.GetBindMethod
 import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment
 import com.hoc081098.viewbindingdelegate.ViewBindingDialogFragment.OnDestroyViewListeners
-import com.hoc081098.viewbindingdelegate.ensureMainThread
-import com.hoc081098.viewbindingdelegate.log
+import com.hoc081098.viewbindingdelegate.internal.CacheContainer
+import com.hoc081098.viewbindingdelegate.internal.ensureMainThread
+import com.hoc081098.viewbindingdelegate.internal.log
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -59,7 +59,9 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
   private var binding: T? = null
   private val bind = viewBindingBind ?: { view: View ->
     @Suppress("UNCHECKED_CAST")
-    GetBindMethod(viewBindingClazz!!)(null, view) as T
+    CacheContainer
+      .provideBindMethodCache()
+      .getOrPut(viewBindingClazz!!)(null, view) as T
   }
 
   init {
@@ -92,14 +94,14 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
         onDestroyViewActual = null
         binding = null
 
-        log { "$fragment::onDestroyView" }
+        log { "[DialogFragmentViewBindingDelegate] onDestroyView::$fragment" }
       }
     }
 
     override fun onCreate(owner: LifecycleOwner) {
       fragment.onDestroyViewLiveData.observeForever(observer)
 
-      log { "$fragment::onCreate" }
+      log { "[DialogFragmentViewBindingDelegate] onCreate::$fragment" }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -109,7 +111,7 @@ public class DialogFragmentViewBindingDelegate<T : ViewBinding, DF> private cons
       binding = null
       onDestroyView = null
 
-      log { "$fragment::onDestroy" }
+      log { "[DialogFragmentViewBindingDelegate] onDestroy::$fragment" }
     }
   }
 

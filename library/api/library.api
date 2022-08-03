@@ -20,9 +20,9 @@ public final class com/hoc081098/viewbindingdelegate/ExtensionsKt {
 	public static synthetic fun viewBinding$default (Landroidx/fragment/app/Fragment;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
 }
 
-public final class com/hoc081098/viewbindingdelegate/UtilsKt {
-	public static final fun ensureMainThread ()V
-	public static final fun getInflateMethod (Ljava/lang/Class;)Ljava/lang/reflect/Method;
+public final class com/hoc081098/viewbindingdelegate/PreloadKt {
+	public static final fun preloadBindMethods (Landroid/content/Context;[Lkotlin/reflect/KClass;)V
+	public static final fun preloadInflateMethods (Landroid/content/Context;[Lkotlin/reflect/KClass;)V
 }
 
 public abstract interface class com/hoc081098/viewbindingdelegate/ViewBindingDialogFragment {
@@ -73,5 +73,13 @@ public final class com/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDel
 public final class com/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate$Factory {
 	public final fun from (Landroidx/fragment/app/Fragment;Ljava/lang/Class;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
 	public final fun from (Landroidx/fragment/app/Fragment;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lcom/hoc081098/viewbindingdelegate/impl/FragmentViewBindingDelegate;
+}
+
+public final class com/hoc081098/viewbindingdelegate/internal/CacheKt {
+	public static final fun getInflateMethod (Ljava/lang/Class;)Ljava/lang/reflect/Method;
+}
+
+public final class com/hoc081098/viewbindingdelegate/internal/UtilsKt {
+	public static final fun ensureMainThread ()V
 }
 
