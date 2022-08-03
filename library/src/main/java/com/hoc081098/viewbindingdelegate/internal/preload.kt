@@ -26,10 +26,8 @@ package com.hoc081098.viewbindingdelegate.internal
 
 import android.content.Context
 import androidx.annotation.MainThread
-import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
-import java.lang.reflect.Method
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.ThreadPoolExecutor
@@ -57,28 +55,36 @@ internal object PreloadMethods {
   }
 
   @MainThread
-  internal inline fun Context.preload(
+  internal fun Context.preload(
     tag: String,
-    classes: Array<out KClass<out ViewBinding>>,
-    @WorkerThread crossinline func: Class<out ViewBinding>.() -> Method,
-    @MainThread crossinline onSuccess: (List<Pair<Class<out ViewBinding>, Method>>) -> Unit
+    kClasses: Array<out KClass<out ViewBinding>>,
+    cache: MethodCache
   ) {
-    if (classes.isEmpty()) return
+    if (kClasses.isEmpty()) {
+      log { "$tag empty kClasses" }
+      return
+    }
+    val classes = kClasses.mapNotNull { kClass ->
+      kClass.java.takeIf { cache[it] === null }
+    }
+    if (classes.isEmpty()) {
+      log { "$tag empty classes" }
+      return
+    }
 
     val mainExecutor = ContextCompat.getMainExecutor(applicationContext)
 
     ioExecutor.execute {
-      log { "$tag start... classes=${classes.map { it.simpleName }}" }
+      log { "$tag start... classes=${kClasses.map { it.simpleName }}" }
 
       val methods = measureTimeMillis(tag) {
-        classes.map {
-          val clazz = it.java
-          clazz to clazz.func()
+        classes.map { clazz ->
+          clazz to cache.run { clazz.findMethod() }
         }
       }
 
       mainExecutor.execute {
-        onSuccess(methods)
+        cache.putAll(methods)
         log { "$tag done" }
       }
     }

@@ -24,28 +24,34 @@
 
 package com.hoc081098.viewbindingdelegate.internal
 
+import androidx.annotation.AnyThread
 import androidx.annotation.MainThread
 import androidx.collection.SimpleArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
 import kotlin.LazyThreadSafetyMode.NONE
 
-@MainThread
 internal sealed interface MethodCache {
+  @MainThread
   fun <T : ViewBinding> getOrPut(clazz: Class<T>): Method
 
+  operator fun <T : ViewBinding> get(clazz: Class<T>): Method?
+
+  @MainThread
   fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>)
 
+  @AnyThread
   fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
-@MainThread
 private abstract class AbstractMethodCache : MethodCache {
   private val cache = SimpleArrayMap<Class<out ViewBinding>, Method>()
 
   init {
     ensureMainThread()
   }
+
+  override fun <T : ViewBinding> get(clazz: Class<T>): Method? = cache[clazz]
 
   override fun <T : ViewBinding> getOrPut(clazz: Class<T>) =
     cache[clazz] ?: clazz.findMethod().also { cache.put(clazz, it) }
@@ -56,15 +62,14 @@ private abstract class AbstractMethodCache : MethodCache {
 
 private class BindMethodCache : AbstractMethodCache() {
   override fun <T : ViewBinding> Class<T>.findMethod() =
-    measureTimeMillis("[findBindMethod]") { findBindMethod() }
+    measureTimeMillis("[BindMethodCache-findBindMethod]") { findBindMethod() }
 }
 
 private class InflateMethodCache : AbstractMethodCache() {
   override fun <T : ViewBinding> Class<T>.findMethod() =
-    measureTimeMillis("[findInflateMethod]") { findInflateMethod() }
+    measureTimeMillis("[InflateMethodCache-findInflateMethod]") { findInflateMethod() }
 }
 
-@MainThread
 internal object CacheContainer {
   private val bindMethodCache by lazy(NONE) {
     ensureMainThread()

@@ -28,7 +28,7 @@ package com.hoc081098.viewbindingdelegate.internal
 
 import android.os.Looper
 import android.util.Log
-import kotlin.system.measureTimeMillis
+import kotlin.system.measureNanoTime
 
 @PublishedApi
 internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.myLooper()) {
@@ -40,15 +40,15 @@ private const val DEBUG = true
 
 internal inline fun log(crossinline message: () -> String) {
   if (DEBUG) {
-    Log.d("ViewBinding", message())
+    Log.d("ViewBindingDelegate", message())
   }
 }
 
 internal inline fun <T> measureTimeMillis(tag: String, crossinline block: () -> T): T =
   if (DEBUG) {
     val t: T
-    val time = measureTimeMillis { t = block() }
-    log { "$tag taken time=$time ms ~ ${time / 1_000.0} s" }
+    val time = measureNanoTime { t = block() }
+    log { "$tag taken time=$time ns ~ ${time / 1_000_000.0} ms" }
     t
   } else {
     block()

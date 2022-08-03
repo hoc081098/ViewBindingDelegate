@@ -34,25 +34,19 @@ import kotlin.reflect.KClass
 @MainThread
 public fun Context.preloadBindMethods(vararg classes: KClass<out ViewBinding>): Unit =
   PreloadMethods.run {
-    val bindMethodCache = CacheContainer.provideBindMethodCache()
-
     preload(
       tag = "[preloadBindMethods]",
-      classes = classes,
-      func = { bindMethodCache.run { findMethod() } },
-      onSuccess = { bindMethodCache.putAll(it) }
+      kClasses = classes,
+      cache = CacheContainer.provideBindMethodCache()
     )
   }
 
 @MainThread
 public fun Context.preloadInflateMethods(vararg classes: KClass<out ViewBinding>): Unit =
   PreloadMethods.run {
-    val inflateMethodCache = CacheContainer.provideInflateMethodCache()
-
     preload(
       tag = "[preloadInflateMethods]",
-      classes = classes,
-      func = { inflateMethodCache.run { findMethod() } },
-      onSuccess = { inflateMethodCache.putAll(it) }
+      kClasses = classes,
+      cache = CacheContainer.provideInflateMethodCache()
     )
   }
