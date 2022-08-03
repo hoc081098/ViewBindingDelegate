@@ -26,6 +26,7 @@ package com.hoc081098.viewbindingdelegate.internal
 
 import android.content.Context
 import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
@@ -59,12 +60,13 @@ internal object PreloadMethods {
   internal inline fun Context.preload(
     tag: String,
     classes: Array<out KClass<out ViewBinding>>,
-    crossinline func: Class<out ViewBinding>.() -> Method,
-    crossinline onSuccess: (List<Pair<Class<out ViewBinding>, Method>>) -> Unit
+    @WorkerThread crossinline func: Class<out ViewBinding>.() -> Method,
+    @MainThread crossinline onSuccess: (List<Pair<Class<out ViewBinding>, Method>>) -> Unit
   ) {
     if (classes.isEmpty()) return
 
     val mainExecutor = ContextCompat.getMainExecutor(applicationContext)
+
     ioExecutor.execute {
       log { "$tag start... classes=${classes.map { it.simpleName }}" }
 

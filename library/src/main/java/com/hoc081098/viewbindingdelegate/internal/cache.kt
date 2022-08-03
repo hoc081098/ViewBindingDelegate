@@ -31,10 +31,12 @@ import java.lang.reflect.Method
 import kotlin.LazyThreadSafetyMode.NONE
 
 @MainThread
-internal interface MethodCache {
+internal sealed interface MethodCache {
   fun <T : ViewBinding> getOrPut(clazz: Class<T>): Method
 
   fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>)
+
+  fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
 @MainThread
@@ -50,8 +52,6 @@ private abstract class AbstractMethodCache : MethodCache {
 
   override fun putAll(pairs: List<Pair<Class<out ViewBinding>, Method>>) =
     pairs.forEach { (k, v) -> cache.put(k, v) }
-
-  abstract fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
 private class BindMethodCache : AbstractMethodCache() {
@@ -64,6 +64,7 @@ private class InflateMethodCache : AbstractMethodCache() {
     measureTimeMillis("[findInflateMethod]") { findInflateMethod() }
 }
 
+@MainThread
 internal object CacheContainer {
   private val bindMethodCache by lazy(NONE) {
     ensureMainThread()

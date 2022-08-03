@@ -27,11 +27,11 @@ package com.hoc081098.viewbindingdelegate
 import androidx.fragment.app.testing.launchFragment
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.hoc081098.viewbindingdelegate.test.R as TestR
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertSame
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.hoc081098.viewbindingdelegate.test.R as TestR
 
 @RunWith(AndroidJUnit4::class)
 public class FragmentViewBindingExtensionsTest {

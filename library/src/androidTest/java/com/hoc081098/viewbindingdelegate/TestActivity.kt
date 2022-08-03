@@ -25,8 +25,8 @@
 package com.hoc081098.viewbindingdelegate
 
 import androidx.appcompat.app.AppCompatActivity
-import com.hoc081098.viewbindingdelegate.test.databinding.ActivityTestBinding
 import com.hoc081098.viewbindingdelegate.test.R as TestR
+import com.hoc081098.viewbindingdelegate.test.databinding.ActivityTestBinding
 
 public class TestActivity : AppCompatActivity(TestR.layout.activity_test) {
   internal val bindingReflection: ActivityTestBinding by viewBinding()
