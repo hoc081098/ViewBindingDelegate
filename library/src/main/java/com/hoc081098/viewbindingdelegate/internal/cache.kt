@@ -25,9 +25,9 @@
 package com.hoc081098.viewbindingdelegate.internal
 
 import androidx.annotation.AnyThread
-import androidx.collection.ArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
+import java.util.concurrent.ConcurrentHashMap
 
 @AnyThread
 internal sealed interface MethodCache {
@@ -35,12 +35,15 @@ internal sealed interface MethodCache {
 }
 
 private abstract class AbstractMethodCache : MethodCache {
-  private val cache: MutableMap<Class<out ViewBinding>, Method> = ArrayMap()
+  private val cache: MutableMap<Class<out ViewBinding>, Method> = ConcurrentHashMap()
 
   override fun <T : ViewBinding> getOrPut(clazz: Class<T>) =
     measureNanoTime("[${this::class.java.simpleName}-getOrPut] class=$clazz") {
-      synchronized(cache) {
-        cache.getOrPut(clazz) { clazz.findMethod() }
+      cache[clazz]?.let { return@measureNanoTime it }
+
+      clazz.findMethod().also {
+        // Cache update.
+        cache[clazz] = it
       }
     }
 
