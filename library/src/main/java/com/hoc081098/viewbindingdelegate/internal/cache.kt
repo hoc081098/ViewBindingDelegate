@@ -28,7 +28,6 @@ import androidx.annotation.AnyThread
 import androidx.collection.ArrayMap
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.Method
-import java.util.*
 
 @AnyThread
 internal sealed interface MethodCache {
@@ -36,23 +35,26 @@ internal sealed interface MethodCache {
 }
 
 private abstract class AbstractMethodCache : MethodCache {
-  private val cache: MutableMap<Class<out ViewBinding>, Method> =
-    Collections.synchronizedMap(ArrayMap())
+  private val cache: MutableMap<Class<out ViewBinding>, Method> = ArrayMap()
 
   override fun <T : ViewBinding> getOrPut(clazz: Class<T>) =
-    cache.getOrPut(clazz) { clazz.findMethod() }
+    measureNanoTime("[${this::class.java.simpleName}-getOrPut] class=$clazz") {
+      synchronized(cache) {
+        cache.getOrPut(clazz) { clazz.findMethod() }
+      }
+    }
 
   abstract fun <T : ViewBinding> Class<T>.findMethod(): Method
 }
 
 private class BindMethodCache : AbstractMethodCache() {
   override fun <T : ViewBinding> Class<T>.findMethod() =
-    measureTimeMillis("[BindMethodCache-findBindMethod]") { findBindMethod() }
+    measureNanoTime("[BindMethodCache-findMethod] class=$this") { findBindMethod() }
 }
 
 private class InflateMethodCache : AbstractMethodCache() {
   override fun <T : ViewBinding> Class<T>.findMethod() =
-    measureTimeMillis("[InflateMethodCache-findInflateMethod]") { findInflateMethod() }
+    measureNanoTime("[InflateMethodCache-findMethod] class=$this") { findInflateMethod() }
 }
 
 internal object CacheContainer {

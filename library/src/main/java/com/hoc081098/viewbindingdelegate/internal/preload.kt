@@ -63,13 +63,15 @@ internal object PreloadMethods {
     }
 
     ioExecutor.execute {
-      measureTimeMillis(tag) {
+      measureNanoTime(tag) {
         log { "$tag start..." }
 
         kClasses.forEach { kClass ->
           cache.getOrPut(kClass.java)
           log { "$tag processed $kClass" }
         }
+
+        log { "$tag done" }
       }
     }
   }

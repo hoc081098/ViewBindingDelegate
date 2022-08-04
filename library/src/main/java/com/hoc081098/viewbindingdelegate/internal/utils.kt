@@ -44,7 +44,7 @@ internal inline fun log(crossinline message: () -> String) {
   }
 }
 
-internal inline fun <T> measureTimeMillis(tag: String, crossinline block: () -> T): T =
+internal inline fun <T> measureNanoTime(tag: String, crossinline block: () -> T): T =
   if (DEBUG) {
     val t: T
     val time = measureNanoTime { t = block() }
