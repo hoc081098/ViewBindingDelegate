@@ -21,7 +21,6 @@
 <img src="logo.png" height="300"/>
 </p>
 
-## Buy me a coffee
 Liked some of my work? Buy me a coffee (or more likely a beer)
 
 [!["Buy Me A Coffee"](https://cdn.buymeacoffee.com/buttons/default-orange.png)](https://www.buymeacoffee.com/hoc081098)
@@ -31,9 +30,9 @@ Liked some of my work? Buy me a coffee (or more likely a beer)
 
 Read [ViewBinding Delegate — one line](https://hoc081098.medium.com/viewbinding-delegate-one-line-4d0cdcbf53ba) to get details about implementation.
 
-# Getting Started
+## Getting Started
 
-## 1. Add the JitPack repository to your build file
+### 1. Add the JitPack repository to your build file
 Add it in your root build.gradle at the end of repositories:
 
 - Kotlin
@@ -56,7 +55,7 @@ allprojects {
 }
 ```
 
-## 2. Add the dependency
+### 2. Add the dependency
 
 ```kotlin
 dependencies {
@@ -68,7 +67,7 @@ dependencies {
 
 https://developer.android.com/topic/libraries/view-binding#setup
 
-# Usage
+## Usage
 
 ```kotlin
 import com.hoc081098.viewbindingdelegate.*
@@ -238,7 +237,7 @@ class DemoAdapter : ListAdapter<String, DemoAdapter.VH>(...) {
 
 </details>
 
-# Note
+## Note
 
 ### 1. Activity
   Must `setContentView` before access `ViewBinding` property. This can be done easily with `constructor`:
@@ -294,7 +293,7 @@ Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding deleg
 
 Since version `1.2.0`, `minSdkVersion` has been changed to `14`.
 
-# License
+## License
 
     MIT License
 
