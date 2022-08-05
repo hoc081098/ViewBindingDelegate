@@ -11,7 +11,9 @@
   - `AndroidX ViewBinding` to `7.2.2`.
   - `AndroidX AppCompat` to `1.4.2`.
 
-- New feature: add preload functions.
+- New feature: added 2 preload functions used to find and cache
+  `java.lang.reflect.Method`s when using reflection, which can improve the performance. We should
+  call 2 methods in `Application` class or `AndroidX StartUp Initializer` class.
   - `public fun preloadBindMethods(vararg classes: KClass<out ViewBinding>)`.
   - `public fun preloadInflateMethods(vararg classes: KClass<out ViewBinding>)`.
 
@@ -72,8 +74,9 @@
 
 ## 1.0.0-alpha03 - Feb 16, 2021
 
-- **Breaking change**: Now, cannot access ViewBinding delegate property in `onDestroyView` (this causes many problems).
-  Recommended way is passing a lambda to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
+- **Breaking change**: Now, cannot access ViewBinding delegate property in `onDestroyView` (this
+  causes many problems). Recommended way is passing a lambda
+  to `onDestroyView: (T.() -> Unit)? = null` parameter of extension functions, eg.
 
   ```kotlin
   private val binding by viewBinding<FragmentFirstBinding>() { /*this: FragmentFirstBinding*/
@@ -83,8 +86,10 @@
   ```
 - New feature: add inflating extensions
   - `ViewGroup.inflateViewBinding(attachToParent: Boolean)`.
-  - `LayoutInflater.inflateViewBinding(parent: ViewGroup? = null, attachToParent: Boolean = parent != null)`.
-  - `Context.inflateViewBinding(parent: ViewGroup? = null, attachToParent: Boolean = parent != null)`.
+  - `LayoutInflater.inflateViewBinding(parent: ViewGroup? = null, attachToParent: Boolean = parent != null)`
+    .
+  - `Context.inflateViewBinding(parent: ViewGroup? = null, attachToParent: Boolean = parent != null)`
+    .
 - Updated dependencies:
   - Gradle to 6.8.2.
   - Android Gradle plugin to 4.1.2.
@@ -92,7 +97,8 @@
 ## 1.0.0-alpha02 - Jan 1, 2021
 
 - New features:
-  - Add `dialogFragmentViewBinding`, `DialogFragmentViewBindingDelegate`: supports for the `Dialog` of `DialogFragment`.
+  - Add `dialogFragmentViewBinding`, `DialogFragmentViewBindingDelegate`: supports for the `Dialog`
+    of `DialogFragment`.
 - Updated dependencies:
   - Gradle to 6.7.1.
   - Android Gradle plugin to 4.1.1.
