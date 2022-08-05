@@ -35,16 +35,11 @@ internal sealed interface MethodCache {
 }
 
 private abstract class AbstractMethodCache : MethodCache {
-  private val cache: MutableMap<Class<out ViewBinding>, Method> = ConcurrentHashMap()
+  private val cache = ConcurrentHashMap<Class<out ViewBinding>, Method>()
 
-  override fun <T : ViewBinding> getOrPut(clazz: Class<T>) =
+  override fun <T : ViewBinding> getOrPut(clazz: Class<T>): Method =
     measureNanoTime("[${this::class.java.simpleName}-getOrPut] class=$clazz") {
-      cache[clazz]?.let { return@measureNanoTime it }
-
-      clazz.findMethod().also {
-        // Cache update.
-        cache[clazz] = it
-      }
+      cache.getOrPut(clazz) { clazz.findMethod() }
     }
 
   abstract fun <T : ViewBinding> Class<T>.findMethod(): Method

@@ -10,3 +10,5 @@ ij_kotlin_imports_layout=*
 disabled_rules=filename
 [*.xml]
 indent_size=4
+[*.gradle]
+indent_size=4
