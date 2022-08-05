@@ -60,7 +60,7 @@ allprojects {
 
 ```kotlin
 dependencies {
-  implementation("com.github.hoc081098:ViewBindingDelegate:1.3.1")
+  implementation("com.github.hoc081098:ViewBindingDelegate:1.4.0")
 }
 ```
 
@@ -82,10 +82,10 @@ import com.hoc081098.viewbindingdelegate.*
 ```kotlin
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
   private val viewBinding by viewBinding<ActivityMainBinding>()
-  
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    
+
     viewBinding.button.setOnClickListener {
       startActivity(Intent(this@MainActivity, SecondActivity::class.java))
     }
@@ -125,7 +125,7 @@ class FirstFragment : Fragment(R.layout.fragment_first) {
   private val binding by viewBinding<FragmentFirstBinding> {
     button.setOnClickListener(null)
   }
-  
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
@@ -184,8 +184,8 @@ class ThirdFragment : Fragment(R.layout.fragment_third) {
 
 ### 6. The `Dialog` of `DialogFragment`[See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoDialogFragment.kt)
 
-Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`. 
-  
+Extends `DefaultViewBindingDialogFragment` or implements `ViewBindingDialogFragment`.
+
 <details>
 
   <summary>Click to expand</summary>
@@ -216,9 +216,9 @@ class DemoDialogFragment : DefaultViewBindingDialogFragment() {
 </details>
 
 ### 7. `inflateViewBinding` extension methods on `ViewGroup`/`LayoutInflater`/`Context`. [See example](https://github.com/hoc081098/ViewBindingDelegate/blob/master/app/src/main/java/com/hoc081098/example/DemoAdapter.kt)
-  
+
 Can be used in `RecyclerView.Adapter # onCreateViewHolder` to easily create a `RecyclerView.ViewHolder` with a `ViewBinding`.
-  
+
 <details>
     <summary>Click to expand</summary>
 
@@ -234,10 +234,10 @@ class DemoAdapter : ListAdapter<String, DemoAdapter.VH>(...) {
     fun bind(item: String) { ... }
   }
 }
-```    
-    
-</details> 
-  
+```
+
+</details>
+
 # Note
 
 ### 1. Activity
@@ -257,7 +257,7 @@ class DemoAdapter : ListAdapter<String, DemoAdapter.VH>(...) {
   ```kotlin
   class FirstFragment : Fragment(R.layout.fragment_first) { ... }
   ```
-  
+
 ### 3. Proguard
 If there is any problem with `Proguard`, add below to your `app/proguard-rules.pro`:
 ```
@@ -282,7 +282,7 @@ Since version `1.0.0-alpha03 - Feb 16, 2021`, we cannot access ViewBinding deleg
 +   button.setOnClickListener(null)
 +   recyclerView.adapter = null
 + }
- 
+
   override fun onDestroyView() {
     super.onDestroyView()
 -   binding.button.setOnClickListener(null)

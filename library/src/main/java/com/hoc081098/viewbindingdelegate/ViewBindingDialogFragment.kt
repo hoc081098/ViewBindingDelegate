@@ -87,7 +87,8 @@ public interface ViewBindingDialogFragment {
       isDisposed = true
     }
 
-    private fun checkDisposed() {
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun checkDisposed() {
       check(!isDisposed) { "$this has already been disposed" }
     }
   }

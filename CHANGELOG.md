@@ -1,3 +1,22 @@
+## 1.4.0 - Aug 5, 2022
+
+-   Change `targetSdkVersion` and `compileSdkVersion` to `32`.
+
+-   Updated dependencies
+  -   `Kotlin` to `1.7.10`.
+  -   `AGP` to `7.2.2`.
+  -   `Gradle` to `7.5`.
+  -   `AndroidX Fragment` to `1.5.1`.
+  -   `AndroidX Lifecycle` to `2.5.1`.
+  -   `AndroidX ViewBinding` to `7.2.2`.
+  -   `AndroidX AppCompat` to `1.4.2`.
+
+-   New feature: add preload functions.
+  -   `public fun preloadBindMethods(vararg classes: KClass<out ViewBinding>)`.
+  -   `public fun preloadInflateMethods(vararg classes: KClass<out ViewBinding>)`.
+
+-   Internal refactoring `Method`s cache.
+
 ## 1.3.1 - Jan 12, 2022
 
 -   Update `DefaultViewBindingDialogFragment`'s implementation.

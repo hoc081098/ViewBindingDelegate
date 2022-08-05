@@ -36,7 +36,7 @@ internal fun ensureMainThread(): Unit = check(Looper.getMainLooper() == Looper.m
 }
 
 // TODO(release): set `DEBUG` to `false` when publishing.
-private const val DEBUG = true
+private const val DEBUG = false
 
 internal inline fun log(crossinline message: () -> String) {
   if (DEBUG) {
