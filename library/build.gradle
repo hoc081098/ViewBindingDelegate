@@ -62,7 +62,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.3'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:core:1.4.0'
-    androidTestImplementation('androidx.fragment:fragment-testing:1.5.1') {
+    androidTestImplementation('androidx.fragment:fragment-testing:1.5.2') {
         exclude group: 'androidx.test', module: 'monitor'
     }
     implementation 'androidx.appcompat:appcompat:1.5.0'
