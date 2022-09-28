@@ -8,6 +8,7 @@ plugins {
 android {
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
+    namespace "com.hoc081098.viewbindingdelegate"
 
     defaultConfig {
         minSdkVersion 14
