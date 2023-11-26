@@ -4,14 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "32.0.0"
+    compileSdkVersion 34
     namespace "com.hoc081098.example"
 
     defaultConfig {
         applicationId "com.hoc081098.example"
         minSdkVersion 14
-        targetSdkVersion 32
+        targetSdkVersion 34
 
         final version = "1.4.0"
         def (major, minor, patch) = version.tokenize(".").collect { it as Integer }
