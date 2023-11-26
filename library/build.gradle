@@ -7,7 +7,6 @@ plugins {
 
 android {
     compileSdkVersion 34
-    buildToolsVersion "32.0.0"
     namespace "com.hoc081098.viewbindingdelegate"
 
     defaultConfig {
