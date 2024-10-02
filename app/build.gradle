@@ -50,7 +50,7 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.fragment:fragment-ktx:1.5.3'
-    implementation 'androidx.fragment:fragment:1.5.3'
+    implementation 'androidx.fragment:fragment:1.8.4'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.6.1'
