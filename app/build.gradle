@@ -62,7 +62,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-    final navigation_version = '2.5.2'
+    final navigation_version = '2.8.3'
     implementation "androidx.navigation:navigation-common:$navigation_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-fragment:$navigation_version"
